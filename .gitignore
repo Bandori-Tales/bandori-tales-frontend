@@ -1,0 +1,15 @@
+.DS_Store
+/node_modules/
+/.react-router/
+/build/
+/.netlify/
+.well-known
+.dist
+
+.env.development
+.env.production
+.env.*
+!.env.example
+.env    
+
+debug.log

@@ -1,0 +1,20 @@
+{
+    "name": "Bandori-Tales",
+    "short_name": "BDTales",
+	"descriptions": "Story tracker, list, timeline, etc. A Portal for multiple BanG Dream! tools (and fan games).",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#EC003F",
+    "background_color": "#D7D0D7",
+    "display": "standalone"
+}

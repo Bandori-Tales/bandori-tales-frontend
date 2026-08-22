@@ -1,0 +1,26 @@
+name: Code Quality
+on:
+  push:
+    branches: ["*"]
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: "2.3.10"
+      - name: Migrate Biome config
+        run: biome migrate --write
+      - name: Run check
+        run: bun lint
+      - name: Build Test
+        run: bun build:test

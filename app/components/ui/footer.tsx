@@ -22,7 +22,7 @@ export default function Footer() {
           leftIcon={<FaGithub />}
         >
           <Link
-            to='https://github.com/afif1731/bandori-tales-frontend'
+            to='https://github.com/Bandori-Tales/bandori-tales-frontend'
             target="_blank"
             rel="noopener noreferrer"
           >

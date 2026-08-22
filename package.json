@@ -5,8 +5,8 @@
   "description": "Frontend Boilerplate for personal use",
   "type": "module",
   "scripts": {
-    "build:dev": "dotenv -e .env.development -- node scripts/generate-sitemap.js && react-router build",
-    "build:prod": "dotenv -e .env.production -- node scripts/generate-sitemap.js && react-router build",
+    "build:dev": "ENV=development node scripts/generate-sitemap.js && ENV=development react-router build",
+    "build:prod": "ENV=production node scripts/generate-sitemap.js && ENV=production react-router build",
     "build:test": "node scripts/generate-sitemap.js && react-router build",
     "dev": "dotenv -e .env.development -- react-router dev",
     "generate-sitemap": "node scripts/generate-sitemap.js",

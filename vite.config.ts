@@ -1,5 +1,6 @@
 import path from 'node:path';
 
+import netlifyPlugin from '@netlify/vite-plugin-react-router';
 import { reactRouter } from '@react-router/dev/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { config } from 'dotenv';
@@ -17,6 +18,7 @@ export default defineConfig({
     tailwindcss(),
     reactRouter(),
     tsconfigPaths(),
+    netlifyPlugin(),
     viteCompression({
       algorithm: 'gzip',
       threshold: 10240,

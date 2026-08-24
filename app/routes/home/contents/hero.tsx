@@ -16,7 +16,7 @@ export function HeroContent() {
           <Text
             type={isMobile ? 'h2' : 'h1'}
             weight="extrabold"
-            className="bg-[linear-gradient(30deg,#FFC562_0%,#BD4057_51%,#BD4057_66%,#3B8D9A_88%,#3B8D9A_100%)] bg-clip-text text-center font-racing-sans text-transparent [-webkit-text-stroke:4px_white] sm:[-webkit-text-stroke:6px_white]"
+            className="bg-[linear-gradient(30deg,#FFC562_0%,#BD4057_51%,#BD4057_66%,#3B8D9A_88%,#3B8D9A_100%)] bg-clip-text text-center font-racing-sans text-transparent [-webkit-text-stroke:3px_white] sm:[-webkit-text-stroke:4px_white]"
           >
             COMING SOON
           </Text>
@@ -43,6 +43,7 @@ export function HeroContent() {
               colors="default"
               leftIcon={<Milestone className="stroke-3 text-white" />}
               rightIcon={<ExternalLink className="stroke-3 text-white" />}
+              className="w-60"
             >
               <Link
                 to="https://docs.google.com/spreadsheets/d/1g4MsZ_U7CbwCK7TcW_9_d-Q7CSGtK0R2M1B10XrZGns/edit"
@@ -58,6 +59,7 @@ export function HeroContent() {
               variant="default"
               colors="default"
               leftIcon={<BotMessageSquare className="stroke-3 text-white" />}
+              className="w-60"
             >
               <Link to="/tools/yunogpt">Yuno GPT</Link>
             </Button>

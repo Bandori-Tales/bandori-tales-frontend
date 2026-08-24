@@ -66,36 +66,40 @@ export const ToolFeatures = {
   internal: [
     {
       title: 'Yuno GPT',
-      description: 'Lorem Ipsum',
-      href: 'tools/yunogpt',
+      description: 'Will AI take over the world?',
+      href: '/tools/yunogpt',
       profilePicture: '/images/tools/yunogpt/yunogpt_icon.webp',
     },
     {
       title: 'Sticker Garage',
       description: 'Lorem Ipsum',
-      href: 'tools/sticker-garage',
-      profilePicture: '/images/tools/garage/sticker_garage.webp',
+      href: '/tools/sticker-garage',
+      profilePicture: '/images/tools/garage/sticker_garage_icon.webp',
       isDisabled: true,
     },
   ] satisfies SiteFeature[],
   other: [
     {
       title: 'Bestdori',
-      description: 'Lorem Ipsum',
+      description: 'The ultimate BanG Dream! Girls Band Party Resource Site',
+      author: 'bestdori.com',
       href: 'https://bestdori.com',
       profilePicture: '/images/tools/other/bestdori.webp',
     },
     {
       title: 'Bandori Party',
-      description: 'Lorem Ipsum',
-      href: 'https://bestdori.com',
+      description: 'The BanG Dream! Girls Band Party Database & Community',
+      author: 'bandori.party',
+      href: 'https://bandori.party',
       profilePicture: '/images/tools/other/bandoriparty.webp',
     },
     {
       title: 'Hina-is',
-      description: 'Lorem Ipsum',
+      description:
+        'A fan site for BanG Dream! that shows various content and assets from the game.',
+      author: 'ahmadyasser72',
       href: 'https://hina-is.notsweet.workers.dev/',
-      profilePicture: '/images/tools/other/bandoriparty.webp',
+      profilePicture: '/images/tools/other/hinais.webp',
     },
   ] satisfies SiteFeature[],
 };
@@ -104,7 +108,7 @@ export const GameFeatures = {
   internal: [] satisfies SiteFeature[],
   other: [
     {
-      title: 'Garupa Tower Battle (Remake)',
+      title: 'Garupa Tower Battle',
       description:
         'A remake of the Garupa Tower Battle Minigame from BanG Dream! April Fools 2020 on the JP Server.',
       author: 'thebuddyadrian',
@@ -181,7 +185,7 @@ export const NavbarItems = [
   {
     icon: Info,
     title: 'About',
-    href: '/about/us',
+    href: '/about',
     isDisabled: true,
   },
 ] satisfies NavbarItem[];

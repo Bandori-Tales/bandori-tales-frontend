@@ -133,7 +133,8 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
         <button
           type="button"
           className={cn(
-            'flex h-fit cursor-pointer gap-2 bg-transparent text-primary-foreground transition-colors duration-300 hover:text-amber-400',
+            'flex h-fit cursor-pointer gap-2 bg-transparent transition-colors duration-300 hover:text-amber-400',
+            isActive ? 'text-amber-400' : 'text-primary-foreground',
             isNavExpand ? 'w-full items-center justify-baseline' : 'w-37.5 items-center justify-center'
           )}
           onClick={() => handleCloseSideMenu?.()}

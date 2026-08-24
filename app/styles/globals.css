@@ -8,7 +8,7 @@
     "Poppins", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
 
-  --font-racing-sans: "RacingSansOne";
+  --font-racing-sans: "racing-sans";
 }
 
 html,
@@ -283,7 +283,7 @@ body {
 
 @font-face {
   font-family: "racing-sans";
-  src: url("/fonts/RacingSansOne.ttf") format("truetype");
+  src: url("/fonts/RacingSansOne-Regular.ttf") format("truetype");
   font-style: normal;
   font-display: swap;
 }

@@ -1,3 +1,5 @@
+import { Link } from 'react-router';
+
 import { cn } from '@/lib/utils';
 
 import Image from './image';
@@ -11,7 +13,8 @@ export default function WebNameLogo({
   wrap_text: boolean;
 }) {
   return (
-    <div
+    <Link
+      to="/"
       className={cn(
         'justify-baseline group flex flex-row items-center hover:cursor-pointer',
         size === 'regular' ? 'gap-2' : 'gap-1.5'
@@ -45,6 +48,6 @@ export default function WebNameLogo({
           TALES
         </Text>
       </div>
-    </div>
+    </Link>
   );
 }

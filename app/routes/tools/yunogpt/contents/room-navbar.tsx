@@ -1,4 +1,4 @@
-import { EllipsisVertical, House, Trash2 } from 'lucide-react';
+import { ArrowLeft, EllipsisVertical, Trash2 } from 'lucide-react';
 import { Link } from 'react-router';
 
 import { cn } from '@/lib/utils';
@@ -25,7 +25,7 @@ function HomeButton() {
       size="icon"
     >
       <Link to="/">
-        <House className="stroke-3" />
+        <ArrowLeft className="stroke-3" />
       </Link>
     </Button>
   );

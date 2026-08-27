@@ -120,7 +120,7 @@ export const GameFeatures = {
       description:
         'A BanG Dream! puzzle game inspired by Garupa Pico OHMORI. Feat. RAISE A SUILEN & Morfonica.',
       author: 'thebuddyadrian',
-      href: 'https://thebuddyadrian.itch.io/garupa-tower-battle-remake',
+      href: 'https://thebuddyadrian.itch.io/bang-dream-puzzle-pico',
       profilePicture: '/images/games/other/puzzlepico.webp',
     },
     {

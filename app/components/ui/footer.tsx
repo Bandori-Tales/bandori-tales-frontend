@@ -11,7 +11,7 @@ export default function Footer() {
           © 2026 Bandori-Tales
         </Text>
         <Text type='c' lineHeight={4} weight='medium' className="text-center text-primary-foreground">
-          Bandori-Tales is not affiliated with BanG Dream! Project, Bushiroad, nor From Tokyo. All images and data belongs to their respective owners.
+          Bandori-Tales is not affiliated with BanG Dream! Project, Bushiroad, and From Tokyo. All images and data belongs to their respective owners.
         </Text>
       </div>
       <div className="flex flex-row items-center justify-center gap-6">

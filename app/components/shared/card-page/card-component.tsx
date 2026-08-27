@@ -37,33 +37,33 @@ export function CardPageComponent({
   return isMobile ? (
     <div
       className={cn(
-        'justify-baseline group flex h-58 w-full flex-col items-center gap-2 rounded-xl border border-primary-foreground bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors duration-300 active:border-amber-400 active:from-rose-600'
+        'justify-baseline relative flex h-58 w-full flex-col items-center gap-2 rounded-xl border border-primary-foreground bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors duration-300',
+        isDisabled ? undefined : 'group active:border-amber-400 active:from-rose-600'
       )}
     >
+      <div
+        className={cn(
+          isDisabled ? 'absolute top-0 z-12 h-full w-full rounded-xl bg-white/40' : 'hidden'
+        )}
+      />
       <div className="flex h-fit w-full flex-row items-center gap-2.5">
-        <div
-          className={cn(
-            'relative flex h-fit w-fit items-center justify-center overflow-hidden rounded-xl border border-white bg-white/50 transition-colors duration-300 group-active:border-amber-400'
-          )}
-        >
+        <div className="relative flex h-fit w-fit items-center justify-center overflow-hidden rounded-xl border border-white bg-white/50 transition-colors duration-300 group-active:border-amber-400">
           <Image
             src={profilePicture || '/images/dummy.png'}
             alt={title}
-            className={cn('z-11 h-18 w-fit shrink-0 rounded-xl p-1.5')}
+            className="z-11 h-18 w-fit shrink-0 rounded-xl p-1.5"
           />
           <Image
             src={profilePicture || '/images/dummy.png'}
             alt={title}
-            className={cn('absolute z-10 h-full w-full blur-sm')}
+            className="absolute z-10 h-full w-full blur-sm"
           />
         </div>
 
         <Text
           type="st1"
           weight="bold"
-          className={cn(
-            'w-fit text-wrap text-left text-primary-foreground transition-colors duration-300 group-active:text-amber-400'
-          )}
+          className="w-fit text-wrap text-left text-primary-foreground transition-colors duration-300 group-active:text-amber-400"
         >
           {title}
         </Text>
@@ -83,12 +83,16 @@ export function CardPageComponent({
         </div>
 
         <div className="h-fit w-full">
-          <Button asChild variant="secondary" disabled={isDisabled}>
+          <Button
+            asChild
+            variant="secondary"
+            className={cn(isDisabled ? 'pointer-events-none' : 'pointer-events-auto')}
+          >
             <Link
               to={href}
               target={isExternal ? '_blank' : undefined}
               rel={isExternal ? 'noopener noreferrer' : undefined}
-              className={cn('flex h-fit w-full flex-row items-center justify-center gap-2')}
+              className="flex h-fit w-full flex-row items-center justify-center gap-2"
             >
               <Text type="btn" weight="medium" className="text-primary">
                 {isExternal ? 'Go to Site' : 'Go to Page'}
@@ -102,25 +106,27 @@ export function CardPageComponent({
   ) : (
     <div
       className={cn(
-        'justify-baseline group flex w-full items-center gap-2.5 rounded-xl border border-primary-foreground bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors duration-300 hover:border-amber-400 hover:from-rose-600',
-        isMobile ? 'h-52 flex-row' : 'h-94.5 flex-col'
+        'justify-baseline relative flex h-94.5 w-full flex-col items-center gap-2.5 rounded-xl border border-primary-foreground bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors duration-300',
+        isDisabled
+          ? undefined
+          : 'group hover:cursor-pointer hover:border-amber-400 hover:from-rose-600'
       )}
     >
       <div
         className={cn(
-          'relative flex items-center justify-center overflow-hidden rounded-xl border border-white bg-white/50 transition-colors duration-300 group-hover:border-amber-400',
-          isMobile ? 'h-fit w-fit' : 'h-48 w-full'
+          isDisabled ? 'absolute top-0 z-12 h-full w-full rounded-xl bg-white/40' : 'hidden'
         )}
-      >
+      />
+      <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-white bg-white/50 transition-colors duration-300 group-hover:border-amber-400">
         <Image
           src={profilePicture || '/images/dummy.png'}
           alt={title}
-          className={cn('z-11 rounded-xl p-1.5', isMobile ? 'h-auto w-28' : 'h-full w-auto')}
+          className="z-11 h-full w-auto rounded-xl p-1.5 group-hover:scale-110"
         />
         <Image
           src={profilePicture || '/images/dummy.png'}
           alt={title}
-          className={cn('absolute z-10 blur-sm', isMobile ? 'h-full w-full' : 'h-fit w-full')}
+          className="absolute z-10 h-fit w-full blur-sm group-hover:scale-125"
         />
       </div>
 
@@ -129,10 +135,7 @@ export function CardPageComponent({
           <Text
             type="st1"
             weight="bold"
-            className={cn(
-              'w-full text-primary-foreground transition-colors duration-300 group-hover:text-amber-400',
-              isMobile ? 'text-left' : 'text-center'
-            )}
+            className="w-full text-center text-primary-foreground transition-colors duration-300 group-hover:text-amber-400"
           >
             {title}
           </Text>
@@ -150,15 +153,16 @@ export function CardPageComponent({
         </div>
 
         <div className="h-fit w-full">
-          <Button asChild variant="secondary" disabled={isDisabled}>
+          <Button
+            asChild
+            variant="secondary"
+            className={cn(isDisabled ? 'pointer-events-none' : 'pointer-events-auto')}
+          >
             <Link
               to={href}
               target={isExternal ? '_blank' : undefined}
               rel={isExternal ? 'noopener noreferrer' : undefined}
-              className={cn(
-                'flex h-fit flex-row items-center justify-center gap-2',
-                isMobile ? 'w-fit' : 'w-full'
-              )}
+              className="flex h-fit w-full flex-row items-center justify-center gap-2"
             >
               <Text type="btn" weight="medium" className="text-primary">
                 {isExternal ? 'Go to Site' : 'Go to Page'}

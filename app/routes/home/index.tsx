@@ -1,5 +1,9 @@
 import { generateMeta } from '@/lib/generate-meta';
+import { JapanTZ, JpDate } from '@/lib/jp-date';
 
+import { type CharacterData, Characters } from '@/constants';
+
+import type { Route } from './+types/';
 import { HeroContent } from './contents/hero';
 
 export function meta() {
@@ -11,9 +15,38 @@ export function meta() {
 }
 
 export async function clientLoader() {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const todayDate = JpDate().tz(JapanTZ);
+  const todayMonthDay = `${todayDate.format('MM-DD')}`;
+  const todayYear = todayDate.year();
+
+  const birthdayArray = Characters.map((character) => {
+    if (todayMonthDay <= character.birthday_date)
+      return {
+        id: character.id,
+        birthday_date: `${todayYear}-${character.birthday_date}`,
+      };
+
+    return {
+      id: character.id,
+      birthday_date: `${todayYear + 1}-${character.birthday_date}`,
+    };
+  }).sort((a, b) => (a.birthday_date > b.birthday_date ? 1 : -1));
+
+  const birthdayData: CharacterData[] = [];
+
+  for (let i = 0; i < 5; i++) {
+    birthdayData.push({
+      ...Characters[birthdayArray[i].id - 1],
+      birthday_date: birthdayArray[i].birthday_date,
+    });
+  }
+
+  return {
+    todayDate,
+    birthdayData,
+  };
 }
 
-export default function Home() {
-  return <HeroContent />;
+export default function Home({ loaderData }: Route.ComponentProps) {
+  return <HeroContent todayDate={loaderData.todayDate} birthdayData={loaderData.birthdayData} />;
 }

@@ -8,9 +8,11 @@ import { Text } from './text';
 export default function WebNameLogo({
   size,
   wrap_text,
+  handleCloseSideMenu,
 }: {
   size: 'regular' | 'small';
   wrap_text: boolean;
+  handleCloseSideMenu?: () => void;
 }) {
   return (
     <Link
@@ -19,6 +21,7 @@ export default function WebNameLogo({
         'justify-baseline group flex flex-row items-center hover:cursor-pointer',
         size === 'regular' ? 'gap-2' : 'gap-1.5'
       )}
+      onClick={() => handleCloseSideMenu?.()}
     >
       <Image
         src="/android-chrome-192x192.png"

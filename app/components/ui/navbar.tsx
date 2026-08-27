@@ -31,13 +31,9 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
               onOpenChange={setIsCollapsibeOpen}
               className="flex w-full flex-col"
             >
-              <CollapsibleTrigger>
-                <button
-                  type="button"
-                  className={cn(
+              <CollapsibleTrigger className={cn(
                     'flex w-full h-fit items-center justify-between cursor-pointer gap-2 bg-transparent transition-colors duration-300 text-primary-foreground hover:text-amber-400'
-                  )}
-                >
+                  )}>
                   <div className="flex flex-row w-full items-center justify-baseline gap-2">
                     {Icon && (
                       <Icon className="stroke-3 size-5" />
@@ -47,9 +43,11 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                     </Text>
                   </div>
                   <ChevronDown className={cn("stroke-3 size-7 transition-transform duration-300", isCollapsibleOpen ? 'rotate-180' : 'rotate-0')} />
-                </button>
               </CollapsibleTrigger>
-              <CollapsibleContent className="flex flex-col gap-3 pl-4 ml-2 mt-2 border-l-2 border-primary-foreground">
+              <CollapsibleContent className={cn(
+                "flex flex-col gap-3 pl-4 ml-2 mt-2 border-l-2 border-primary-foreground",
+                "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-top-10 data-[state=closed]:fade-out-0 data-[state=open]:slide-in-from-top-10 data-[state=open]:fade-in-0"
+              )}>
                 {
                   subNav && subNav.items.map((item, id) => {
                     const isSubActive = pathname.includes(item.href);
@@ -61,9 +59,9 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                           onClick={() => handleCloseSideMenu?.()}
                         >
                           {
-                            item.icon && (<item.icon className="text-primary-foreground stroke-2 size-4" />)
+                            item.icon && (<item.icon className="text-primary-foreground stroke-3 size-4" />)
                           }
-                          <Text type='btn' weight={isSubActive ? 'semibold' : 'medium'} lineHeight={5} >
+                          <Text type='p' weight={isSubActive ? 'bold' : 'semibold'} lineHeight={6} >
                             {item.title}
                           </Text>
                         </button>
@@ -75,13 +73,9 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
             </Collapsible>
           ) : (
             <DropdownMenu>
-              <DropdownMenuTrigger>
-                <button
-                  type="button"
-                  className={cn(
+              <DropdownMenuTrigger className={cn(
                     'flex w-37.5 h-fit items-center justify-center cursor-pointer gap-2 bg-transparent transition-colors duration-300 text-primary-foreground hover:text-amber-400'
-                  )}
-                >
+                  )}>
                   {Icon && (
                     <Icon className="stroke-3 size-5" />
                   )}
@@ -89,7 +83,6 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                     {title}
                   </Text>
                   <ChevronDown className="stroke-3 size-6" />
-                </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-primary outline-1 outline-primary-foreground text-white">
                 <DropdownMenuGroup>
@@ -111,9 +104,9 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                               onClick={() => handleCloseSideMenu?.()}
                             >
                               {
-                                item.icon && (<item.icon className="text-primary-foreground stroke-2" />)
+                                item.icon && (<item.icon className="text-primary-foreground stroke-3" />)
                               }
-                              <Text type='btn' weight={isSubActive ? 'semibold' : 'medium'} lineHeight={5} >
+                              <Text type='p' weight={isSubActive ? 'bold' : 'semibold'} lineHeight={6} >
                                 {item.title}
                               </Text>
                             </button>
@@ -230,10 +223,10 @@ export default function Navbar() {
             </Button>
           </div>
           <div className="flex flex-col w-full px-4 items-center">
-            <WebNameLogo size="regular" wrap_text={false} />
+            <WebNameLogo size="regular" wrap_text={false} handleCloseSideMenu={handleHideSidebar} />
           </div>
           <Separator className="bg-amber-400" />
-          <div className="flex flex-col items-baseline justify-baseline gap-3 px-3 pt-2">
+          <div className="flex flex-col items-baseline justify-baseline gap-4 px-3 pt-2">
             {
               NavbarItems.map((item, idx) => (
                 <NavigationButton
@@ -243,6 +236,7 @@ export default function Navbar() {
                   href={item.href}
                   subNav={item.subNav}
                   isNavExpand={isExpand}
+                  handleCloseSideMenu={handleHideSidebar}
                 />
               ))
             }

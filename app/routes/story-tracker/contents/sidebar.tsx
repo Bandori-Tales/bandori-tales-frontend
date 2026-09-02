@@ -186,7 +186,7 @@ export function StoryTrackerSidebar({
                   <InputForm type="text" name="search" placeholder="search" />
                 </SidebarFilterSection>
 
-                <SidebarFilterSection title="Sort" isCollapsible>
+                <SidebarFilterSection title="Sort" isCollapsible fullWidth>
                   <FilterSort />
                 </SidebarFilterSection>
 

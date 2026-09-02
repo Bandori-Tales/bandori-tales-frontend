@@ -24,7 +24,7 @@ function SelectOrderButton({ name, items, orderDirectionName, classname }: Selet
   return (
     <div
       className={cn(
-        'justify-baseline flex flex-row items-center gap-1 rounded-md bg-primary px-2 py-1',
+        'justify-baseline flex flex-row items-center gap-1 rounded-md bg-primary px-0.5',
         classname
       )}
     >
@@ -38,7 +38,7 @@ function SelectOrderButton({ name, items, orderDirectionName, classname }: Selet
               if (orderDirectionValue === 'asc') field.onChange('desc');
               else field.onChange('asc');
             }}
-            className="flex items-center justify-center rounded-sm px-2 py-2 hover:bg-white/20"
+            className="flex h-full items-center justify-center rounded-sm px-2 py-2 hover:bg-white/20"
           >
             <ArrowDownWideNarrow
               className={cn(
@@ -50,7 +50,7 @@ function SelectOrderButton({ name, items, orderDirectionName, classname }: Selet
         )}
       />
 
-      <div className="block h-6 border border-white" />
+      <div className="my-1 block h-7 border border-white" />
 
       <FormField
         control={control}
@@ -60,7 +60,7 @@ function SelectOrderButton({ name, items, orderDirectionName, classname }: Selet
             <Select onValueChange={(value) => field.onChange(value)} value={field.value}>
               <SelectTrigger
                 size="sm"
-                className="flex w-full cursor-pointer flex-row items-center justify-between border-none text-white hover:bg-white/20"
+                className="flex h-full w-full cursor-pointer flex-row items-center justify-between rounded-sm border-none text-white hover:bg-white/20"
               >
                 <SelectValue className="text-white" />
               </SelectTrigger>

@@ -13,6 +13,7 @@ export const YUNOGPT_WRITE_ASSETS = {
 };
 
 export const YUNOGPT_MEDIA_LIST = [
+  '/images/tools/yunogpt/yuno7.webp',
   '/images/tools/yunogpt/yuno1.webp',
   '/images/tools/yunogpt/yuno2.webp',
   '/images/tools/yunogpt/yuno3.webp',

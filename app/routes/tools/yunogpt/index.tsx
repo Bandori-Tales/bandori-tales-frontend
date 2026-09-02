@@ -279,7 +279,7 @@ export default function YunogptToolPage({ loaderData }: Route.ComponentProps) {
             variant="default"
             size="icon"
             className={cn(
-              'mb-0.5 rounded-full p-4 text-white outline-1 [&_svg]:size-4',
+              'mb-0.5 rounded-full p-4 text-white outline-1 hover:bg-inherit/80 hover:opacity-80 [&_svg]:size-4',
               userTheme.background_primary,
               userTheme.outline
             )}

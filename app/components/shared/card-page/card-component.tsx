@@ -51,12 +51,12 @@ export function CardPageComponent({
           <Image
             src={profilePicture || '/images/dummy.png'}
             alt={title}
-            className="z-11 h-18 w-fit shrink-0 rounded-xl p-1.5"
+            className="z-11 h-18 w-fit shrink-0 rounded-xl p-1.5 group-active:scale-110"
           />
           <Image
             src={profilePicture || '/images/dummy.png'}
             alt={title}
-            className="absolute z-10 h-full w-full blur-sm"
+            className="absolute z-10 h-full w-full blur-sm group-active:scale-125"
           />
         </div>
 
@@ -121,7 +121,7 @@ export function CardPageComponent({
         <Image
           src={profilePicture || '/images/dummy.png'}
           alt={title}
-          className="z-11 h-full w-auto rounded-xl p-1.5 group-hover:scale-110"
+          className="z-11 h-full w-auto rounded-xl p-1.5 group-hover:scale-105"
         />
         <Image
           src={profilePicture || '/images/dummy.png'}

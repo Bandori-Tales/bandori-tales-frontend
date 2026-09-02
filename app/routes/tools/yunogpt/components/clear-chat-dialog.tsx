@@ -58,7 +58,7 @@ export default function ClearChatDialog() {
 
   return (
     <AlertDialog open={!!isOpen.clear_chat} onOpenChange={handleOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent className="bg-white">
         <AlertDialogHeader>
           <AlertDialogTitle>Clear Chat</AlertDialogTitle>
           <AlertDialogDescription>This room chat history will be cleared</AlertDialogDescription>

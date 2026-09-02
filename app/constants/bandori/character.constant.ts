@@ -219,7 +219,7 @@ export const Characters = [
     likes: ["Anything on a family restaurant's menu"],
     dislikes: ['Cilantro'],
     hobbies: ['Making felt dolls for her little sister'],
-    birthday_date: '11-01',
+    birthday_date: '10-01',
     profile_picture: [
       '/images/characters/misaki_profile.webp',
       '/images/characters/michelle_profile.webp',
@@ -486,7 +486,7 @@ export const Characters = [
     hobbies: ['Appreciating music'],
     birthday_date: '12-07',
     profile_picture: '/images/characters/chuchu_profile.webp',
-    image_color: '#FF99BB',
+    image_color: '#00BBFF',
   },
   {
     id: 36,
@@ -711,7 +711,7 @@ export const Characters = [
     hobbies: ['Vintage shop hopping'],
     birthday_date: '03-30',
     profile_picture: '/images/characters/natsume_profile.webp',
-    image_color: '#9AFF99',
+    image_color: '#FF4446',
   },
   {
     id: 53,

@@ -35,28 +35,28 @@ export const MainFeatures = [
   {
     title: 'Story Tracker',
     description: 'Lorem Ipsum',
-    href: 'story-tracker',
+    href: '/story-tracker',
     icon: Milestone,
     isDisabled: true,
   },
   {
     title: 'Story Arc',
     description: 'Lorem Ipsum',
-    href: 'story-arc',
+    href: '/story-arc',
     icon: Book,
     isDisabled: true,
   },
   {
     title: 'Songs',
     description: 'Lorem Ipsum',
-    href: 'songs',
+    href: '/songs',
     icon: DiscAlbum,
     isDisabled: true,
   },
   {
     title: 'Interaction',
     description: 'Lorem Ipsum',
-    href: 'interaction',
+    href: '/interaction',
     icon: MessageCircle,
     isDisabled: true,
   },
@@ -79,6 +79,13 @@ export const ToolFeatures = {
     },
   ] satisfies SiteFeature[],
   other: [
+    {
+      title: 'BanG Dream! Wiki',
+      description: 'The main bandori global wiki page managed and contributed by fans',
+      author: 'Bandori Wiki',
+      href: 'https://bandori.miraheze.org',
+      profilePicture: '/images/tools/other/bandoriwiki.webp',
+    },
     {
       title: 'Bestdori',
       description: 'The ultimate BanG Dream! Girls Band Party Resource Site',

@@ -22,8 +22,8 @@ export function BirthdayCard({
     todayDate.startOf('day') <= birthdayDate && birthdayDate <= todayDate.startOf('day');
 
   const birthdayString = isBirthday ? 'Today!' : `${birthdayDate.format('MMM, DD')}`;
-  const nicknameString = Array.isArray(nickname[0]) ? nickname[0] : (nickname as string);
-  const profilePictureString = Array.isArray(profile_picture[0])
+  const nicknameString = Array.isArray(nickname) ? nickname[0] : (nickname as string);
+  const profilePictureString = Array.isArray(profile_picture)
     ? profile_picture[0]
     : (profile_picture as string);
 
@@ -31,7 +31,7 @@ export function BirthdayCard({
     <div
       className={cn(
         'justify-baseline flex h-fit w-fit shrink-0 flex-row items-center gap-2 rounded-lg border bg-linear-0 to-white px-4 py-2 drop-shadow-black/20 drop-shadow-lg',
-        isBirthday ? 'border-amber-400 from-amber-100' : 'border-primary from-rose-100'
+        isBirthday ? 'border-amber-400 from-amber-50' : 'border-primary from-rose-50'
       )}
     >
       <div className="relative flex h-14 w-14 rounded-full">

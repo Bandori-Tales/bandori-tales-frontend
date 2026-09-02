@@ -1,9 +1,14 @@
 import { useIsMobile } from '@/hooks/use-mobile';
+import { generateMeta } from '@/lib/generate-meta';
 import { cn } from '@/lib/utils';
 
 import CardPageSection from '@/components/shared/card-page/card-section';
 
 import { GameFeatures } from '@/constants';
+
+export function meta() {
+  return generateMeta({ title: 'Games' });
+}
 
 export default function GamesPage() {
   const isMobile = useIsMobile({ isTablet: true });
@@ -16,13 +21,13 @@ export default function GamesPage() {
       )}
     >
       <CardPageSection
-        section_name="Games"
+        sectionName="Games"
         items={GameFeatures.internal}
         isMobile={isMobile}
         isExternal={false}
       />
       <CardPageSection
-        section_name="Other Games"
+        sectionName="Other Games"
         items={GameFeatures.other}
         isMobile={isMobile}
         isExternal={true}

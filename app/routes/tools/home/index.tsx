@@ -1,9 +1,14 @@
 import { useIsMobile } from '@/hooks/use-mobile';
+import { generateMeta } from '@/lib/generate-meta';
 import { cn } from '@/lib/utils';
 
 import CardPageSection from '@/components/shared/card-page/card-section';
 
 import { ToolFeatures } from '@/constants';
+
+export function meta() {
+  return generateMeta({ title: 'Tools' });
+}
 
 export default function ToolsPage() {
   const isMobile = useIsMobile();
@@ -16,13 +21,13 @@ export default function ToolsPage() {
       )}
     >
       <CardPageSection
-        section_name="Tools"
+        sectionName="Tools"
         items={ToolFeatures.internal}
         isMobile={isMobile}
         isExternal={false}
       />
       <CardPageSection
-        section_name="Other Tools"
+        sectionName="Other Tools"
         items={ToolFeatures.other}
         isMobile={isMobile}
         isExternal={true}

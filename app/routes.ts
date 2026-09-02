@@ -6,6 +6,7 @@ export default [
     route('about', 'routes/about/index.tsx'),
     route('tools', 'routes/tools/home/index.tsx'),
     route('games', 'routes/games/home/index.tsx'),
+    route('story-tracker', 'routes/story-tracker/index.tsx'),
   ]),
 
   // route('sandbox', 'routes/sandbox/index.tsx'),

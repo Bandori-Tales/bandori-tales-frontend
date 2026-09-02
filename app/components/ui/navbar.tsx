@@ -19,7 +19,7 @@ interface NavbarButtonProps {
 function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsActive, isNavExpand, handleCloseSideMenu }: NavbarItem & NavbarButtonProps) {
   const { pathname } = useLocation();
   const isActive = propIsActive ?? pathname.includes(href);
-  const [isCollapsibleOpen, setIsCollapsibeOpen] = useState(false);
+  const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false);
 
   return (
     title === 'Bandori' ? (
@@ -28,7 +28,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
           isNavExpand ? (
             <Collapsible
               open={isCollapsibleOpen}
-              onOpenChange={setIsCollapsibeOpen}
+              onOpenChange={setIsCollapsibleOpen}
               className="flex w-full flex-col"
             >
               <CollapsibleTrigger className={cn(
@@ -74,12 +74,12 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger className={cn(
-                    'flex w-37.5 h-fit items-center justify-center cursor-pointer gap-2 bg-transparent transition-colors duration-300 text-primary-foreground hover:text-amber-400'
+                    'flex w-36 h-fit items-center justify-center cursor-pointer gap-2 bg-transparent transition-colors duration-300 text-primary-foreground hover:text-amber-400'
                   )}>
                   {Icon && (
                     <Icon className="stroke-3 size-5" />
                   )}
-                  <Text type='st1' lineHeight={7} weight='semibold'>
+                  <Text type='st2' lineHeight={6} weight='semibold'>
                     {title}
                   </Text>
                   <ChevronDown className="stroke-3 size-6" />
@@ -97,7 +97,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                       const isSubActive = pathname.includes(item.href);
 
                       return (
-                        <DropdownMenuItem key={id} className={cn("focus:bg-amber-400 transition-colors duration-300", isSubActive ? 'bg-amber-400' : 'bg-transparent')}>
+                        <DropdownMenuItem key={id} className={cn("mb-1 focus:bg-amber-400 transition-colors duration-300", isSubActive ? 'bg-amber-400' : 'bg-transparent')}>
                           <Link to={item.href}>
                             <button
                               className="flex w-full items-center gap-2 bg-transparent text-primary-foreground"
@@ -106,7 +106,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                               {
                                 item.icon && (<item.icon className="text-primary-foreground stroke-3" />)
                               }
-                              <Text type='p' weight={isSubActive ? 'bold' : 'semibold'} lineHeight={6} >
+                              <Text type='p' weight={isSubActive ? 'semibold' : 'medium'} lineHeight={5} >
                                 {item.title}
                               </Text>
                             </button>
@@ -128,14 +128,14 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
           className={cn(
             'flex h-fit cursor-pointer gap-2 bg-transparent transition-colors duration-300 hover:text-amber-400',
             isActive ? 'text-amber-400' : 'text-primary-foreground',
-            isNavExpand ? 'w-full items-center justify-baseline' : 'w-37.5 items-center justify-center'
+            isNavExpand ? 'w-full items-center justify-baseline' : 'w-36 items-center justify-center'
           )}
           onClick={() => handleCloseSideMenu?.()}
         >
           {Icon && (
             <Icon className="stroke-3 size-5" />
           )}
-          <Text type='st1' lineHeight={7} weight={isActive ? 'bold' : 'semibold'}>
+          <Text type='st2' lineHeight={6} weight={isActive ? 'bold' : 'semibold'}>
             {title}
           </Text>
         </button>
@@ -146,7 +146,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
 
 function ProfileButton() {
   return (
-    <div className="flex items-center justify-end h-fit w-28">
+    <div className="flex items-center justify-end h-fit w-25">
       <Button
         variant='ghost'
         size='icon'
@@ -177,7 +177,7 @@ export default function Navbar() {
     <>
       {/* Desktop */}
       <nav className={cn(
-        'fixed top-0 z-30 w-full h-fit flex flex-row items-center justify-between transition-all duration-300 px-6 py-1.5 bg-primary border-b border-b-primary-foreground  max-lg:hidden'
+        'fixed top-0 z-30 w-full h-fit flex flex-row items-center justify-between transition-all duration-300 px-6 py-1 bg-primary border-b border-b-primary-foreground  max-lg:hidden'
       )}>
         <WebNameLogo size='regular' wrap_text />
         <div className="flex flex-row gap-0">

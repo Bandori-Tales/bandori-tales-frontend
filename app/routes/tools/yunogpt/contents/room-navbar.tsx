@@ -24,7 +24,7 @@ function HomeButton() {
       className="rounded-full p-6 text-white hover:bg-black/10 [&_svg]:size-6"
       size="icon"
     >
-      <Link to="/">
+      <Link to="/tools">
         <ArrowLeft className="stroke-3" />
       </Link>
     </Button>

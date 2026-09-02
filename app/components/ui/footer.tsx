@@ -5,7 +5,7 @@ import { FaGithub } from "react-icons/fa6";
 
 export default function Footer() {
   return (
-    <footer className="flex flex-col w-full h-fit px-2.5 pt-2.5 gap-3 items-center justify-baseline bg-primary border-t border-t-primary-foreground">
+    <footer className="flex flex-col w-full h-fit px-2.5 pt-2.5 items-center justify-baseline bg-primary border-t border-t-primary-foreground">
       <div className="flex flex-col w-full h-fit items-center justify-baseline gap-1.5">
         <Text type='btn' lineHeight={5} weight='semibold' className="text-center text-primary-foreground">
           © 2026 Bandori-Tales

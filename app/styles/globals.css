@@ -105,7 +105,7 @@ body {
 :root {
   --radius: 0.625rem;
 
-  --background: var(--color-mauve-300);
+  --background: var(--color-mauve-200);
   --foreground: var(--color-rose-900);
 
   --primary: var(--color-rose-600);

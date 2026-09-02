@@ -36,15 +36,15 @@ function validateRoomChat(chats: string | IChatBlock[]) {
     return [];
   }
 
-  let isInvalidate = false;
+  let isInvalid = false;
   for (const chat of chats) {
-    if (isInvalidate) break;
+    if (isInvalid) break;
 
-    if (chat.sender !== 'user' && chat.sender !== 'yuno') isInvalidate = true;
-    if (chat.isLoading === false) isInvalidate = true;
+    if (chat.sender !== 'user' && chat.sender !== 'yuno') isInvalid = true;
+    if (chat.isLoading === false) isInvalid = true;
   }
 
-  if (isInvalidate) {
+  if (isInvalid) {
     toast.warning('An error was found in your recent chat. Resetting the room...');
 
     itemStorage.session.set('yuno-gpt-chats', []);

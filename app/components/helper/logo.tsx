@@ -29,13 +29,13 @@ export default function WebNameLogo({
         className={cn(
           'w-auto',
           size === 'regular'
-            ? 'h-9 group-hover:drop-shadow-[0px_0px_8px_rgba(255,241,242,0.2)]'
-            : 'h-8 group-hover:drop-shadow-[0px_0px_6px_rgba(255,241,242,0.2)]'
+            ? 'h-8 group-hover:drop-shadow-[0px_0px_8px_rgba(255,241,242,0.2)]'
+            : 'h-7 group-hover:drop-shadow-[0px_0px_6px_rgba(255,241,242,0.2)]'
         )}
       />
       <div className={cn('flex h-fit w-fit gap-0', wrap_text ? 'flex-col' : 'flex-row gap-1')}>
         <Text
-          type="p"
+          type="btn"
           weight="bold"
           lineHeight={4}
           className="text-rose-50 italic group-hover:underline"
@@ -43,7 +43,7 @@ export default function WebNameLogo({
           Bandori
         </Text>
         <Text
-          type="p"
+          type="btn"
           weight={wrap_text ? 'extrabold' : 'bold'}
           lineHeight={wrap_text ? 5 : 4}
           className={cn('text-rose-50 group-hover:underline', wrap_text ? 'not-italic' : 'italic')}

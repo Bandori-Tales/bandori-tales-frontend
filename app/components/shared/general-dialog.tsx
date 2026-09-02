@@ -20,9 +20,12 @@ type GeneralDialogProps = {
   title: React.ReactNode;
   description?: React.ReactNode;
   confirmText?: string;
+  useCancel?: boolean;
+  cancelText?: string;
   onConfirm?: () => Promise<void> | void;
   onCancel?: () => void;
   confirmClassName?: string;
+  cancelClassname?: string;
   children?: React.ReactNode;
 };
 
@@ -30,10 +33,13 @@ export default function GeneralDialog({
   dialogKey,
   title,
   description,
+  useCancel,
   confirmText = 'OK',
+  cancelText = 'Cancel',
   onConfirm,
   onCancel,
   confirmClassName = '',
+  cancelClassname = '',
   children,
 }: GeneralDialogProps) {
   const { isOpen, close } = useDialogStore();
@@ -50,6 +56,11 @@ export default function GeneralDialog({
     }
   };
 
+  const handleCancel = () => {
+    close(dialogKey);
+    onCancel?.();
+  };
+
   return (
     <AlertDialog
       open={isOpen[dialogKey]}
@@ -60,13 +71,15 @@ export default function GeneralDialog({
         }
       }}
     >
-      <AlertDialogContent className="max-w-sm sm:max-w-xl lg:max-w-2xl">
+      <AlertDialogContent className="max-w-sm bg-white sm:max-w-xl lg:max-w-2xl">
         <AlertDialogCancel className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none">
           <X size={18} />
         </AlertDialogCancel>
 
         <AlertDialogHeader className="space-y-2">
-          <AlertDialogTitle className="font-semibold text-lg">{title}</AlertDialogTitle>
+          <AlertDialogTitle className="font-semibold text-lg text-primary">
+            {title}
+          </AlertDialogTitle>
           {description && (
             <AlertDialogDescription className="text-gray-500 text-sm">
               {description}
@@ -77,7 +90,15 @@ export default function GeneralDialog({
         {children}
 
         <AlertDialogFooter className="mt-4">
-          {/* <AlertDialogCancel disabled={isSubmitting}>{cancelText}</AlertDialogCancel> */}
+          {useCancel && (
+            <AlertDialogCancel
+              disabled={isSubmitting}
+              className={cn(cancelClassname, isSubmitting && 'cursor-not-allowed opacity-70')}
+              onClick={handleCancel}
+            >
+              {cancelText}
+            </AlertDialogCancel>
+          )}
           <AlertDialogAction
             type="submit"
             disabled={isSubmitting}

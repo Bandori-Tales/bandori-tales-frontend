@@ -15,12 +15,14 @@ export function StoryCollapsible({
   isMobile,
   isUnread,
   items,
+  setSelectedStory,
   updateReadingStatus,
 }: {
   sectionName: string;
   isMobile: boolean;
   isUnread: boolean;
   items: (BandoriStory & { status?: ReadingStatus })[];
+  setSelectedStory: (story: (BandoriStory & { status?: ReadingStatus }) | null) => void;
   updateReadingStatus: (id: number, status: ReadingStatus | 'unread') => void;
 }) {
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(true);
@@ -78,6 +80,7 @@ export function StoryCollapsible({
             key={`story_${item.id}_${isUnread ? 'unread' : 'finished'}`}
             isMobile={isMobile}
             story={item}
+            setSelectedStory={setSelectedStory}
             updateReadingStatus={updateReadingStatus}
           />
         ))}

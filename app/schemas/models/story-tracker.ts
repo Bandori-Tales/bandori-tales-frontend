@@ -81,6 +81,7 @@ export const TranslationSource = {
 export const TranslationSourceSchema = v.enum(TranslationSource);
 
 export const AvailableTranslationSchema = v.object({
+  name: v.string(),
   source: TranslationSourceSchema,
   type: TranslationTypeSchema,
   url: v.string(),

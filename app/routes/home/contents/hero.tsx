@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 
 import { useIsMobile } from '@/hooks/use-mobile';
 
+import Image from '@/components/helper/image';
 import { Text } from '@/components/helper/text';
 import { Button } from '@/components/ui/button';
 
@@ -43,7 +44,7 @@ export function HeroContent({
             games).
           </Text>
 
-          <div className="justify-baseline flex flex-col items-center gap-3 text-center">
+          <div className="flex flex-col items-center justify-start gap-3 text-center">
             <Text type="t" weight="bold" className="text-shadow-lg/40 text-white">
               Quick Access
             </Text>
@@ -80,7 +81,8 @@ export function HeroContent({
         </div>
 
         <div className="flex h-fit w-full flex-col items-center justify-center gap-2.5 py-4">
-          <div>
+          <div className="flex flex-row items-center justify-center gap-2">
+            <Image src="/images/party_hat.webp" alt="party hat" className="w-8" />
             <Text
               type="h6"
               weight="extrabold"
@@ -89,9 +91,10 @@ export function HeroContent({
             >
               Upcoming Birthday
             </Text>
+            <Image src="/images/party_hat.webp" alt="party hat" className="w-8" />
           </div>
 
-          <div className="justify-baseline flex w-full flex-row items-center gap-2.5 overflow-scroll py-2 xl:justify-center">
+          <div className="flex w-full flex-row items-center justify-start gap-2.5 overflow-scroll py-2 xl:justify-center">
             {birthdayData.map((data) => (
               <BirthdayCard
                 key={Array.isArray(data.fullname[0]) ? data.fullname[0] : (data.fullname as string)}

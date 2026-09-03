@@ -30,8 +30,8 @@ export function BirthdayCard({
   return (
     <div
       className={cn(
-        'justify-baseline flex h-fit w-fit shrink-0 flex-row items-center gap-2 rounded-lg border bg-linear-0 to-white px-4 py-2 drop-shadow-black/20 drop-shadow-lg',
-        isBirthday ? 'border-amber-400 from-amber-50' : 'border-primary from-rose-50'
+        'flex h-fit w-fit shrink-0 flex-row items-center justify-start gap-2 rounded-lg px-4 py-2 drop-shadow-black/20 drop-shadow-lg',
+        isBirthday ? 'border-2 border-cyan-500 bg-white' : 'border border-primary bg-slate-50'
       )}
     >
       <div className="relative flex h-14 w-14 rounded-full">
@@ -50,13 +50,18 @@ export function BirthdayCard({
       </div>
 
       <div className="flex h-fit w-33.75 flex-col items-baseline justify-center gap-1">
-        <Text type="st1" weight="semibold" lineHeight={7} className="text-primary">
+        <Text
+          type="st1"
+          weight={isBirthday ? 'bold' : 'semibold'}
+          lineHeight={7}
+          className="text-primary"
+        >
           {nicknameString}
         </Text>
         <Text
           type="st2"
           weight={isBirthday ? 'semibold' : 'medium'}
-          className={cn(isBirthday ? 'text-amber-500' : 'text-mauve-600')}
+          className={cn(isBirthday ? 'text-cyan-400' : 'text-mauve-600')}
         >
           {birthdayString}
         </Text>

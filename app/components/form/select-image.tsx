@@ -14,6 +14,7 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '../ui/dialog';
@@ -27,6 +28,7 @@ interface SelectImageProps {
   items: {
     label: string;
     value: string | number;
+    description?: string;
     badge?: BadgeProps;
     image?: string;
     icon?: LucideIcon;
@@ -56,7 +58,7 @@ function OperationSwitch({
       control={control}
       name={operationFieldName}
       render={({ field }) => (
-        <div className="justify-baseline flex flex-row items-center gap-2">
+        <div className="flex flex-row items-center justify-start gap-2">
           <Text type="btn" weight="semibold" lineHeight={5}>
             Operation:
           </Text>
@@ -89,7 +91,7 @@ function OperationIcon({ operation }: { operation: string }) {
   return (
     <div
       className={cn(
-        'col-span-6 flex items-center justify-center rounded-full px-3 py-1 ring-1',
+        'col-span-6 flex items-center justify-center rounded-sm px-3 py-1 ring-1',
         isOrOperation ? 'bg-blue-700 ring-blue-900' : 'bg-green-700 ring-green-900'
       )}
     >
@@ -185,10 +187,10 @@ function SelectImage({
               <>
                 <div
                   className={cn(
-                    'grid w-full gap-3 overflow-y-scroll px-2',
+                    'grid h-full w-full gap-3 overflow-y-scroll px-2',
                     isBadge
-                      ? 'h-fit grid-cols-1'
-                      : 'h-full grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6'
+                      ? 'grid-cols-1'
+                      : 'shrink-0 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6'
                   )}
                 >
                   {items.map((item) => {
@@ -200,7 +202,7 @@ function SelectImage({
                         key={`${name}_${item.value}`}
                         className={cn(
                           'group flex w-full items-center rounded-md transition-colors duration-300 hover:bg-black/5',
-                          isBadge ? 'justify-baseline h-fit py-1' : 'h-full justify-center'
+                          isBadge ? 'h-fit justify-start py-1' : 'h-full justify-center'
                         )}
                       >
                         <button
@@ -213,9 +215,21 @@ function SelectImage({
                           }}
                         >
                           {item.badge && (
-                            <div className="flex flex-row gap-2">
+                            <div className="flex w-full flex-row items-baseline justify-start gap-2">
                               <Checkbox checked={isSelected} />
-                              <Badge title={item.label} {...item.badge} />
+                              <div className="flex w-full flex-col gap-1">
+                                <Badge title={item.label} {...item.badge} />
+                                {item.description && (
+                                  <Text
+                                    type="c"
+                                    weight="medium"
+                                    lineHeight={5}
+                                    className="text-left text-slate-500"
+                                  >
+                                    {item.description}
+                                  </Text>
+                                )}
+                              </div>
                             </div>
                           )}
                           {item.image && (
@@ -247,7 +261,7 @@ function SelectImage({
                               weight="medium"
                               lineHeight={4}
                               className={cn(
-                                'justify-baseline flex flex-col items-center text-center transition-colors duration-300 group-hover:text-amber-400',
+                                'flex flex-col items-center justify-start text-center transition-colors duration-300 group-hover:text-amber-400',
                                 isTextHigh ? 'h-12' : 'h-fit',
                                 isSelected ? 'text-amber-400' : 'text-primary'
                               )}
@@ -261,43 +275,45 @@ function SelectImage({
                   })}
                 </div>
                 {arrayMode && (
-                  <div
-                    className={cn(
-                      'flex w-full flex-col items-end sm:flex-row sm:items-center',
-                      withOperationSwitch ? 'justify-end gap-3 sm:justify-between' : 'justify-end'
-                    )}
-                  >
-                    {withOperationSwitch && (
-                      <OperationSwitch
-                        operationFieldName={operationFieldName}
-                        control={control}
-                        watch={watch}
-                      />
-                    )}
-                    <div className="flex w-fit flex-row items-center justify-center gap-3">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="hover:bg-black/5"
-                        onClick={() => {
-                          field.onChange([]);
-                        }}
-                      >
-                        Deselect All
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="default"
-                        size="sm"
-                        onClick={() => {
-                          field.onChange(items.map((item) => item.value));
-                        }}
-                      >
-                        Select All
-                      </Button>
+                  <DialogFooter className="flex h-full w-full items-end justify-center">
+                    <div
+                      className={cn(
+                        'flex h-fit w-full flex-col items-end border-t border-t-primary pt-2 sm:flex-row sm:items-center',
+                        withOperationSwitch ? 'justify-end gap-3 sm:justify-between' : 'justify-end'
+                      )}
+                    >
+                      {withOperationSwitch && (
+                        <OperationSwitch
+                          operationFieldName={operationFieldName}
+                          control={control}
+                          watch={watch}
+                        />
+                      )}
+                      <div className="flex w-fit flex-row items-center justify-center gap-3">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          className="hover:bg-black/5"
+                          onClick={() => {
+                            field.onChange([]);
+                          }}
+                        >
+                          Deselect All
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="default"
+                          size="sm"
+                          onClick={() => {
+                            field.onChange(items.map((item) => item.value));
+                          }}
+                        >
+                          Select All
+                        </Button>
+                      </div>
                     </div>
-                  </div>
+                  </DialogFooter>
                 )}
               </>
             )}
@@ -321,7 +337,7 @@ function SelectImage({
                 key={`display_${item.label}`}
                 className={cn(
                   'flex items-center rounded-full',
-                  isBadge ? 'justify-baseline col-span-6 w-full' : 'col-span-1 justify-center'
+                  isBadge ? 'col-span-6 w-full justify-start' : 'col-span-1 justify-center'
                 )}
               >
                 {item.badge && <Badge title={item.label} {...item.badge} />}

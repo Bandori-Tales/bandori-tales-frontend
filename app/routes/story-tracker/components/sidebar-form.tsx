@@ -7,7 +7,12 @@ import GeneralDialog from '@/components/shared/general-dialog';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
-import { Bands, Characters } from '@/constants';
+import {
+  Bands,
+  Characters,
+  StoryTrackerTagDescription,
+  StoryTrackerTranslationDescription,
+} from '@/constants';
 import { StoryTag, storyTagMap, TranslationType, translationTypeMap } from '@/schemas/models';
 
 import { StoryBadgeColorMaps } from './badges';
@@ -25,7 +30,7 @@ export function FilterSettingsSection({
   };
 
   return (
-    <div className="justify-baseline flex w-full flex-row items-center gap-1">
+    <div className="flex w-full flex-row items-center justify-start gap-1">
       <Switch checked={splitList} onClick={() => handleSplitList(!splitList)} />
       <Label>Split Reading Status</Label>
     </div>
@@ -72,6 +77,7 @@ export function FilterStoryTag() {
           value: tag,
           label: storyTagMap[tag],
           badge: StoryBadgeColorMaps[tag],
+          description: StoryTrackerTagDescription[tag],
         };
       })}
       isBadge
@@ -86,15 +92,14 @@ export function FilterTranslationType() {
       title="Translation"
       desciption="Select the available translation of the story"
       name="translation"
-      items={Object.values(TranslationType)
-        .filter((translation) => translation !== 'NONE')
-        .map((translation) => {
-          return {
-            value: translation,
-            label: translationTypeMap[translation],
-            badge: StoryBadgeColorMaps[translation],
-          };
-        })}
+      items={Object.values(TranslationType).map((translation) => {
+        return {
+          value: translation,
+          label: translationTypeMap[translation],
+          badge: StoryBadgeColorMaps[translation],
+          description: StoryTrackerTranslationDescription[translation],
+        };
+      })}
       isBadge
       arrayMode
       withOperationSwitch
@@ -172,7 +177,7 @@ export function FilterSideCharacter() {
   return (
     <SelectImage
       title="Side Characters"
-      desciption="Select other characters that appear in the story. Take a note that even a brief appearance will count"
+      desciption="Select other characters that appear in the story. Even a brief appearance will count"
       name="main_character"
       items={Characters.map((character) => {
         const name = Array.isArray(character.nickname) ? character.nickname[0] : character.nickname;

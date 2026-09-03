@@ -18,7 +18,7 @@ export default function WebNameLogo({
     <Link
       to="/"
       className={cn(
-        'justify-baseline group flex flex-row items-center hover:cursor-pointer',
+        'group flex flex-row items-center justify-start hover:cursor-pointer',
         size === 'regular' ? 'gap-2' : 'gap-1.5'
       )}
       onClick={() => handleCloseSideMenu?.()}

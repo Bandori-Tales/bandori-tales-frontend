@@ -22,6 +22,7 @@ import {
 
 import type { Route } from './+types';
 import { StoryCard } from './components/story-card';
+import { DetailStoryDialog } from './contents/dialog-detail';
 import { StoryTrackerSidebar } from './contents/sidebar';
 import { StoryCollapsible } from './contents/story-collapsible';
 
@@ -42,16 +43,19 @@ const DUMMY_STORY: BandoriStory[] = [
     available_tl_type: ['OFFICIAL', 'FAN'],
     available_tl: [
       {
+        name: 'Playlist',
         source: 'YOUTUBE',
         type: 'OFFICIAL',
         url: 'https://youtube.com/playlist?list=PLDBZt_5XOInpjEuvLQDSj3hP-QQlnn1D7',
       },
       {
+        name: 'Bestdori',
         source: 'BESTDORI',
         type: 'OFFICIAL',
         url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
       },
       {
+        name: 'TL By NameHere',
         source: 'BLUESKY',
         type: 'FAN',
         url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
@@ -81,21 +85,25 @@ const DUMMY_STORY: BandoriStory[] = [
     available_tl_type: ['OFFICIAL', 'FAN'],
     available_tl: [
       {
+        name: 'Playlist',
         source: 'YOUTUBE',
         type: 'OFFICIAL',
         url: 'https://youtube.com/playlist?list=PLDBZt_5XOInpjEuvLQDSj3hP-QQlnn1D7',
       },
       {
+        name: 'Bestdori',
         source: 'BESTDORI',
         type: 'OFFICIAL',
         url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
       },
       {
+        name: 'Fandom',
         source: 'FANDOM',
         type: 'OFFICIAL',
         url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
       },
       {
+        name: 'TL By NameHere',
         source: 'BLUESKY',
         type: 'FAN',
         url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
@@ -125,11 +133,13 @@ const DUMMY_STORY: BandoriStory[] = [
     available_tl_type: ['OFFICIAL', 'FAN'],
     available_tl: [
       {
+        name: 'Playlist',
         source: 'YOUTUBE',
         type: 'OFFICIAL',
         url: 'https://youtube.com/playlist?list=PLDBZt_5XOInpjEuvLQDSj3hP-QQlnn1D7',
       },
       {
+        name: 'Bestdori',
         source: 'BESTDORI',
         type: 'OFFICIAL',
         url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
@@ -226,6 +236,9 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
   const isMobile = useIsMobile();
   const { revalidate } = useRevalidator();
   const [isListSplitted, setIsListSplitted] = useState(loaderData.isListSplitted);
+  const [selectedStory, setSelectedStory] = useState<
+    (BandoriStory & { status?: ReadingStatus }) | null
+  >(null);
 
   const stories: (BandoriStory & { status?: ReadingStatus })[] = useMemo(() => {
     return loaderData.fetchedStories.map((story) => {
@@ -266,9 +279,14 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
     <div
       className={cn(
         'flex min-h-screen w-full flex-col gap-3 bg-linear-to-t from-rose-50 to-background',
-        isMobile ? 'px-3 py-6' : 'px-3 py-6 lg:px-12 lg:py-20'
+        isMobile ? 'px-3 py-6' : 'px-3 py-6 lg:px-12 lg:py-16'
       )}
     >
+      <DetailStoryDialog
+        selectedStory={selectedStory}
+        setSelectedStory={setSelectedStory}
+        updateReadingStatus={updateReadingStatus}
+      />
       <Text
         type="btn"
         weight="regular"
@@ -299,6 +317,7 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
             isMobile={isMobile}
             isUnread
             items={stories}
+            setSelectedStory={setSelectedStory}
             updateReadingStatus={updateReadingStatus}
           />
           <StoryCollapsible
@@ -306,6 +325,7 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
             isMobile={isMobile}
             isUnread={false}
             items={stories}
+            setSelectedStory={setSelectedStory}
             updateReadingStatus={updateReadingStatus}
           />
         </>
@@ -315,6 +335,7 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
             key={`story_${story.id}`}
             isMobile={isMobile}
             story={story}
+            setSelectedStory={setSelectedStory}
             updateReadingStatus={updateReadingStatus}
           />
         ))

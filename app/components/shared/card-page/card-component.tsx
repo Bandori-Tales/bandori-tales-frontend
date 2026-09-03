@@ -37,7 +37,7 @@ export function CardPageComponent({
   return isMobile ? (
     <div
       className={cn(
-        'justify-baseline relative flex h-58 w-full flex-col items-center gap-2 rounded-xl border border-primary-foreground bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors duration-300',
+        'relative flex h-58 w-full flex-col items-center justify-start gap-2 rounded-xl border border-primary-foreground bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors duration-300',
         isDisabled ? undefined : 'group active:border-amber-400 active:from-rose-600'
       )}
     >
@@ -70,7 +70,7 @@ export function CardPageComponent({
       </div>
 
       <div className="flex h-full w-full flex-col items-center justify-between gap-1.5">
-        <div className="justify-baseline flex h-full w-full flex-col items-baseline gap-1.5 border-b border-b-primary-foreground transition-colors duration-300 group-active:border-b-amber-400">
+        <div className="flex h-full w-full flex-col items-baseline justify-start gap-1.5 border-b border-b-primary-foreground transition-colors duration-300 group-active:border-b-amber-400">
           {author && <AuthorBadge author={author} />}
           <Text
             type="btn"
@@ -106,7 +106,7 @@ export function CardPageComponent({
   ) : (
     <div
       className={cn(
-        'justify-baseline relative flex h-94.5 w-full flex-col items-center gap-2.5 rounded-xl border border-primary-foreground bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors duration-300',
+        'relative flex h-94.5 w-full flex-col items-center justify-start gap-2.5 rounded-xl border border-primary-foreground bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors duration-300',
         isDisabled
           ? undefined
           : 'group hover:cursor-pointer hover:border-amber-400 hover:from-rose-600'
@@ -131,7 +131,7 @@ export function CardPageComponent({
       </div>
 
       <div className="flex h-full w-full flex-col items-center justify-between gap-1.5">
-        <div className="justify-baseline flex h-full w-full flex-col items-center gap-4 border-b border-b-primary-foreground transition-colors duration-300 group-hover:border-b-amber-400">
+        <div className="flex h-full w-full flex-col items-center justify-start gap-4 border-b border-b-primary-foreground transition-colors duration-300 group-hover:border-b-amber-400">
           <Text
             type="st1"
             weight="bold"
@@ -139,7 +139,7 @@ export function CardPageComponent({
           >
             {title}
           </Text>
-          <div className="justify-baseline flex w-full flex-col items-baseline gap-2.5">
+          <div className="flex w-full flex-col items-baseline justify-start gap-2.5">
             {author && <AuthorBadge author={author} />}
             <Text
               type="btn"

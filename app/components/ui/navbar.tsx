@@ -34,7 +34,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
               <CollapsibleTrigger className={cn(
                     'flex w-full h-fit items-center justify-between cursor-pointer gap-2 bg-transparent transition-colors duration-300 text-primary-foreground hover:text-amber-400'
                   )}>
-                  <div className="flex flex-row w-full items-center justify-baseline gap-2">
+                  <div className="flex flex-row w-full items-center justify-start gap-2">
                     {Icon && (
                       <Icon className="stroke-3 size-5" />
                     )}
@@ -128,7 +128,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
           className={cn(
             'flex h-fit cursor-pointer gap-2 bg-transparent transition-colors duration-300 hover:text-amber-400',
             isActive ? 'text-amber-400' : 'text-primary-foreground',
-            isNavExpand ? 'w-full items-center justify-baseline' : 'w-36 items-center justify-center'
+            isNavExpand ? 'w-full items-center justify-start' : 'w-36 items-center justify-center'
           )}
           onClick={() => handleCloseSideMenu?.()}
         >
@@ -226,7 +226,7 @@ export default function Navbar() {
             <WebNameLogo size="regular" wrap_text={false} handleCloseSideMenu={handleHideSidebar} />
           </div>
           <Separator className="bg-amber-400" />
-          <div className="flex flex-col items-baseline justify-baseline gap-4 px-3 pt-2">
+          <div className="flex flex-col items-baseline justify-start gap-4 px-3 pt-2">
             {
               NavbarItems.map((item, idx) => (
                 <NavigationButton

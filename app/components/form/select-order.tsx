@@ -24,7 +24,7 @@ function SelectOrderButton({ name, items, orderDirectionName, classname }: Selet
   return (
     <div
       className={cn(
-        'justify-baseline flex flex-row items-center gap-1 rounded-md bg-primary px-0.5',
+        'flex flex-row items-center justify-start gap-1 rounded-md bg-primary px-0.5',
         classname
       )}
     >

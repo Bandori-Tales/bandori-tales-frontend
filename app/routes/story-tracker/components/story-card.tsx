@@ -1,6 +1,9 @@
+// biome-ignore-all lint/a11y/noStaticElementInteractions: Div Required to be clickable
+// biome-ignore-all lint/a11y/useKeyWithClickEvents: Element will be iterated
 import { CheckCheck, Delete, FastForward, type LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
+import useDialogStore from '@/hooks/store/use-dialog';
 import { cn } from '@/lib/utils';
 
 import Image from '@/components/helper/image';
@@ -14,6 +17,7 @@ import { StoryBadge } from './badges';
 interface StoryCardProps {
   isMobile: boolean;
   story: BandoriStory & { status?: ReadingStatus };
+  setSelectedStory: (story: (BandoriStory & { status?: ReadingStatus }) | null) => void;
   updateReadingStatus: (id: number, status: ReadingStatus | 'unread') => void;
 }
 
@@ -60,7 +64,7 @@ const storyStatusMap: Record<
 
 function ListLabel({ title, children }: ListLabelProps) {
   return (
-    <div className="justify-baseline flex h-fit w-fit flex-row items-center gap-1 rounded-md bg-mauve-100 px-2 py-1">
+    <div className="flex h-fit w-fit flex-row items-center justify-start gap-1 rounded-md bg-mauve-100 px-2 py-1">
       <Text type="btn" lineHeight={5} weight="semibold" className="text-left text-accent/80">
         {title}
       </Text>
@@ -69,7 +73,7 @@ function ListLabel({ title, children }: ListLabelProps) {
   );
 }
 
-function UpdateStoryStatusButton({
+export function UpdateStoryStatusButton({
   status,
   isMobile,
   storyId,
@@ -80,13 +84,14 @@ function UpdateStoryStatusButton({
     <button
       type="button"
       className={cn(
-        'flex h-fit items-center justify-center rounded-md px-1.5 drop-shadow-black-50 drop-shadow-md transition-opacity duration-300 active:opacity-80',
-        isMobile
-          ? 'w-full flex-row gap-1 py-1'
-          : 'w-18 flex-col gap-0 py-2 lg:w-20 lg:hover:opacity-80',
+        'flex h-fit items-center justify-center rounded-md px-1.5 drop-shadow-black-50 drop-shadow-md transition-opacity duration-300 hover:opacity-80 active:opacity-80',
+        isMobile ? 'w-full flex-row gap-1 py-1' : 'w-18 flex-col gap-0 py-2 lg:w-20',
         storyStatusMap[status].background
       )}
-      onClick={() => updateReadingStatus(storyId, status)}
+      onClick={(e) => {
+        e.stopPropagation();
+        updateReadingStatus(storyId, status);
+      }}
     >
       <Icon className={cn('stroke-2 text-white', isMobile ? 'size-5' : 'size-6')} />
       <Text
@@ -101,14 +106,26 @@ function UpdateStoryStatusButton({
   );
 }
 
-export function StoryCard({ isMobile, story, updateReadingStatus }: StoryCardProps) {
+export function StoryCard({
+  isMobile,
+  story,
+  setSelectedStory,
+  updateReadingStatus,
+}: StoryCardProps) {
   const readStatus = story.status || 'unread';
   const Icon = storyStatusMap[readStatus].icon;
+
+  const { open: openDialog } = useDialogStore();
+
+  function handleOpenDialog() {
+    setSelectedStory(story);
+    openDialog('story_detail');
+  }
 
   return isMobile ? (
     <div
       className={cn(
-        'justify-baseline relative flex h-fit w-full flex-col items-center overflow-hidden rounded-xl border bg-white p-2 drop-shadow-black/50 drop-shadow-md transition-colors duration-300 hover:cursor-pointer active:border-amber-400',
+        'relative flex h-fit w-full flex-col items-center justify-start overflow-hidden rounded-xl border bg-white p-2 drop-shadow-black/50 drop-shadow-md transition-colors duration-300 hover:cursor-pointer active:border-amber-400',
         storyStatusMap[readStatus].border
       )}
     >
@@ -121,7 +138,7 @@ export function StoryCard({ isMobile, story, updateReadingStatus }: StoryCardPro
       >
         <Icon className="size-4 stroke-2 text-white" />
       </div>
-      <div className="justify-baseline flex h-fit w-full flex-col items-center gap-3">
+      <div className="flex h-fit w-full flex-col items-center justify-start gap-3">
         <Image
           src={story.story_banner || '/images/dummy.png'}
           alt={`${story.name} Event Banner`}
@@ -182,6 +199,7 @@ export function StoryCard({ isMobile, story, updateReadingStatus }: StoryCardPro
             'flex h-fit items-center justify-center rounded-md bg-mauve-500 px-1.5 py-2 drop-shadow-black-50 drop-shadow-md transition-opacity duration-300 active:opacity-80',
             isMobile ? 'w-full flex-row gap-1 py-1' : 'w-20 flex-col gap-0 py-2'
           )}
+          onClick={handleOpenDialog}
         >
           <Text
             type={isMobile ? 'c' : 'btn'}
@@ -203,9 +221,10 @@ export function StoryCard({ isMobile, story, updateReadingStatus }: StoryCardPro
   ) : (
     <div
       className={cn(
-        'group justify-baseline relative flex h-36 w-full flex-row items-center gap-2 overflow-hidden rounded-xl border bg-white px-3 py-2 drop-shadow-black/50 drop-shadow-md transition-colors duration-300 active:border-amber-400 lg:h-24 lg:hover:cursor-pointer lg:hover:border-amber-400',
+        'group relative flex h-36 w-full flex-row items-center justify-start gap-2 overflow-hidden rounded-xl border bg-white px-3 py-2 drop-shadow-black/50 drop-shadow-md transition-colors duration-300 active:border-amber-400 lg:h-24 lg:hover:cursor-pointer lg:hover:border-amber-400',
         storyStatusMap[readStatus].border
       )}
+      onClick={handleOpenDialog}
     >
       <div
         className={cn(
@@ -243,7 +262,7 @@ export function StoryCard({ isMobile, story, updateReadingStatus }: StoryCardPro
             </Text>
           )}
         </div>
-        <div className="justify-baseline flex h-fit w-full flex-row flex-wrap items-center gap-2">
+        <div className="flex h-fit w-full flex-row flex-wrap items-center justify-start gap-2">
           <ListLabel title="Band">
             <Image
               src={Bands[story.main_band].icon}

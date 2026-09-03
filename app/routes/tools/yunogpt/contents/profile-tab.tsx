@@ -162,7 +162,7 @@ export function ChatProfileTab({
   return (
     <aside
       className={cn(
-        'justify-baseline fixed top-0 right-0 z-50 flex h-screen flex-col items-center bg-mauve-50 pb-4 transition-all duration-300',
+        'fixed top-0 right-0 z-50 flex h-screen flex-col items-center justify-start bg-mauve-50 pb-4 transition-all duration-300',
         isProfileOpen
           ? 'w-full md:w-75 md:shadow-[-4px_0px_4px_-4px_rgba(0,0,0,0.25)]'
           : 'w-0 overflow-hidden'

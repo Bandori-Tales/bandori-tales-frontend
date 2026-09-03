@@ -153,7 +153,7 @@ export function StoryTrackerSidebar({
 
       <aside
         className={cn(
-          'justify-baseline fixed top-0 flex h-full w-64 flex-col items-center border-l border-l-primary bg-white pt-3 pb-2 transition-all duration-300 lg:pt-16',
+          'fixed top-0 flex h-full w-64 flex-col items-center justify-start border-l border-l-primary bg-white pt-3 pb-2 transition-all duration-300 lg:pt-16',
           isExpand ? 'right-0 z-50 opacity-100 lg:z-25' : '-right-80 z-0 opacity-0'
         )}
       >
@@ -172,7 +172,7 @@ export function StoryTrackerSidebar({
             >
               <X className="stroke-3 text-primary" />
             </Button>
-            <div className="justify-baseline flex h-full w-full flex-col items-center gap-2 overflow-y-scroll border-b border-b-primary px-2 pb-3">
+            <div className="flex h-full w-full flex-col items-center justify-start gap-2 overflow-y-scroll border-b border-b-primary px-2 pb-3">
               <Text
                 type="st1"
                 weight="bold"
@@ -181,7 +181,7 @@ export function StoryTrackerSidebar({
                 Story Tracker
               </Text>
 
-              <div className="justify-baseline flex h-full w-full flex-col items-center gap-3 overflow-scroll px-1">
+              <div className="flex h-full w-full flex-col items-center justify-start gap-3 overflow-scroll px-1">
                 <SidebarFilterSection title="Search" fullWidth>
                   <InputForm type="text" name="search" placeholder="search" />
                 </SidebarFilterSection>

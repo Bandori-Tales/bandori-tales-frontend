@@ -40,7 +40,7 @@ export function ChatBlock({
     <div
       className={cn(
         'flex w-full flex-row items-baseline',
-        chatItem.sender === 'user' ? 'justify-end' : 'justify-baseline'
+        chatItem.sender === 'user' ? 'justify-end' : 'justify-start'
       )}
     >
       <hgroup

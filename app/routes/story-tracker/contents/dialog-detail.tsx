@@ -189,17 +189,17 @@ export function DetailStoryDialog({
           <div className="relative flex w-full flex-col items-center justify-start gap-2 border-b border-b-primary pb-2 sm:flex-row sm:justify-center">
             <div
               className={cn(
-                'flex h-fit w-48 items-center justify-center',
+                'flex h-fit w-48 items-center justify-center gap-1',
                 isAnimeOnly || isAnime ? 'sm:w-50' : 'sm:w-75'
               )}
             >
               {selectedStory.category !== 'ANIME' && selectedStory.has_anime_eq && (
                 <Button
                   type="button"
-                  variant="secondary"
+                  variant="ghost"
                   size="icon"
                   onClick={() => setIsAnime(!isAnime)}
-                  className="absolute left-0 sm:static sm:left-auto"
+                  className="absolute left-0 hover:bg-black/5 sm:static sm:left-auto"
                 >
                   <ArrowLeftRight
                     className={cn(
@@ -272,7 +272,7 @@ export function DetailStoryDialog({
                   {...StoryBadgeColorMaps[selectedStory.story_tag]}
                   title={storyTagMap[selectedStory.story_tag]}
                 />
-                <Text type="btn" weight="medium" lineHeight={5}>
+                <Text type="btn" weight="medium" lineHeight={5} className="text-slate-700">
                   {StoryTrackerTagDescription[selectedStory.story_tag]}
                 </Text>
               </div>
@@ -314,7 +314,7 @@ export function DetailStoryDialog({
                     key={`side_band_${bandDetail.id}`}
                     alt={`${nickname} icon`}
                     src={profilePicture}
-                    className="aspect-square size-10 rounded-full"
+                    className="aspect-square size-8"
                   />
                 );
               })}
@@ -343,43 +343,47 @@ export function DetailStoryDialog({
               })}
             </DetailSection>
 
-            <DetailSection title="Official Translation" withBackground={false}>
-              {officialTl && officialTl.length > 0 ? (
-                <div className="grid h-fit w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {officialTl.map((translation) => (
-                    <div
-                      key={`official_${translation.name}`}
-                      className="flex h-fit w-full items-center justify-center"
-                    >
-                      <TranslationButton {...translation} />
+            {selectedStory.category !== 'ANIME' && (
+              <>
+                <DetailSection title="Official Translation" withBackground={false}>
+                  {officialTl && officialTl.length > 0 ? (
+                    <div className="grid h-fit w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                      {officialTl.map((translation) => (
+                        <div
+                          key={`official_${translation.name}`}
+                          className="flex h-fit w-full items-center justify-center"
+                        >
+                          <TranslationButton {...translation} />
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <Text type="btn" weight="semibold" lineHeight={6}>
-                  Not Available
-                </Text>
-              )}
-            </DetailSection>
+                  ) : (
+                    <Text type="btn" weight="semibold" lineHeight={6}>
+                      Not Available
+                    </Text>
+                  )}
+                </DetailSection>
 
-            <DetailSection title="Fan Translation" withBackground={false}>
-              {fanTl && fanTl.length > 0 ? (
-                <div className="grid h-fit w-full grid-cols-3 gap-3">
-                  {fanTl.map((translation) => (
-                    <div
-                      key={`fan_${translation.name}`}
-                      className="col-span-3 flex h-fit w-full items-center justify-center"
-                    >
-                      <TranslationButton {...translation} />
+                <DetailSection title="Fan Translation" withBackground={false}>
+                  {fanTl && fanTl.length > 0 ? (
+                    <div className="grid h-fit w-full grid-cols-3 gap-3">
+                      {fanTl.map((translation) => (
+                        <div
+                          key={`fan_${translation.name}`}
+                          className="col-span-3 flex h-fit w-full items-center justify-center"
+                        >
+                          <TranslationButton {...translation} />
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <Text type="btn" weight="semibold" lineHeight={6}>
-                  Not Available
-                </Text>
-              )}
-            </DetailSection>
+                  ) : (
+                    <Text type="btn" weight="semibold" lineHeight={6}>
+                      Not Available
+                    </Text>
+                  )}
+                </DetailSection>
+              </>
+            )}
           </div>
 
           <DialogFooter className="flex h-full w-full flex-row items-end justify-center">

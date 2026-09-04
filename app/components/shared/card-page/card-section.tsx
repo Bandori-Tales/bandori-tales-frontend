@@ -28,24 +28,26 @@ export default function CardPageSection({
   };
   return (
     <Collapsible
-      className="pt-4 pb-6 transition-all duration-300"
+      className="mb-4 pt-4 pb-6 transition-all duration-300"
       open={isCollapsibleOpen}
       onOpenChange={inverseCollapsibleState}
     >
-      <div className="mb-4 flex h-fit w-full flex-row items-center justify-center gap-2.5">
-        <Text type="h6" weight="bold" className="text-nowrap text-primary">
+      <CollapsibleTrigger className="group mb-4 flex h-fit w-full flex-row-reverse items-center justify-center gap-2.5 rounded-full lg:flex-row">
+        <Text
+          type="t"
+          weight="semibold"
+          className="text-nowrap text-primary transition-all duration-300 group-hover:text-primary/80"
+        >
           {sectionName}
         </Text>
-        <div className="flex h-fit w-full border-t-3 border-t-primary" />
-        <CollapsibleTrigger className="rounded-full border border-primary bg-white p-1.5 transition-all duration-300 hover:bg-white/80">
-          <ChevronDown
-            className={cn(
-              'stroke-3 text-primary transition-all duration-300',
-              isCollapsibleOpen ? 'rotate-180' : 'rotate-0'
-            )}
-          />
-        </CollapsibleTrigger>
-      </div>
+        <div className="flex h-fit w-full border-t-3 border-t-primary transition-all duration-300 group-hover:border-t-primary/80" />
+        <ChevronDown
+          className={cn(
+            'size-5 shrink-0 stroke-3 text-primary transition-all duration-300 group-hover:text-primary/80',
+            isCollapsibleOpen ? 'rotate-180' : 'rotate-0'
+          )}
+        />
+      </CollapsibleTrigger>
 
       <CollapsibleContent
         className={cn(

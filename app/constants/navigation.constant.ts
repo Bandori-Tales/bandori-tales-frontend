@@ -37,7 +37,6 @@ export const MainFeatures = [
     description: 'Lorem Ipsum',
     href: '/story-tracker',
     icon: Milestone,
-    isDisabled: true,
   },
   {
     title: 'Story Arc',
@@ -174,6 +173,7 @@ export const NavbarItems = [
         title: feature.title,
         href: feature.href,
         icon: feature.icon,
+        isDisabled: feature.isDisabled,
       })),
     },
   },

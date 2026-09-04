@@ -43,31 +43,38 @@ export function StoryCollapsible({
       open={isCollapsibleOpen}
       onOpenChange={inverseCollapsibleState}
     >
-      <div className="mb-4 flex h-fit w-full flex-row items-center justify-center gap-2.5">
+      <CollapsibleTrigger className="group mb-4 flex h-fit w-full flex-row-reverse items-center justify-center gap-2.5 border-b py-2 lg:flex-row">
         <Text
           type="t"
           weight="semibold"
-          className={cn('text-nowrap', isUnread ? 'text-primary' : 'text-green-600')}
+          className={cn(
+            'text-nowrap transition-all duration-300',
+            isUnread
+              ? 'text-primary group-hover:text-primary/80'
+              : 'text-green-600 group-hover:text-green-600/80'
+          )}
         >
           {sectionName}
           {` (${filteredItems.length})`}
         </Text>
         <div
           className={cn(
-            'flex h-fit w-full border-t-3',
-            isUnread ? 'border-t-primary' : 'border-t-green-600'
+            'flex h-fit w-full border-t-3 transition-all duration-300',
+            isUnread
+              ? 'border-t-primary group-hover:border-t-primary/80'
+              : 'border-t-green-600 group-hover:border-t-green-600/80'
           )}
         />
-        <CollapsibleTrigger className="rounded-full p-1.5 transition-all duration-300 hover:bg-white/10">
-          <ChevronsDown
-            className={cn(
-              'stroke-3 transition-all duration-300',
-              isCollapsibleOpen ? 'rotate-180' : 'rotate-0',
-              isUnread ? 'text-primary' : 'text-green-600'
-            )}
-          />
-        </CollapsibleTrigger>
-      </div>
+        <ChevronsDown
+          className={cn(
+            'size-5 shrink-0 stroke-3 transition-all duration-300',
+            isCollapsibleOpen ? 'rotate-180' : 'rotate-0',
+            isUnread
+              ? 'text-primary group-hover:text-primary/80'
+              : 'text-green-600 group-hover:text-green-600/80'
+          )}
+        />
+      </CollapsibleTrigger>
 
       <CollapsibleContent
         className={cn(

@@ -91,8 +91,8 @@ function OperationIcon({ operation }: { operation: string }) {
   return (
     <div
       className={cn(
-        'col-span-6 flex items-center justify-center rounded-sm px-3 py-1 ring-1',
-        isOrOperation ? 'bg-blue-700 ring-blue-900' : 'bg-green-700 ring-green-900'
+        'col-span-6 flex items-center justify-center rounded-sm border px-3 py-1',
+        isOrOperation ? 'border-blue-900 bg-blue-700' : 'border-green-900 bg-green-700'
       )}
     >
       <Text

@@ -329,3 +329,7 @@ input[type="checkbox"] {
   color-scheme: light;
   background-color: var(--color-white);
 }
+
+a[disabled] {
+  pointer-events: none;
+}

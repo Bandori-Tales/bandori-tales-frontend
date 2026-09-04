@@ -45,7 +45,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                   <ChevronDown className={cn("stroke-3 size-7 transition-transform duration-300", isCollapsibleOpen ? 'rotate-180' : 'rotate-0')} />
               </CollapsibleTrigger>
               <CollapsibleContent className={cn(
-                "flex flex-col gap-3 pl-4 ml-2 mt-2 border-l-2 border-primary-foreground",
+                "flex flex-col gap-1 pl-3 ml-2 mt-2 border-l-2 border-primary-foreground",
                 "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-top-10 data-[state=closed]:fade-out-0 data-[state=open]:slide-in-from-top-10 data-[state=open]:fade-in-0"
               )}>
                 {
@@ -53,10 +53,12 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                     const isSubActive = pathname.includes(item.href);
 
                     return (
-                      <Link to={item.href} key={id} className={cn("focus:bg-amber-400 transition-colors duration-300", isSubActive ? 'bg-amber-400' : 'bg-transparent')}>
+                      item.isDisabled ? (
                         <button
-                          className="flex w-full items-center gap-2 bg-transparent text-primary-foreground"
+                          key={id}
+                          className="flex w-full py-1 px-2 items-center gap-2 bg-transparent text-primary-foreground opacity-50"
                           onClick={() => handleCloseSideMenu?.()}
+                          disabled={item.isDisabled}
                         >
                           {
                             item.icon && (<item.icon className="text-primary-foreground stroke-3 size-4" />)
@@ -65,7 +67,22 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                             {item.title}
                           </Text>
                         </button>
-                      </Link>
+                      ) : (
+                        <Link to={item.href} key={id} className={cn("focus:bg-amber-400 transition-colors duration-300 py-1 px-2 rounded-md", isSubActive ? 'bg-amber-400' : 'bg-transparent')}>
+                          <button
+                            className="flex w-full items-center gap-2 bg-transparent text-primary-foreground"
+                            onClick={() => handleCloseSideMenu?.()}
+                            disabled={item.isDisabled}
+                          >
+                            {
+                              item.icon && (<item.icon className="text-primary-foreground stroke-3 size-4" />)
+                            }
+                            <Text type='p' weight={isSubActive ? 'bold' : 'semibold'} lineHeight={6} >
+                              {item.title}
+                            </Text>
+                          </button>
+                        </Link>
+                      )
                     )
                   })
                 }
@@ -97,11 +114,12 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                       const isSubActive = pathname.includes(item.href);
 
                       return (
-                        <DropdownMenuItem key={id} className={cn("mb-1 focus:bg-amber-400 transition-colors duration-300", isSubActive ? 'bg-amber-400' : 'bg-transparent')}>
+                        <DropdownMenuItem key={id} disabled={item.isDisabled} className={cn("mb-1 focus:bg-amber-400 transition-colors duration-300", isSubActive ? 'bg-amber-400' : 'bg-transparent')}>
                           <Link to={item.href}>
                             <button
                               className="flex w-full items-center gap-2 bg-transparent text-primary-foreground"
                               onClick={() => handleCloseSideMenu?.()}
+                              disabled={item.isDisabled}
                             >
                               {
                                 item.icon && (<item.icon className="text-primary-foreground stroke-3" />)
@@ -200,7 +218,7 @@ export default function Navbar() {
         type="button"
         variant="default"
         size='icon'
-        className="fixed top-16 right-3 z-30 rounded-full bg-primary border-2 border-primary-foreground [&_svg]:size-6 lg:hidden"
+        className="fixed top-24 right-3 z-30 rounded-full bg-primary border-2 border-primary-foreground [&_svg]:size-6 lg:hidden"
         onClick={handleShowSidebar}
       >
         <Menu className="stroke-3 text-primary-foreground" />

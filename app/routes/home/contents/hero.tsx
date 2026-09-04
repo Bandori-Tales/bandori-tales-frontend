@@ -87,7 +87,7 @@ export function HeroContent({
               type="h6"
               weight="extrabold"
               lineHeight={9}
-              className="text-primary text-shadow-black/50 text-shadow-lg [-webkit-text-stroke:1px_white]"
+              className="text-nowrap text-2xl text-primary text-shadow-black/50 text-shadow-lg [-webkit-text-stroke:1px_white] sm:text-3xl"
             >
               Upcoming Birthday
             </Text>

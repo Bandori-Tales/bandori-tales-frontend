@@ -54,7 +54,10 @@ function SidebarFilterSection({
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
-      className="group flex w-full flex-col gap-1 rounded-md p-1 transition-all duration-300 hover:cursor-pointer"
+      className={cn(
+        'group flex w-full flex-col gap-1 rounded-md p-1 transition-all duration-300',
+        isCollapsible ? 'hover:cursor-pointer' : 'hover:cursor-default'
+      )}
     >
       {isCollapsible ? (
         <CollapsibleTrigger className="flex w-full flex-row items-center justify-between">
@@ -144,7 +147,7 @@ export function StoryTrackerSidebar({
         variant="secondary"
         size="icon"
         className={cn(
-          'fixed top-28 right-3 z-20 rounded-full border-2 border-primary bg-white drop-shadow-black/20 drop-shadow-sm lg:top-16 [&_svg]:size-6 lg:[&_svg]:size-5'
+          'fixed top-36 right-3 z-20 rounded-full border-2 border-primary bg-white drop-shadow-black/20 drop-shadow-sm lg:top-16 [&_svg]:size-6 lg:[&_svg]:size-5'
         )}
         onClick={handleShowSidebar}
       >

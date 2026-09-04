@@ -1,4 +1,4 @@
-import type { BandoriStoryForm, IStoryTag, ITranslationType } from '@/schemas/models';
+import type { BandoriStory, BandoriStoryForm, IStoryTag, ITranslationType } from '@/schemas/models';
 
 export const StoryTrackerDefaultValue = {
   search: '',
@@ -76,3 +76,132 @@ export const StoryTrackerTagDescription: Record<IStoryTag, string> = {
   NOTCANON:
     "The story didn't happen in the actual timeline. Take a note that past event could still being mentioned here.",
 };
+
+export const DUMMY_STORY: BandoriStory[] = [
+  {
+    id: 1,
+    order: 1,
+    name: 'Raise A Suilen band Story 1: RAISE A SUILEN ~Raise the Curtain~ Pt. 1',
+    story_banner: '/images/dummy_banner.png',
+    story_type: 'BAND_STORY',
+    story_tag: 'EXPLORATION',
+    event_id: 123,
+    has_anime_eq: true,
+    anime_banner: '/images/dummy_banner_anime.png',
+    anime_name: 'Anime BanG Dream! Season 3',
+    anime_url: 'https://bestdori.com',
+    category: 'GARUPA',
+    available_tl_type: ['OFFICIAL', 'FAN'],
+    available_tl: [
+      {
+        name: 'Playlist',
+        source: 'YOUTUBE',
+        type: 'OFFICIAL',
+        url: 'https://youtube.com/playlist?list=PLDBZt_5XOInpjEuvLQDSj3hP-QQlnn1D7',
+      },
+      {
+        name: 'Bestdori',
+        source: 'BESTDORI',
+        type: 'OFFICIAL',
+        url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
+      },
+      {
+        name: 'TL By NameHere',
+        source: 'BLUESKY',
+        type: 'FAN',
+        url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
+      },
+    ],
+    main_characters: [31, 32, 33, 34, 35],
+    main_band: 7,
+    side_characters: [1, 2, 3, 4, 5, 21, 22, 23, 24, 25],
+    side_bands: [1, 5],
+    synopsis:
+      "The girls of Afterglow have finished their last day of school, but Himari's still got something on her mind...",
+    notes: null,
+  },
+  {
+    id: 2,
+    order: 2,
+    name: 'Raise A Suilen band Story 1: RAISE A SUILEN ~Raise the Curtain~ Pt. 2',
+    story_banner: '/images/dummy_banner.png',
+    story_type: 'BAND_STORY',
+    story_tag: 'MAJOR',
+    event_id: 124,
+    has_anime_eq: true,
+    anime_banner: '/images/dummy_banner_anime.png',
+    anime_name: 'Anime BanG Dream! Season 3',
+    anime_url: 'https://bestdori.com',
+    category: 'GARUPA',
+    available_tl_type: ['OFFICIAL', 'FAN'],
+    available_tl: [
+      {
+        name: 'Playlist',
+        source: 'YOUTUBE',
+        type: 'OFFICIAL',
+        url: 'https://youtube.com/playlist?list=PLDBZt_5XOInpjEuvLQDSj3hP-QQlnn1D7',
+      },
+      {
+        name: 'Bestdori',
+        source: 'BESTDORI',
+        type: 'OFFICIAL',
+        url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
+      },
+      {
+        name: 'Fandom',
+        source: 'FANDOM',
+        type: 'OFFICIAL',
+        url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
+      },
+      {
+        name: 'TL By NameHere',
+        source: 'BLUESKY',
+        type: 'FAN',
+        url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
+      },
+    ],
+    main_characters: [31, 32, 33, 34, 35],
+    main_band: 7,
+    side_characters: [1, 2, 3, 4, 5, 21, 22, 23, 24, 25],
+    side_bands: [1, 5],
+    synopsis:
+      "The girls of Afterglow have finished their last day of school, but Himari's still got something on her mind...",
+    notes: null,
+  },
+  {
+    id: 3,
+    order: 3,
+    name: 'Raise A Suilen band Story 1: RAISE A SUILEN ~Raise the Curtain~ Pt. 3',
+    story_banner: '/images/dummy_banner.png',
+    story_type: 'BAND_STORY',
+    story_tag: 'COLLAB',
+    event_id: 125,
+    has_anime_eq: true,
+    anime_banner: '/images/dummy_banner_anime.png',
+    anime_name: 'Anime BanG Dream! Season 3',
+    anime_url: 'https://bestdori.com',
+    category: 'GARUPA',
+    available_tl_type: ['OFFICIAL', 'FAN'],
+    available_tl: [
+      {
+        name: 'Playlist',
+        source: 'YOUTUBE',
+        type: 'OFFICIAL',
+        url: 'https://youtube.com/playlist?list=PLDBZt_5XOInpjEuvLQDSj3hP-QQlnn1D7',
+      },
+      {
+        name: 'Bestdori',
+        source: 'BESTDORI',
+        type: 'OFFICIAL',
+        url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
+      },
+    ],
+    main_characters: [31, 32, 33, 34, 35],
+    main_band: 7,
+    side_characters: [],
+    side_bands: [],
+    synopsis:
+      "The girls of Afterglow have finished their last day of school, but Himari's still got something on her mind...",
+    notes: null,
+  },
+];

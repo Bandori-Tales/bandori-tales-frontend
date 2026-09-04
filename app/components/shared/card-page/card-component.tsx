@@ -43,7 +43,7 @@ export function CardPageComponent({
     >
       <div
         className={cn(
-          isDisabled ? 'absolute top-0 z-12 h-full w-full rounded-xl bg-white/40' : 'hidden'
+          isDisabled ? 'absolute top-0 z-12 h-full w-full rounded-xl bg-white/25' : 'hidden'
         )}
       />
       <div className="flex h-fit w-full flex-row items-center gap-2.5">
@@ -109,7 +109,7 @@ export function CardPageComponent({
         'relative flex h-94.5 w-full flex-col items-center justify-start gap-2.5 rounded-xl border border-primary-foreground bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors duration-300',
         isDisabled
           ? undefined
-          : 'group hover:cursor-pointer hover:border-amber-400 hover:from-rose-600'
+          : 'group hover:cursor-default hover:border-amber-400 hover:from-rose-600'
       )}
     >
       <div

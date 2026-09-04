@@ -14,7 +14,13 @@ import TextareaForm from '@/components/form/textarea';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/toast';
 
-import { YUNO_CHAT_THEMES_ARRAY, YUNOGPT_WRITE_ASSETS, type YunoChatThemes } from '@/constants';
+import {
+  LOCAL_STORAGE_KEY,
+  SESSION_STORAGE_KEY,
+  YUNO_CHAT_THEMES_ARRAY,
+  YUNOGPT_WRITE_ASSETS,
+  type YunoChatThemes,
+} from '@/constants';
 import { type UserChat, UserChatSchema } from '@/schemas/models';
 
 import type { Route } from './+types';
@@ -32,7 +38,7 @@ function validateRoomChat(chats: string | IChatBlock[]) {
   if (typeof chats === 'string') {
     toast.warning('An error was found in your recent chat. Resetting the room...');
 
-    itemStorage.session.set('yuno-gpt-chats', []);
+    itemStorage.session.set(SESSION_STORAGE_KEY.YUNOGPT.CHAT_HISTORY, []);
     return [];
   }
 
@@ -47,7 +53,7 @@ function validateRoomChat(chats: string | IChatBlock[]) {
   if (isInvalid) {
     toast.warning('An error was found in your recent chat. Resetting the room...');
 
-    itemStorage.session.set('yuno-gpt-chats', []);
+    itemStorage.session.set(SESSION_STORAGE_KEY.YUNOGPT.CHAT_HISTORY, []);
     return [];
   }
 
@@ -59,8 +65,12 @@ export function meta() {
 }
 
 export async function clientLoader() {
-  let userChatTheme = itemStorage.local.get<YunoChatThemes | string>('yuno-gpt-theme');
-  const rawUserChats = itemStorage.session.get<IChatBlock[] | string>('yuno-gpt-chats');
+  let userChatTheme = itemStorage.local.get<YunoChatThemes | string>(
+    LOCAL_STORAGE_KEY.YUNOGPT.THEME
+  );
+  const rawUserChats = itemStorage.session.get<IChatBlock[] | string>(
+    SESSION_STORAGE_KEY.YUNOGPT.CHAT_HISTORY
+  );
 
   const userChats = rawUserChats ? validateRoomChat(rawUserChats) : [];
   const navbarStatus =
@@ -69,7 +79,7 @@ export async function clientLoader() {
       : YUNOGPT_WRITE_ASSETS.STATUS_TUTORIAL;
 
   if (!userChatTheme || userChatTheme === '' || !isThemeValid(userChatTheme)) {
-    itemStorage.local.set('yuno-gpt-theme', 'rose');
+    itemStorage.local.set(LOCAL_STORAGE_KEY.YUNOGPT.THEME, 'rose');
     userChatTheme = 'rose';
   }
 
@@ -86,11 +96,16 @@ export async function clientLoader() {
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const data = (await parseFormData(request)) as UserChat;
 
-  const rawUserChats = itemStorage.session.get<IChatBlock[] | string>('yuno-gpt-chats');
+  const rawUserChats = itemStorage.session.get<IChatBlock[] | string>(
+    SESSION_STORAGE_KEY.YUNOGPT.CHAT_HISTORY
+  );
   const currentChats = rawUserChats ? validateRoomChat(rawUserChats) : [];
 
   const userChatBlock: IChatBlock = { sender: 'user', chat: data.user_chat };
-  itemStorage.session.set('yuno-gpt-chats', [...currentChats, userChatBlock]);
+  itemStorage.session.set(SESSION_STORAGE_KEY.YUNOGPT.CHAT_HISTORY, [
+    ...currentChats,
+    userChatBlock,
+  ]);
 
   const delay = Math.floor(Math.random() * (4000 - 2000 + 1)) + 2000;
 
@@ -104,7 +119,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     yunoReply = response.data;
   } catch (error) {
     const finalChats = [...currentChats, userChatBlock];
-    itemStorage.session.set('yuno-gpt-chats', finalChats);
+    itemStorage.session.set(SESSION_STORAGE_KEY.YUNOGPT.CHAT_HISTORY, finalChats);
 
     handleApiResponseError(error, { withToast: true });
     return { success: false };
@@ -116,7 +131,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   };
 
   const finalChats = [...currentChats, userChatBlock, yunoChatBlock];
-  itemStorage.session.set('yuno-gpt-chats', finalChats);
+  itemStorage.session.set(SESSION_STORAGE_KEY.YUNOGPT.CHAT_HISTORY, finalChats);
 
   return { success: true };
 }
@@ -181,7 +196,7 @@ export default function YunogptToolPage({ loaderData }: Route.ComponentProps) {
   }, [loaderData.room_chats]);
 
   function changeUserTheme(theme: YunoChatThemes) {
-    itemStorage.local.set('yuno-gpt-theme', theme);
+    itemStorage.local.set(LOCAL_STORAGE_KEY.YUNOGPT.THEME, theme);
     setUserTheme({
       theme: theme,
       ...YunoThemeMaps[theme],

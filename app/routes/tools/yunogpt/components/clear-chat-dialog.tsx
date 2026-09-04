@@ -19,6 +19,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { toast } from '@/components/ui/toast';
 
+import { DIALOG_KEY, SESSION_STORAGE_KEY } from '@/constants';
+
 export default function ClearChatDialog() {
   const { isOpen, close } = useDialogStore();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,13 +29,13 @@ export default function ClearChatDialog() {
   async function handleClearChat() {
     setIsLoading(true);
     try {
-      itemStorage.session.remove('yuno-gpt-chats');
+      itemStorage.session.remove(SESSION_STORAGE_KEY.YUNOGPT.CHAT_HISTORY);
 
       revalidator.revalidate();
 
       setTimeout(() => {
         toast.success('Room chat has been cleared.');
-        close('clear_chat');
+        close(DIALOG_KEY.YUNOGPT.CLEAR_CHAT);
         setIsLoading(false);
 
         setTimeout(() => {
@@ -49,7 +51,7 @@ export default function ClearChatDialog() {
 
   function handleOpenChange(open: boolean) {
     if (!open && !isLoading) {
-      close('clear_chat');
+      close(DIALOG_KEY.YUNOGPT.CLEAR_CHAT);
       setTimeout(() => {
         document.body.style.pointerEvents = '';
       }, 250);

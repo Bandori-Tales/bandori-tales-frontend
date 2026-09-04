@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import Image from '@/components/helper/image';
 import { Text } from '@/components/helper/text';
 
-import { Bands } from '@/constants';
+import { Bands, DIALOG_KEY } from '@/constants';
 import type { BandoriStory, ReadingStatus } from '@/schemas/models';
 
 import { StoryBadge } from './badges';
@@ -115,11 +115,13 @@ export function StoryCard({
   const readStatus = story.status || 'unread';
   const Icon = storyStatusMap[readStatus].icon;
 
+  const mainBand = Bands.find((band) => band.id === story.main_band) || Bands[0];
+
   const { open: openDialog } = useDialogStore();
 
   function handleOpenDialog() {
     setSelectedStory(story);
-    openDialog('story_detail');
+    openDialog(DIALOG_KEY.STORY_TRACKER.STORY_DETAIL);
   }
 
   return isMobile ? (
@@ -139,11 +141,13 @@ export function StoryCard({
         <Icon className="size-4 stroke-2 text-white" />
       </div>
       <div className="flex h-fit w-full flex-col items-center justify-start gap-3">
-        <Image
-          src={story.story_banner || '/images/dummy.png'}
-          alt={`${story.name} Event Banner`}
-          className="h-20 w-fit shrink-0"
-        />
+        {story.story_banner_img && (
+          <Image
+            src={story.story_banner_img}
+            alt={`${story.name} Event Banner`}
+            className="h-20 w-fit shrink-0"
+          />
+        )}
         <div className="flex h-fit w-full flex-col gap-1.5">
           <Text
             type="p"
@@ -166,11 +170,7 @@ export function StoryCard({
 
       <div className="flex h-fit w-full flex-row flex-wrap items-center justify-center gap-2 border-b border-b-primary py-2 group-active:border-b-amber-400">
         <ListLabel title="Band">
-          <Image
-            src={Bands[story.main_band].icon}
-            alt={`${Bands[story.main_band].name} Icon`}
-            className="h-fit w-5"
-          />
+          <Image src={mainBand.icon} alt={`${mainBand.name} Icon`} className="h-fit w-5" />
         </ListLabel>
         <ListLabel title="Tag">
           <StoryBadge badge={story.story_tag} type="story" />
@@ -236,11 +236,13 @@ export function StoryCard({
         <Icon className="size-4 stroke-3 text-white" />
       </div>
       <div className="flex h-full w-fit shrink-0 items-center justify-center overflow-hidden rounded-lg">
-        <Image
-          src={story.story_banner || '/images/dummy.png'}
-          alt={`${story.name} Event Banner`}
-          className="h-full w-fit shrink-0 py-8 lg:py-0"
-        />
+        {story.story_banner_img && (
+          <Image
+            src={story.story_banner_img}
+            alt={`${story.name} Event Banner`}
+            className="h-full w-fit shrink-0 py-8 lg:py-0"
+          />
+        )}
       </div>
 
       <div className="flex h-full w-full flex-col items-baseline justify-between">
@@ -264,11 +266,7 @@ export function StoryCard({
         </div>
         <div className="flex h-fit w-full flex-row flex-wrap items-center justify-start gap-2">
           <ListLabel title="Band">
-            <Image
-              src={Bands[story.main_band].icon}
-              alt={`${Bands[story.main_band].name} Icon`}
-              className="h-fit w-6"
-            />
+            <Image src={mainBand.icon} alt={`${mainBand.name} Icon`} className="h-fit w-6" />
           </ListLabel>
           <ListLabel title="Tag">
             <StoryBadge badge={story.story_tag} type="story" />

@@ -12,7 +12,7 @@ import { Text } from '@/components/helper/text';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
-import { StoryTrackerCheckboxList, StoryTrackerDefaultValue } from '@/constants';
+import { DIALOG_KEY, StoryTrackerCheckboxList, StoryTrackerDefaultValue } from '@/constants';
 import { type BandoriStoryForm, BandoriStoryFormSchema } from '@/schemas/models';
 
 import {
@@ -248,9 +248,9 @@ export function StoryTrackerSidebar({
                 size="sm"
                 className="w-full hover:bg-black/10"
                 leftIcon={<Trash2 />}
-                onClick={() => openDialog('clear-tracker-filter')}
+                onClick={() => openDialog(DIALOG_KEY.STORY_TRACKER.CLEAR_FILTER)}
               >
-                Clear Filters
+                Clear Filter
               </Button>
             </div>
           </Form>

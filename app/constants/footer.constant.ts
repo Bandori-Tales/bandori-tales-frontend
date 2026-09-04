@@ -23,7 +23,7 @@ export const FooterCredits = {
   ] satisfies Credit[],
   assets: [
     {
-      name: 'Banner image from BanG Dream! Wiki',
+      name: 'Hero image from BanG Dream! Wiki',
       url: 'https://bandori.miraheze.org/wiki/BanG_Dream!_Wiki',
     },
     {

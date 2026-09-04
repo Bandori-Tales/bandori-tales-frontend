@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { YUNOGPT_WRITE_ASSETS } from '@/constants';
+import { DIALOG_KEY, YUNOGPT_WRITE_ASSETS } from '@/constants';
 
 function HomeButton() {
   return (
@@ -51,7 +51,7 @@ function OptionButton({ openDialog }: { openDialog: (value: string) => void }) {
               colors="destructive"
               leftIcon={<Trash2 className="text-white" />}
               className="w-full"
-              onClick={() => openDialog('clear_chat')}
+              onClick={() => openDialog(DIALOG_KEY.YUNOGPT.CLEAR_CHAT)}
             >
               <Text type="p" className="text-white">
                 {YUNOGPT_WRITE_ASSETS.BUTTON_CLEAR_CHAT}

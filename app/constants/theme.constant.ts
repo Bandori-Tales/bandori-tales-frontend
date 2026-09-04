@@ -2,6 +2,7 @@ export type ColorMap = 'default' | 'light-mode' | 'dark-mode';
 export type ButtonColorMap = 'logo-blue' | 'light-mode-green' | 'dark-mode-purple';
 export type ThemeType = 'layout' | 'gradient' | 'page' | 'text' | 'image' | 'button';
 
+// Need to change this someday
 export const THEME_CONFIG = {
   page: {
     default: 'bg-blue-50',

@@ -10,7 +10,12 @@ import Image from '@/components/helper/image';
 import { Text } from '@/components/helper/text';
 import { Button } from '@/components/ui/button';
 
-import { YUNOGPT_MEDIA_LIST, YUNOGPT_WRITE_ASSETS, type YunoChatThemes } from '@/constants';
+import {
+  DIALOG_KEY,
+  YUNOGPT_MEDIA_LIST,
+  YUNOGPT_WRITE_ASSETS,
+  type YunoChatThemes,
+} from '@/constants';
 
 import { ChatThemeSelector } from '../components/theme-selector';
 
@@ -133,7 +138,7 @@ function ClearChatButton({ openDialog }: { openDialog: (value: string) => void }
       colors="destructive"
       leftIcon={<Trash2 />}
       className="w-full"
-      onClick={() => openDialog('clear_chat')}
+      onClick={() => openDialog(DIALOG_KEY.YUNOGPT.CLEAR_CHAT)}
     >
       <Text type="p" className="text-white">
         {YUNOGPT_WRITE_ASSETS.BUTTON_CLEAR_CHAT}

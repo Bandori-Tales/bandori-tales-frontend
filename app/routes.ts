@@ -9,7 +9,7 @@ export default [
     route('story-tracker', 'routes/story-tracker/index.tsx'),
   ]),
 
-  // route('sandbox', 'routes/sandbox/index.tsx'),
+  // route('sandbox', 'routes/sandbox/index.tsx'), // Comment this line before push
 
   ...prefix('tools', [route('yunogpt', 'routes/tools/yunogpt/index.tsx')]),
 

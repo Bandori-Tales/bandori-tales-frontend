@@ -10,6 +10,7 @@ import { Switch } from '@/components/ui/switch';
 import {
   Bands,
   Characters,
+  LOCAL_STORAGE_KEY,
   StoryTrackerTagDescription,
   StoryTrackerTranslationDescription,
 } from '@/constants';
@@ -25,7 +26,7 @@ export function FilterSettingsSection({
   setSplitList: (split: boolean) => void;
 }) {
   const handleSplitList = (split: boolean) => {
-    itemStorage.local.set('user-track/split-list', String(split));
+    itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.SETTING_SPLIT_LIST, String(split));
     setSplitList(split);
   };
 

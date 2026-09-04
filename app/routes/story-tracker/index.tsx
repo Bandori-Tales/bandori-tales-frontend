@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 import { Text } from '@/components/helper/text';
 import { toast } from '@/components/ui/toast';
 
-import { DUMMY_STORY } from '@/constants';
+import { DUMMY_STORY, LOCAL_STORAGE_KEY } from '@/constants';
 import {
   type BandoriStory,
   type BandoriStoryForm,
@@ -31,7 +31,7 @@ function validateUserTrack(data: null | string | UserSavedTrack[], isLite?: bool
   let isInvalid = false;
 
   if (!data) {
-    itemStorage.local.set('user-track', []);
+    itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK, []);
     return [];
   }
   if (typeof data === 'string' || !Array.isArray(data)) {
@@ -48,7 +48,7 @@ function validateUserTrack(data: null | string | UserSavedTrack[], isLite?: bool
   if (isInvalid) {
     toast.warning('There is an error while parsing your data. Resetting tracker.');
 
-    itemStorage.local.set('user-track', []);
+    itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK, []);
     return [];
   }
 
@@ -61,7 +61,7 @@ function validateUserTrackFilter(data: unknown) {
   const parsed = safeParse(BandoriStoryFormSchema, data);
   if (!parsed.success) {
     toast.warning('Filter data is corrupted. Resetting filters.');
-    itemStorage.local.remove('user-track/filter');
+    itemStorage.local.remove(LOCAL_STORAGE_KEY.STORY_TRACKER.FILTER);
     return null;
   }
 
@@ -81,7 +81,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     data = (await parseFormData(request)) as BandoriStoryForm;
   }
 
-  itemStorage.local.set('user-track/filter', data);
+  itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.FILTER, data);
 
   return { success: true };
 }
@@ -89,9 +89,13 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 export function clientLoader() {
   const fetchedStories = DUMMY_STORY;
 
-  const userTrack = itemStorage.local.get<UserSavedTrack[]>('user-track');
-  const userTrackFilterRaw = itemStorage.local.get<unknown>('user-track/filter');
-  let isListSplitted = itemStorage.local.get<boolean>('user-track/split-list');
+  const userTrack = itemStorage.local.get<UserSavedTrack[]>(
+    LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK
+  );
+  const userTrackFilterRaw = itemStorage.local.get<unknown>(LOCAL_STORAGE_KEY.STORY_TRACKER.FILTER);
+  let isListSplitted = itemStorage.local.get<boolean>(
+    LOCAL_STORAGE_KEY.STORY_TRACKER.SETTING_SPLIT_LIST
+  );
 
   if (typeof isListSplitted !== 'boolean') isListSplitted = true;
 
@@ -127,24 +131,24 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
     const userDataIndex = loaderData.userTrack.findIndex((track) => track.id === id);
 
     if (userDataIndex < 0 && status !== 'unread') {
-      itemStorage.local.set('user-track', [
+      itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK, [
         ...loaderData.userTrack,
         { id, status } satisfies UserSavedTrack,
       ]);
     } else if (userDataIndex >= 0) {
       if (status === 'unread')
-        itemStorage.local.set('user-track', [
+        itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK, [
           ...loaderData.userTrack.filter((_, index) => index !== userDataIndex),
         ]);
       else
-        itemStorage.local.set('user-track', [
+        itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK, [
           ...loaderData.userTrack.slice(0, userDataIndex),
           { id, status },
           ...loaderData.userTrack.slice(userDataIndex + 1),
         ]);
     }
 
-    itemStorage.local.set('user-track/last-update', new Date(Date.now()));
+    itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.LAST_UPDATE, new Date(Date.now()));
 
     revalidate();
   }

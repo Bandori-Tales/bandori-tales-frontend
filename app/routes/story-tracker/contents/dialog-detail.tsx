@@ -18,7 +18,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { Bands, Characters, StoryTrackerTagDescription } from '@/constants';
+import { Bands, Characters, DIALOG_KEY, StoryTrackerTagDescription } from '@/constants';
 import {
   type AvailableTranslation,
   type BandoriStory,
@@ -158,14 +158,14 @@ export function DetailStoryDialog({
 
   function handleUpdateReadingStatus(id: number, status: ReadingStatus | 'unread') {
     updateReadingStatus(id, status);
-    closeDialog('story_detail');
+    closeDialog(DIALOG_KEY.STORY_TRACKER.STORY_DETAIL);
     setIsAnime(false);
     setSelectedStory(null);
   }
 
   function handleCloseDialog(open: boolean) {
     if (!open) {
-      closeDialog('story_detail');
+      closeDialog(DIALOG_KEY.STORY_TRACKER.STORY_DETAIL);
       setIsAnime(false);
       setSelectedStory(null);
     }
@@ -212,7 +212,7 @@ export function DetailStoryDialog({
               <Image
                 alt={`${selectedStory.name} banner`}
                 src={
-                  (isAnime ? selectedStory.anime_banner : selectedStory.story_banner) ||
+                  (isAnime ? selectedStory.anime_banner_img : selectedStory.story_banner_img) ||
                   '/images/dummy.png'
                 }
                 className="w-full"
@@ -226,17 +226,26 @@ export function DetailStoryDialog({
               >
                 {selectedStory.name}
               </Text>
-              {selectedStory.has_anime_eq && (
-                <Link to={selectedStory.anime_url || '#'} target="_blank" rel="noopener noreferrer">
+              {selectedStory.has_anime_eq &&
+                (selectedStory.anime_url ? (
+                  <Link to={selectedStory.anime_url} target="_blank" rel="noopener noreferrer">
+                    <Text
+                      type="p"
+                      weight="medium"
+                      className="text-center text-primary/80 underline hover:underline sm:text-left lg:no-underline"
+                    >
+                      {selectedStory.anime_name}
+                    </Text>
+                  </Link>
+                ) : (
                   <Text
                     type="p"
                     weight="medium"
-                    className="text-center text-primary/80 underline hover:underline sm:text-left lg:no-underline"
+                    className="text-center text-primary/80 sm:text-left"
                   >
                     {selectedStory.anime_name}
                   </Text>
-                </Link>
-              )}
+                ))}
               {selectedStory.category !== 'ANIME' && (
                 <div className="flex flex-row items-center justify-center gap-1 sm:justify-start">
                   {selectedStory.story_type !== 'MAIN_STORY' && (
@@ -306,14 +315,11 @@ export function DetailStoryDialog({
                 const bandDetail = Bands.find((item) => item.id === character);
                 if (!bandDetail) return;
 
-                const nickname = bandDetail.name;
-                const profilePicture = bandDetail.icon;
-
                 return (
                   <Image
                     key={`side_band_${bandDetail.id}`}
-                    alt={`${nickname} icon`}
-                    src={profilePicture}
+                    alt={`${bandDetail.name} icon`}
+                    src={bandDetail.icon}
                     className="aspect-square size-8"
                   />
                 );

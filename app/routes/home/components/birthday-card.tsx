@@ -1,6 +1,6 @@
 import type { Dayjs } from 'dayjs';
 
-import { JapanTZ, JpDate } from '@/lib/jp-date';
+import { japanDate } from '@/lib/jp-date';
 import { cn } from '@/lib/utils';
 
 import Image from '@/components/helper/image';
@@ -17,7 +17,7 @@ export function BirthdayCard({
   nickname: string | string[];
   profile_picture: string | string[];
 }) {
-  const birthdayDate = JpDate(birthdayDateString).tz(JapanTZ).startOf('day');
+  const birthdayDate = japanDate(birthdayDateString).startOf('day');
   const isBirthday =
     todayDate.startOf('day') <= birthdayDate && birthdayDate <= todayDate.startOf('day');
 

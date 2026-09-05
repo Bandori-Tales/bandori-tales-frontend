@@ -9,4 +9,8 @@ dayjs.extend(timezone);
 
 dayjs.tz.setDefault(JapanTZ);
 
-export { JapanTZ, dayjs as JpDate };
+function japanDate(date?: string | number | Date | dayjs.Dayjs | null) {
+  return dayjs(date).tz(JapanTZ);
+}
+
+export { JapanTZ, dayjs as JpDate, japanDate };

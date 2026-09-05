@@ -1,5 +1,5 @@
 import { generateMeta } from '@/lib/generate-meta';
-import { JapanTZ, JpDate } from '@/lib/jp-date';
+import { japanDate } from '@/lib/jp-date';
 
 import { type CharacterData, Characters } from '@/constants';
 
@@ -15,7 +15,7 @@ export function meta() {
 }
 
 export async function clientLoader() {
-  const todayDate = JpDate().tz(JapanTZ);
+  const todayDate = japanDate();
   const todayMonthDay = `${todayDate.format('MM-DD')}`;
   const todayYear = todayDate.year();
 

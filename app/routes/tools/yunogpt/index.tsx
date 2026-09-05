@@ -109,11 +109,39 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 
   const delay = Math.floor(Math.random() * (4000 - 2000 + 1)) + 2000;
 
+  let lastUserChat = 'No History Yet';
+  let lastYunoChat = 'No History Yet';
+  if (currentChats.length >= 2) {
+    const reversedChat = [...currentChats].reverse();
+    const lastUserChatReversedIndex = reversedChat
+      .reverse()
+      .findIndex((chat) => chat.sender === 'user');
+    const lastYunoChatReversedIndex = reversedChat
+      .reverse()
+      .findIndex((chat) => chat.sender === 'yuno');
+
+    if (lastUserChatReversedIndex > 0 && lastYunoChatReversedIndex >= 0) {
+      lastUserChat = reversedChat[lastUserChatReversedIndex].chat;
+      lastYunoChat = reversedChat[lastUserChatReversedIndex - 1].chat;
+    } else if (
+      lastUserChatReversedIndex < lastYunoChatReversedIndex &&
+      lastYunoChatReversedIndex + 1 < reversedChat.length &&
+      reversedChat[lastYunoChatReversedIndex + 1].sender === 'user'
+    ) {
+      lastUserChat = reversedChat[lastYunoChatReversedIndex + 1].chat;
+      lastYunoChat = reversedChat[lastYunoChatReversedIndex].chat;
+    }
+  }
+
   let yunoReply: string | undefined;
   try {
     const [_, response] = await Promise.all([
       new Promise((resolve) => setTimeout(resolve, delay)),
-      api.post<string>('/yunogpt', { input_text: data.user_chat }),
+      api.post<string>('/yunogpt', {
+        previous_user_input: lastUserChat,
+        previous_yuno_answer: lastYunoChat,
+        input_text: data.user_chat,
+      }),
     ]);
 
     yunoReply = response.data;

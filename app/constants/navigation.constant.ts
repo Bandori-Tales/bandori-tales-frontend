@@ -114,6 +114,13 @@ export const GameFeatures = {
   internal: [] satisfies SiteFeature[],
   other: [
     {
+      title: "Shiina Taki's Decameron",
+      description: "An interactive doujin fiction based on anime「BanG Dream! It's MyGO!!!!!」.",
+      author: '面影桥花见同好会',
+      href: 'https://store.steampowered.com/app/3269960/Shiina_Takis_Decameron',
+      profilePicture: '/images/games/other/taki_decameron.webp',
+    },
+    {
       title: 'Garupa Tower Battle',
       description:
         'A remake of the Garupa Tower Battle Minigame from BanG Dream! April Fools 2020 on the JP Server.',

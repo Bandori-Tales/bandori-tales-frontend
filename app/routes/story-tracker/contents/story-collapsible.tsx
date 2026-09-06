@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { Text } from '@/components/helper/text';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
-import type { BandoriStory, ReadingStatus } from '@/schemas/models';
+import type { BandoriStory, IReadingStatus } from '@/schemas/models';
 
 import { StoryCard } from '../components/story-card';
 
@@ -15,15 +15,19 @@ export function StoryCollapsible({
   isMobile,
   isUnread,
   items,
+  setDialogIsAnime,
+  setDialogIsAnimeOnly,
   setSelectedStory,
   updateReadingStatus,
 }: {
   sectionName: string;
   isMobile: boolean;
   isUnread: boolean;
-  items: (BandoriStory & { status?: ReadingStatus })[];
-  setSelectedStory: (story: (BandoriStory & { status?: ReadingStatus }) | null) => void;
-  updateReadingStatus: (id: number, status: ReadingStatus | 'unread') => void;
+  items: (BandoriStory & { status?: IReadingStatus })[];
+  setDialogIsAnime: (data: boolean) => void;
+  setDialogIsAnimeOnly: (data: boolean) => void;
+  setSelectedStory: (story: (BandoriStory & { status?: IReadingStatus }) | null) => void;
+  updateReadingStatus: (id: number, status: IReadingStatus | 'unread') => void;
 }) {
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(true);
 
@@ -87,6 +91,8 @@ export function StoryCollapsible({
             key={`story_${item.id}_${isUnread ? 'unread' : 'finished'}`}
             isMobile={isMobile}
             story={item}
+            setDialogIsAnime={setDialogIsAnime}
+            setDialogIsAnimeOnly={setDialogIsAnimeOnly}
             setSelectedStory={setSelectedStory}
             updateReadingStatus={updateReadingStatus}
           />

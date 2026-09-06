@@ -4,21 +4,23 @@ import { CheckCheck, Delete, FastForward, type LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 import useDialogStore from '@/hooks/store/use-dialog';
-import { cn } from '@/lib/utils';
+import { cn, handleImageUrl } from '@/lib/utils';
 
 import Image from '@/components/helper/image';
 import { Text } from '@/components/helper/text';
 
 import { Bands, DIALOG_KEY } from '@/constants';
-import type { BandoriStory, ReadingStatus } from '@/schemas/models';
+import type { BandoriStory, IReadingStatus } from '@/schemas/models';
 
 import { StoryBadge } from './badges';
 
 interface StoryCardProps {
   isMobile: boolean;
-  story: BandoriStory & { status?: ReadingStatus };
-  setSelectedStory: (story: (BandoriStory & { status?: ReadingStatus }) | null) => void;
-  updateReadingStatus: (id: number, status: ReadingStatus | 'unread') => void;
+  story: BandoriStory & { status?: IReadingStatus };
+  setSelectedStory: (story: (BandoriStory & { status?: IReadingStatus }) | null) => void;
+  setDialogIsAnime: (data: boolean) => void;
+  setDialogIsAnimeOnly: (data: boolean) => void;
+  updateReadingStatus: (id: number, status: IReadingStatus | 'unread') => void;
 }
 
 interface ListLabelProps {
@@ -28,9 +30,9 @@ interface ListLabelProps {
 
 interface UpdateStoryStatusButtonProps {
   storyId: number;
-  status: ReadingStatus | 'unread';
+  status: IReadingStatus | 'unread';
   isMobile: boolean;
-  updateReadingStatus: (id: number, status: ReadingStatus | 'unread') => void;
+  updateReadingStatus: (id: number, status: IReadingStatus | 'unread') => void;
 }
 
 const storyStatusMap: Record<
@@ -110,17 +112,23 @@ export function StoryCard({
   isMobile,
   story,
   setSelectedStory,
+  setDialogIsAnime,
+  setDialogIsAnimeOnly,
   updateReadingStatus,
 }: StoryCardProps) {
   const readStatus = story.status || 'unread';
   const Icon = storyStatusMap[readStatus].icon;
 
-  const mainBand = Bands.find((band) => band.id === story.main_band) || Bands[0];
+  const mainBand = Bands.find((band) => band.id === story.main_band) || Bands[-1];
+  const isAnimeOnly =
+    story.category === 'ANIME' || (!!story.anime_banner_img && !story.story_banner_img);
 
   const { open: openDialog } = useDialogStore();
 
   function handleOpenDialog() {
     setSelectedStory(story);
+    setDialogIsAnime(isAnimeOnly);
+    setDialogIsAnimeOnly(isAnimeOnly);
     openDialog(DIALOG_KEY.STORY_TRACKER.STORY_DETAIL);
   }
 
@@ -140,22 +148,36 @@ export function StoryCard({
       >
         <Icon className="size-4 stroke-2 text-white" />
       </div>
-      <div className="flex h-fit w-full flex-col items-center justify-start gap-3">
+      <div
+        className={cn(
+          'flex h-fit w-full flex-col items-center justify-start gap-3',
+          isAnimeOnly ? 'flex-row' : 'flex-col'
+        )}
+      >
         {story.story_banner_img && (
           <Image
-            src={story.story_banner_img}
+            src={handleImageUrl(story.story_banner_img)}
             alt={`${story.name} Event Banner`}
-            className="h-20 w-fit shrink-0"
+            className="h-20 w-60 shrink-0"
+          />
+        )}
+        {isAnimeOnly && (
+          <Image
+            src={handleImageUrl(story.anime_banner_img)}
+            alt={`${story.name} Banner`}
+            className="h-40 w-30 shrink-0"
           />
         )}
         <div className="flex h-fit w-full flex-col gap-1.5">
-          <Text
-            type="p"
-            weight="semibold"
-            className="text-center text-primary transition-colors duration-300 group-active:text-amber-500"
-          >
-            {story.name}
-          </Text>
+          {!isAnimeOnly && (
+            <Text
+              type="p"
+              weight="semibold"
+              className="text-center text-primary transition-colors duration-300 group-active:text-amber-500"
+            >
+              {story.name}
+            </Text>
+          )}
           {story.anime_name && (
             <Text
               type="btn"
@@ -221,7 +243,7 @@ export function StoryCard({
   ) : (
     <div
       className={cn(
-        'group relative flex h-36 w-full flex-row items-center justify-start gap-2 overflow-hidden rounded-xl border bg-white px-3 py-2 drop-shadow-black/50 drop-shadow-md transition-colors duration-300 active:border-amber-400 lg:h-24 lg:hover:cursor-pointer lg:hover:border-amber-400',
+        'group relative flex h-fit min-h-24 w-full flex-row items-center justify-start gap-2 overflow-hidden rounded-xl border bg-white px-3 py-2 drop-shadow-black/50 drop-shadow-md transition-colors duration-300 active:border-amber-400 lg:h-24 lg:hover:cursor-pointer lg:hover:border-amber-400',
         storyStatusMap[readStatus].border
       )}
       onClick={handleOpenDialog}
@@ -236,16 +258,24 @@ export function StoryCard({
         <Icon className="size-4 stroke-3 text-white" />
       </div>
       <div className="flex h-full w-fit shrink-0 items-center justify-center overflow-hidden rounded-lg">
-        {story.story_banner_img && (
+        {(story.story_banner_img || story.anime_banner_img) && (
           <Image
-            src={story.story_banner_img}
+            src={handleImageUrl(isAnimeOnly ? story.anime_banner_img : story.story_banner_img)}
             alt={`${story.name} Event Banner`}
-            className="h-full w-fit shrink-0 py-8 lg:py-0"
+            className={cn(
+              'w-fit shrink-0 py-0 lg:h-full',
+              isAnimeOnly ? 'h-16 w-48 overflow-hidden object-cover lg:h-30 lg:w-59' : 'h-16'
+            )}
           />
         )}
       </div>
 
-      <div className="flex h-full w-full flex-col items-baseline justify-between">
+      <div
+        className={cn(
+          'flex h-full w-full flex-col items-baseline gap-2',
+          isAnimeOnly ? 'justify-between' : 'justify-center lg:justify-between'
+        )}
+      >
         <div className="flex h-fit w-full flex-col gap-1.5">
           <Text
             type="p"

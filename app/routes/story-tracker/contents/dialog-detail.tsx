@@ -1,9 +1,9 @@
-import { ArrowLeftRight, ExternalLink, Loader2, X } from 'lucide-react';
+import { ArrowLeftRight, ChevronDown, ExternalLink, Loader2, X } from 'lucide-react';
 import { type ReactNode, useState } from 'react';
 import { Link } from 'react-router';
 
 import useDialogStore from '@/hooks/store/use-dialog';
-import { cn } from '@/lib/utils';
+import { cn, handleImageUrl } from '@/lib/utils';
 
 import Image from '@/components/helper/image';
 import { Text } from '@/components/helper/text';
@@ -22,8 +22,8 @@ import { Bands, Characters, DIALOG_KEY, StoryTrackerTagDescription } from '@/con
 import {
   type AvailableTranslation,
   type BandoriStory,
+  type IReadingStatus,
   type ITranslationSource,
-  type ReadingStatus,
   storyTagMap,
   storyTypeMap,
   translationSourceMap,
@@ -33,9 +33,12 @@ import { StoryBadgeColorMaps } from '../components/badges';
 import { UpdateStoryStatusButton } from '../components/story-card';
 
 interface DetailStoryDialogProps {
-  selectedStory: (BandoriStory & { status?: ReadingStatus }) | null;
-  setSelectedStory: (story: (BandoriStory & { status?: ReadingStatus }) | null) => void;
-  updateReadingStatus: (id: number, status: ReadingStatus | 'unread') => void;
+  isAnime: boolean;
+  isAnimeOnly: boolean;
+  selectedStory: (BandoriStory & { status?: IReadingStatus }) | null;
+  setIsAnime: (data: boolean) => void;
+  setSelectedStory: (story: (BandoriStory & { status?: IReadingStatus }) | null) => void;
+  updateReadingStatus: (id: number, status: IReadingStatus | 'unread') => void;
 }
 
 const translationButtonMap: Record<
@@ -120,13 +123,15 @@ function TranslationButton({ name, source, type, url }: AvailableTranslation) {
 }
 
 export function DetailStoryDialog({
+  isAnime,
+  isAnimeOnly,
   selectedStory,
+  setIsAnime,
   setSelectedStory,
   updateReadingStatus,
 }: DetailStoryDialogProps) {
   const { isOpen, close: closeDialog } = useDialogStore();
-  const [isAnime, setIsAnime] = useState(false);
-  const isAnimeOnly = selectedStory?.category === 'ANIME';
+  const [isBannerCollapse, setIsBannerCollapse] = useState(false);
 
   const storyBand = Bands.find((band) => band.id === selectedStory?.main_band) || null;
   const officialTl = selectedStory?.available_tl
@@ -156,10 +161,11 @@ export function DetailStoryDialog({
     detailText = `${selectedStory.story_type !== 'MAIN_STORY' ? `${storyBand?.name} ` : ''}${storyTypeMap[selectedStory.story_type]}${storyNumber !== null ? ` ${storyNumber}` : ''}`;
   }
 
-  function handleUpdateReadingStatus(id: number, status: ReadingStatus | 'unread') {
+  function handleUpdateReadingStatus(id: number, status: IReadingStatus | 'unread') {
     updateReadingStatus(id, status);
     closeDialog(DIALOG_KEY.STORY_TRACKER.STORY_DETAIL);
     setIsAnime(false);
+    setIsBannerCollapse(false);
     setSelectedStory(null);
   }
 
@@ -167,6 +173,7 @@ export function DetailStoryDialog({
     if (!open) {
       closeDialog(DIALOG_KEY.STORY_TRACKER.STORY_DETAIL);
       setIsAnime(false);
+      setIsBannerCollapse(false);
       setSelectedStory(null);
     }
   }
@@ -175,7 +182,7 @@ export function DetailStoryDialog({
     <Dialog open={isOpen.story_detail} onOpenChange={(open) => handleCloseDialog(open)}>
       {selectedStory ? (
         <DialogContent
-          className="h-160 max-w-sm bg-white sm:h-200 sm:max-w-xl lg:h-150 lg:max-w-4xl"
+          className={cn('h-160 max-w-sm bg-white sm:h-200 sm:max-w-xl lg:h-150 lg:max-w-4xl')}
           showCloseButton={false}
         >
           <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none">
@@ -211,22 +218,27 @@ export function DetailStoryDialog({
               )}
               <Image
                 alt={`${selectedStory.name} banner`}
-                src={
-                  (isAnime ? selectedStory.anime_banner_img : selectedStory.story_banner_img) ||
-                  '/images/dummy.png'
-                }
-                className="w-full"
+                src={handleImageUrl(
+                  isAnime ? selectedStory.anime_banner_img : selectedStory.story_banner_img
+                )}
+                className={cn(
+                  'h-full w-full',
+                  isAnimeOnly && isBannerCollapse ? 'max-h-20 object-cover' : 'max-h-xl'
+                )}
               />
             </div>
             <div className="flex w-full flex-col gap-2">
               <Text
                 type="st2"
                 weight="semibold"
-                className={cn('text-center text-primary sm:text-left', isAnime && 'hidden')}
+                className={cn(
+                  'text-center text-primary sm:text-left',
+                  isAnime || isAnimeOnly ? 'hidden' : ''
+                )}
               >
                 {selectedStory.name}
               </Text>
-              {selectedStory.has_anime_eq &&
+              {(selectedStory.has_anime_eq || isAnimeOnly) &&
                 (selectedStory.anime_url ? (
                   <Link to={selectedStory.anime_url} target="_blank" rel="noopener noreferrer">
                     <Text
@@ -264,6 +276,21 @@ export function DetailStoryDialog({
                     {detailText}
                   </Text>
                 </div>
+              )}
+              {isAnimeOnly && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="sm:hidden"
+                  onClick={() => setIsBannerCollapse(!isBannerCollapse)}
+                >
+                  <ChevronDown
+                    className={cn(
+                      'stroke-3 transition-all duration-300',
+                      isBannerCollapse ? 'rotate-0' : 'rotate-180'
+                    )}
+                  />
+                </Button>
               )}
             </div>
           </div>

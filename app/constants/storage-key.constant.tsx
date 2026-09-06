@@ -12,7 +12,7 @@ export const LOCAL_STORAGE_KEY = {
   STORY_TRACKER: {
     USER_READING_TRACK: 'user-track',
     FILTER: 'user-track/filter',
-    SETTING_SPLIT_LIST: 'user-track/split-list',
+    SETTING: 'user-track/setting',
     LAST_UPDATE: 'user-track/last-update',
   },
   YUNOGPT: {

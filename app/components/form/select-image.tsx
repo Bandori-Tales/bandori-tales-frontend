@@ -359,6 +359,12 @@ function SelectImage({
               </div>
             );
           })}
+        {items.filter((item) => arrayValues.includes(item.value)).length === 0 &&
+          !withOperationSwitch && (
+            <Text type="btn" weight="medium" className="col-span-6 w-full">
+              Nothing Selected..
+            </Text>
+          )}
       </button>
     </>
   );

@@ -35,8 +35,11 @@ export async function clientLoader() {
   const birthdayData: CharacterData[] = [];
 
   for (let i = 0; i < 5; i++) {
+    const character = Characters.find((item) => item.id === birthdayArray[i].id);
+    if (!character) continue;
+
     birthdayData.push({
-      ...Characters[birthdayArray[i].id - 1],
+      ...character,
       birthday_date: birthdayArray[i].birthday_date,
     });
   }

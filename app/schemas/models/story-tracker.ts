@@ -80,19 +80,33 @@ export const TranslationSource = {
 
 export const TranslationSourceSchema = v.enum(TranslationSource);
 
+export const ReadingStatus = {
+  skip: 'skip',
+  finish: 'finish',
+} as const;
+
+export const ReadingStatusSchema = v.enum(ReadingStatus);
+
+export const TrackerSettingSchema = v.object({
+  isListSplitted: v.boolean(),
+  showUnread: v.boolean(),
+  showSkipped: v.boolean(),
+  showFinished: v.boolean(),
+});
+
+export const UserSavedTrackSchema = v.object({
+  id: v.pipe(v.number(), v.integer()),
+  status: ReadingStatusSchema,
+});
+
+export const UserTrackListSchema = v.array(UserSavedTrackSchema);
+
 export const AvailableTranslationSchema = v.object({
   name: v.string(),
   source: TranslationSourceSchema,
   type: TranslationTypeSchema,
   url: v.string(),
 });
-
-export type ReadingStatus = 'skip' | 'finish';
-
-export type UserSavedTrack = {
-  id: number;
-  status: ReadingStatus;
-};
 
 export const BandoriStorySchema = v.object({
   id: v.number(),
@@ -136,21 +150,29 @@ export const BandoriStoryFormSchema = v.object({
     v.trim(),
     v.maxLength(100, 'Searched item must be less than 100 characters, including whitespaces.')
   ),
+  enable_category: v.boolean(),
   category_anime: v.boolean(),
   category_garupa: v.boolean(),
   category_ournote: v.boolean(),
+  enable_type: v.boolean(),
   type_anime: v.boolean(),
   type_main: v.boolean(),
   type_band: v.boolean(),
   type_event: v.boolean(),
+  enable_translation: v.boolean(),
   translation: v.array(TranslationTypeSchema),
   translation_operation: SearchOperationSchema,
+  enable_tag: v.boolean(),
   tag: v.array(StoryTagSchema),
-  main_band: v.array(v.pipe(v.number(), v.minValue(0), v.maxValue(12))),
-  side_band: v.array(v.pipe(v.number(), v.minValue(0), v.maxValue(12))),
+  enable_main_band: v.boolean(),
+  main_band: v.array(v.pipe(v.number(), v.minValue(1), v.maxValue(99))),
+  enable_side_band: v.boolean(),
+  side_band: v.array(v.pipe(v.number(), v.minValue(1), v.maxValue(99))),
   side_band_operation: SearchOperationSchema,
+  enable_main_character: v.boolean(),
   main_character: v.array(v.pipe(v.number(), v.minValue(1), v.maxValue(60))),
   main_character_operation: SearchOperationSchema,
+  enable_side_character: v.boolean(),
   side_character: v.array(v.pipe(v.number(), v.minValue(1), v.maxValue(60))),
   side_character_operation: SearchOperationSchema,
   order_by: v.pipe(v.string(), v.trim(), v.maxLength(20)),
@@ -164,9 +186,8 @@ export const BandoriStoryQuerySchema = v.object({
   translation: v.array(TranslationTypeSchema),
   translation_operation: SearchOperationSchema,
   tag: v.array(StoryTagSchema),
-  main_band: v.array(v.pipe(v.number(), v.minValue(0), v.maxValue(12))),
-  main_band_operation: SearchOperationSchema,
-  side_band: v.array(v.pipe(v.number(), v.minValue(0), v.maxValue(12))),
+  main_band: v.array(v.pipe(v.number(), v.minValue(1), v.maxValue(99))),
+  side_band: v.array(v.pipe(v.number(), v.minValue(1), v.maxValue(99))),
   side_band_operation: SearchOperationSchema,
   main_character: v.array(v.pipe(v.number(), v.minValue(1), v.maxValue(60))),
   main_character_operation: SearchOperationSchema,
@@ -176,12 +197,15 @@ export const BandoriStoryQuerySchema = v.object({
   order_type: v.enum(SortOperation),
 });
 
+export type IReadingStatus = v.InferInput<typeof ReadingStatusSchema>;
 export type IStoryCategory = v.InferInput<typeof StoryCategorySchema>;
 export type IStoryType = v.InferInput<typeof StoryTypeSchema>;
 export type IStoryTag = v.InferInput<typeof StoryTagSchema>;
 export type ITranslationType = v.InferInput<typeof TranslationTypeSchema>;
 export type ITranslationSource = v.InferInput<typeof TranslationSourceSchema>;
 
+export type TrackerSetting = v.InferInput<typeof TrackerSettingSchema>;
+export type UserSavedTrack = v.InferInput<typeof UserSavedTrackSchema>;
 export type AvailableTranslation = v.InferInput<typeof AvailableTranslationSchema>;
 export type BandoriStory = v.InferInput<typeof BandoriStorySchema>;
 export type BandoriStoryForm = v.InferInput<typeof BandoriStoryFormSchema>;

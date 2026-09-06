@@ -1,5 +1,3 @@
-import { itemStorage } from '@/lib/storage';
-
 import CheckboxForm from '@/components/form/checkbox';
 import { SelectImage } from '@/components/form/select-image';
 import { SelectOrderButton } from '@/components/form/select-order';
@@ -10,30 +8,62 @@ import { Switch } from '@/components/ui/switch';
 import {
   Bands,
   Characters,
-  LOCAL_STORAGE_KEY,
   StoryTrackerTagDescription,
   StoryTrackerTranslationDescription,
 } from '@/constants';
-import { StoryTag, storyTagMap, TranslationType, translationTypeMap } from '@/schemas/models';
+import {
+  StoryTag,
+  storyTagMap,
+  type TrackerSetting,
+  TranslationType,
+  translationTypeMap,
+} from '@/schemas/models';
 
 import { StoryBadgeColorMaps } from './badges';
 
 export function FilterSettingsSection({
-  splitList,
-  setSplitList,
+  settings,
+  handleUpdate,
 }: {
-  splitList: boolean;
-  setSplitList: (split: boolean) => void;
+  settings: TrackerSetting;
+  handleUpdate: (
+    data: boolean,
+    type: 'split-list' | 'show-unread' | 'show-skipped' | 'show-finished'
+  ) => void;
 }) {
-  const handleSplitList = (split: boolean) => {
-    itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.SETTING_SPLIT_LIST, String(split));
-    setSplitList(split);
-  };
-
   return (
-    <div className="flex w-full flex-row items-center justify-start gap-1">
-      <Switch checked={splitList} onClick={() => handleSplitList(!splitList)} />
-      <Label>Split Reading Status</Label>
+    <div className="flex w-full flex-col gap-2">
+      <div className="flex w-full flex-row items-center justify-start gap-1">
+        <Switch
+          checked={settings.isListSplitted}
+          onClick={() => handleUpdate(!settings.isListSplitted, 'split-list')}
+        />
+        <Label>Split Reading Status</Label>
+      </div>
+
+      <div className="flex w-full flex-row items-center justify-start gap-1">
+        <Switch
+          checked={settings.showUnread}
+          onClick={() => handleUpdate(!settings.showUnread, 'show-unread')}
+        />
+        <Label>Show Unread</Label>
+      </div>
+
+      <div className="flex w-full flex-row items-center justify-start gap-1">
+        <Switch
+          checked={settings.showSkipped}
+          onClick={() => handleUpdate(!settings.showSkipped, 'show-skipped')}
+        />
+        <Label>Show Skipped</Label>
+      </div>
+
+      <div className="flex w-full flex-row items-center justify-start gap-1">
+        <Switch
+          checked={settings.showFinished}
+          onClick={() => handleUpdate(!settings.showFinished, 'show-finished')}
+        />
+        <Label>Show Finished</Label>
+      </div>
     </div>
   );
 }

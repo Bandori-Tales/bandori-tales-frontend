@@ -1,20 +1,26 @@
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { ChevronDown, Funnel, Trash2, X } from 'lucide-react';
 import { type ReactNode, useState } from 'react';
-import { Form, useRevalidator, useSubmit } from 'react-router';
+import { Form, useLoaderData, useRevalidator, useSubmit } from 'react-router';
 import { RemixFormProvider, useRemixForm } from 'remix-hook-form';
 
 import useDialogStore from '@/hooks/store/use-dialog';
 import { cn } from '@/lib/utils';
 
+import CheckboxForm from '@/components/form/checkbox';
 import InputForm from '@/components/form/input';
 import { Text } from '@/components/helper/text';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 import { DIALOG_KEY, StoryTrackerCheckboxList, StoryTrackerDefaultValue } from '@/constants';
-import { type BandoriStoryForm, BandoriStoryFormSchema } from '@/schemas/models';
+import {
+  type BandoriStoryForm,
+  BandoriStoryFormSchema,
+  type TrackerSetting,
+} from '@/schemas/models';
 
+import type { clientLoader } from '..';
 import {
   ClearFilterDialog,
   FilterCheckboxes,
@@ -29,16 +35,19 @@ import {
 } from '../components/sidebar-form';
 
 interface StoryTrackerSidebarProps {
-  isMobile: boolean;
-  splitList: boolean;
-  setSplitList: (split: boolean) => void;
-  filterData?: BandoriStoryForm | null;
+  settings: TrackerSetting;
+  handleSettingsUpdate: (
+    data: boolean,
+    type: 'split-list' | 'show-unread' | 'show-skipped' | 'show-finished'
+  ) => void;
 }
 
 interface SidebarFilterSectionProps {
   title: string;
   fullWidth?: boolean;
   isCollapsible?: boolean;
+  withEnableCheckbox?: boolean;
+  sectionCheckboxFieldName?: string;
   children: ReactNode;
 }
 
@@ -46,6 +55,8 @@ function SidebarFilterSection({
   title,
   fullWidth,
   isCollapsible,
+  withEnableCheckbox = false,
+  sectionCheckboxFieldName,
   children,
 }: SidebarFilterSectionProps) {
   const [isOpen, setIsOpen] = useState(true);
@@ -60,26 +71,34 @@ function SidebarFilterSection({
       )}
     >
       {isCollapsible ? (
-        <CollapsibleTrigger className="flex w-full flex-row items-center justify-between">
-          <Text
-            type="btn"
-            weight="semibold"
-            lineHeight={5}
-            className="text-nowrap text-primary transition-all duration-300 group-hover:text-amber-500"
-          >
-            {title}
-          </Text>
+        <div className="flex w-full flex-row items-center justify-start gap-1.5 p-0">
+          {withEnableCheckbox && sectionCheckboxFieldName && (
+            <CheckboxForm name={sectionCheckboxFieldName} />
+          )}
+          <CollapsibleTrigger className="flex w-full flex-row items-center justify-between">
+            <Text
+              type="btn"
+              weight="semibold"
+              lineHeight={5}
+              className="text-nowrap text-primary transition-all duration-300 group-hover:text-amber-500"
+            >
+              {title}
+            </Text>
 
-          <ChevronDown
-            className={cn(
-              'size-5 stroke-2 text-primary transition-all duration-300 group-hover:text-amber-500',
-              isOpen ? 'rotate-0' : 'rotate-180',
-              isCollapsible ? undefined : 'hidden'
-            )}
-          />
-        </CollapsibleTrigger>
+            <ChevronDown
+              className={cn(
+                'size-5 stroke-2 text-primary transition-all duration-300 group-hover:text-amber-500',
+                isOpen ? 'rotate-0' : 'rotate-180',
+                isCollapsible ? undefined : 'hidden'
+              )}
+            />
+          </CollapsibleTrigger>
+        </div>
       ) : (
-        <div className="flex w-full flex-row items-center justify-between">
+        <div className="flex w-full flex-row items-center justify-start">
+          {withEnableCheckbox && sectionCheckboxFieldName && (
+            <CheckboxForm name={sectionCheckboxFieldName} />
+          )}
           <Text type="btn" weight="semibold" lineHeight={5} className="text-nowrap text-primary">
             {title}
           </Text>
@@ -87,7 +106,7 @@ function SidebarFilterSection({
       )}
       <CollapsibleContent
         className={cn(
-          fullWidth ? 'px-0' : 'pl-3',
+          fullWidth ? 'px-0' : 'pl-6',
           'data-[state=closed]:slide-out-to-top-10 data-[state=closed]:fade-out-0 data-[state=open]:slide-in-from-top-10 data-[state=open]:fade-in-0 pt-1 data-[state=closed]:animate-out data-[state=open]:animate-in'
         )}
       >
@@ -97,11 +116,9 @@ function SidebarFilterSection({
   );
 }
 
-export function StoryTrackerSidebar({
-  splitList,
-  setSplitList,
-  filterData,
-}: StoryTrackerSidebarProps) {
+export function StoryTrackerSidebar({ settings, handleSettingsUpdate }: StoryTrackerSidebarProps) {
+  const { userTrackFilter } = useLoaderData<typeof clientLoader>();
+
   const [isExpand, setIsExpand] = useState(false);
   const { open: openDialog } = useDialogStore();
   const revalidator = useRevalidator();
@@ -109,7 +126,7 @@ export function StoryTrackerSidebar({
   const submit = useSubmit();
   const methods = useRemixForm<BandoriStoryForm>({
     mode: 'onBlur',
-    defaultValues: filterData || StoryTrackerDefaultValue,
+    defaultValues: userTrackFilter || StoryTrackerDefaultValue,
     submitHandlers: {
       onValid: (data) => {
         submit(data, { method: 'POST', encType: 'application/json' });
@@ -156,7 +173,7 @@ export function StoryTrackerSidebar({
 
       <aside
         className={cn(
-          'fixed top-0 flex h-full w-64 flex-col items-center justify-start border-l border-l-primary bg-white pt-3 pb-2 transition-all duration-300 lg:pt-16',
+          'fixed top-0 flex h-full w-75 flex-col items-center justify-start border-l border-l-primary bg-white pt-3 pb-2 transition-all duration-300 lg:pt-16',
           isExpand ? 'right-0 z-50 opacity-100 lg:z-25' : '-right-80 z-0 opacity-0'
         )}
       >
@@ -189,44 +206,84 @@ export function StoryTrackerSidebar({
                   <InputForm type="text" name="search" placeholder="search" />
                 </SidebarFilterSection>
 
-                <SidebarFilterSection title="Sort" isCollapsible fullWidth>
-                  <FilterSort />
-                </SidebarFilterSection>
-
                 <SidebarFilterSection title="Settings" isCollapsible>
-                  <FilterSettingsSection splitList={splitList} setSplitList={setSplitList} />
+                  <FilterSettingsSection settings={settings} handleUpdate={handleSettingsUpdate} />
                 </SidebarFilterSection>
 
-                <SidebarFilterSection title="Category" isCollapsible>
+                <SidebarFilterSection
+                  title="Category"
+                  isCollapsible
+                  withEnableCheckbox
+                  sectionCheckboxFieldName="enable_category"
+                >
                   <FilterCheckboxes items={StoryTrackerCheckboxList.category} />
                 </SidebarFilterSection>
 
-                <SidebarFilterSection title="Type" isCollapsible>
+                <SidebarFilterSection
+                  title="Type"
+                  isCollapsible
+                  withEnableCheckbox
+                  sectionCheckboxFieldName="enable_type"
+                >
                   <FilterCheckboxes items={StoryTrackerCheckboxList.type} />
                 </SidebarFilterSection>
 
-                <SidebarFilterSection title="Tag" isCollapsible>
+                <SidebarFilterSection
+                  title="Tag"
+                  isCollapsible
+                  withEnableCheckbox
+                  sectionCheckboxFieldName="enable_tag"
+                >
                   <FilterStoryTag />
                 </SidebarFilterSection>
 
-                <SidebarFilterSection title="Translation" isCollapsible>
+                <SidebarFilterSection
+                  title="Translation"
+                  isCollapsible
+                  withEnableCheckbox
+                  sectionCheckboxFieldName="enable_translation"
+                >
                   <FilterTranslationType />
                 </SidebarFilterSection>
 
-                <SidebarFilterSection title="Main Band" isCollapsible>
+                <SidebarFilterSection
+                  title="Main Band"
+                  isCollapsible
+                  withEnableCheckbox
+                  sectionCheckboxFieldName="enable_main_band"
+                >
                   <FilterMainBand />
                 </SidebarFilterSection>
 
-                <SidebarFilterSection title="Side Bands" isCollapsible>
+                <SidebarFilterSection
+                  title="Side Bands"
+                  isCollapsible
+                  withEnableCheckbox
+                  sectionCheckboxFieldName="enable_side_band"
+                >
                   <FilterSideBand />
                 </SidebarFilterSection>
 
-                <SidebarFilterSection title="Main Characters" isCollapsible>
+                <SidebarFilterSection
+                  title="Main Characters"
+                  isCollapsible
+                  withEnableCheckbox
+                  sectionCheckboxFieldName="enable_main_character"
+                >
                   <FilterMainCharacter />
                 </SidebarFilterSection>
 
-                <SidebarFilterSection title="Side Characters" isCollapsible>
+                <SidebarFilterSection
+                  title="Side Characters"
+                  isCollapsible
+                  withEnableCheckbox
+                  sectionCheckboxFieldName="enable_side_character"
+                >
                   <FilterSideCharacter />
+                </SidebarFilterSection>
+
+                <SidebarFilterSection title="Sort" isCollapsible fullWidth>
+                  <FilterSort />
                 </SidebarFilterSection>
               </div>
             </div>

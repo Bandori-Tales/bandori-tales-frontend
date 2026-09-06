@@ -1,72 +1,30 @@
 import { ExternalLink } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { Link, useRevalidator } from 'react-router';
+import { Link } from 'react-router';
 import { parseFormData } from 'remix-hook-form';
-import { safeParse } from 'valibot';
 
 import { useIsMobile } from '@/hooks/use-mobile';
+import { api } from '@/lib/axios';
 import { generateMeta } from '@/lib/generate-meta';
 import { itemStorage } from '@/lib/storage';
 import { cn } from '@/lib/utils';
 
 import { Text } from '@/components/helper/text';
-import { toast } from '@/components/ui/toast';
 
-import { DUMMY_STORY, LOCAL_STORAGE_KEY } from '@/constants';
-import {
-  type BandoriStory,
-  type BandoriStoryForm,
-  BandoriStoryFormSchema,
-  type ReadingStatus,
-  type UserSavedTrack,
-} from '@/schemas/models';
+import { LOCAL_STORAGE_KEY } from '@/constants';
+import type { BandoriStory, BandoriStoryForm, IReadingStatus } from '@/schemas/models';
 
 import type { Route } from './+types';
 import { StoryCard } from './components/story-card';
 import { DetailStoryDialog } from './contents/dialog-detail';
 import { StoryTrackerSidebar } from './contents/sidebar';
 import { StoryCollapsible } from './contents/story-collapsible';
-
-function validateUserTrack(data: null | string | UserSavedTrack[], isLite?: boolean) {
-  let isInvalid = false;
-
-  if (!data) {
-    itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK, []);
-    return [];
-  }
-  if (typeof data === 'string' || !Array.isArray(data)) {
-    isInvalid = true;
-  } else if (!isLite) {
-    for (const item of data) {
-      if (typeof item.id !== 'number' || (item.status !== 'finish' && item.status !== 'skip')) {
-        isInvalid = true;
-        break;
-      }
-    }
-  }
-
-  if (isInvalid) {
-    toast.warning('There is an error while parsing your data. Resetting tracker.');
-
-    itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK, []);
-    return [];
-  }
-
-  return data as UserSavedTrack[];
-}
-
-function validateUserTrackFilter(data: unknown) {
-  if (!data) return null;
-
-  const parsed = safeParse(BandoriStoryFormSchema, data);
-  if (!parsed.success) {
-    toast.warning('Filter data is corrupted. Resetting filters.');
-    itemStorage.local.remove(LOCAL_STORAGE_KEY.STORY_TRACKER.FILTER);
-    return null;
-  }
-
-  return parsed.output;
-}
+import { getTrackerFilter, getTrackerReadingList, getTrackerSetting } from './hook/get-tracker';
+import {
+  buildStoryQuery,
+  handleSettingUpdate,
+  handleUpdateReadingStatus,
+} from './hook/tracker-utils';
 
 export function meta() {
   return generateMeta({ title: 'Story Tracker' });
@@ -86,72 +44,59 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   return { success: true };
 }
 
-export function clientLoader() {
-  const fetchedStories = DUMMY_STORY;
+export async function clientLoader() {
+  const userTrack = getTrackerReadingList();
+  const userTrackFilter = getTrackerFilter();
+  const userTrackSetting = getTrackerSetting();
 
-  const userTrack = itemStorage.local.get<UserSavedTrack[]>(
-    LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK
-  );
-  const userTrackFilterRaw = itemStorage.local.get<unknown>(LOCAL_STORAGE_KEY.STORY_TRACKER.FILTER);
-  let isListSplitted = itemStorage.local.get<boolean>(
-    LOCAL_STORAGE_KEY.STORY_TRACKER.SETTING_SPLIT_LIST
-  );
-
-  if (typeof isListSplitted !== 'boolean') isListSplitted = true;
-
-  const cleanedUserTrack = validateUserTrack(userTrack);
-  const userTrackFilter = validateUserTrackFilter(userTrackFilterRaw);
+  const fetchedStories = await api.get<BandoriStory[]>('/story-tracker', {
+    params: buildStoryQuery(userTrackFilter),
+  });
 
   return {
-    fetchedStories,
-    userTrack: cleanedUserTrack,
+    fetchedStories: fetchedStories.data,
+    userTrack,
     userTrackFilter,
-    isListSplitted,
+    userTrackSetting,
   };
 }
 
 export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
   const isMobile = useIsMobile();
-  const { revalidate } = useRevalidator();
-  const [isListSplitted, setIsListSplitted] = useState(loaderData.isListSplitted);
+  const [settings, setSettings] = useState(loaderData.userTrackSetting);
+  const [userTrack, setUserTrack] = useState(loaderData.userTrack);
+  const [dialogIsAnime, setDialogIsAnime] = useState(false);
+  const [dialogIsAnimeOnly, setDialogIsAnimeOnly] = useState(false);
+
   const [selectedStory, setSelectedStory] = useState<
-    (BandoriStory & { status?: ReadingStatus }) | null
+    (BandoriStory & { status?: IReadingStatus }) | null
   >(null);
 
-  const stories: (BandoriStory & { status?: ReadingStatus })[] = useMemo(() => {
-    return loaderData.fetchedStories.map((story) => {
-      return {
-        ...story,
-        status: loaderData.userTrack.find((track) => track.id === story.id)?.status,
-      };
-    });
-  }, [loaderData.fetchedStories, loaderData.userTrack]);
+  const stories: (BandoriStory & { status?: IReadingStatus })[] = useMemo(() => {
+    return loaderData.fetchedStories
+      .map((story) => {
+        return {
+          ...story,
+          status: userTrack.find((track) => track.id === story.id)?.status,
+        };
+      })
+      .filter((story) => {
+        if (!settings.showUnread && story.status !== 'skip' && story.status !== 'finish')
+          return false;
+        if (!settings.showSkipped && story.status === 'skip') return false;
+        if (!settings.showFinished && story.status === 'finish') return false;
+        return true;
+      });
+  }, [
+    loaderData.fetchedStories,
+    userTrack,
+    settings.showUnread,
+    settings.showSkipped,
+    settings.showFinished,
+  ]);
 
-  function updateReadingStatus(id: number, status: ReadingStatus | 'unread') {
-    const userDataIndex = loaderData.userTrack.findIndex((track) => track.id === id);
-
-    if (userDataIndex < 0 && status !== 'unread') {
-      itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK, [
-        ...loaderData.userTrack,
-        { id, status } satisfies UserSavedTrack,
-      ]);
-    } else if (userDataIndex >= 0) {
-      if (status === 'unread')
-        itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK, [
-          ...loaderData.userTrack.filter((_, index) => index !== userDataIndex),
-        ]);
-      else
-        itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK, [
-          ...loaderData.userTrack.slice(0, userDataIndex),
-          { id, status },
-          ...loaderData.userTrack.slice(userDataIndex + 1),
-        ]);
-    }
-
-    itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.LAST_UPDATE, new Date(Date.now()));
-
-    revalidate();
-  }
+  const settingsUpdate = handleSettingUpdate(settings, setSettings);
+  const updateReadingStatus = handleUpdateReadingStatus(userTrack, setUserTrack);
 
   return (
     <div
@@ -161,6 +106,9 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
       )}
     >
       <DetailStoryDialog
+        isAnime={dialogIsAnime}
+        isAnimeOnly={dialogIsAnimeOnly}
+        setIsAnime={setDialogIsAnime}
         selectedStory={selectedStory}
         setSelectedStory={setSelectedStory}
         updateReadingStatus={updateReadingStatus}
@@ -182,19 +130,16 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
           </Link>
         }
       </Text>
-      <StoryTrackerSidebar
-        isMobile={isMobile}
-        splitList={isListSplitted}
-        setSplitList={setIsListSplitted}
-        filterData={loaderData.userTrackFilter}
-      />
-      {isListSplitted ? (
+      <StoryTrackerSidebar settings={settings} handleSettingsUpdate={settingsUpdate} />
+      {settings.isListSplitted ? (
         <>
           <StoryCollapsible
             sectionName="Unfinished"
             isMobile={isMobile}
             isUnread
             items={stories}
+            setDialogIsAnime={setDialogIsAnime}
+            setDialogIsAnimeOnly={setDialogIsAnimeOnly}
             setSelectedStory={setSelectedStory}
             updateReadingStatus={updateReadingStatus}
           />
@@ -203,6 +148,8 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
             isMobile={isMobile}
             isUnread={false}
             items={stories}
+            setDialogIsAnime={setDialogIsAnime}
+            setDialogIsAnimeOnly={setDialogIsAnimeOnly}
             setSelectedStory={setSelectedStory}
             updateReadingStatus={updateReadingStatus}
           />
@@ -213,6 +160,8 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
             key={`story_${story.id}`}
             isMobile={isMobile}
             story={story}
+            setDialogIsAnime={setDialogIsAnime}
+            setDialogIsAnimeOnly={setDialogIsAnimeOnly}
             setSelectedStory={setSelectedStory}
             updateReadingStatus={updateReadingStatus}
           />

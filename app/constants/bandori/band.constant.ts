@@ -15,19 +15,6 @@ export interface BandData {
 
 export const Bands: BandData[] = [
   {
-    id: 0,
-    name: 'Mixed',
-    catchphrase: '',
-    description: '',
-    background: '',
-    icon: 'images/bands/mixed_icon.webp',
-    logo: 'images/bands/mixed_logo.webp',
-    color: '#FFFFFF',
-    colorDark: '#020618',
-    isMixed: true,
-    displayInTracker: true,
-  },
-  {
     id: 1,
     name: "Poppin'Party",
     catchphrase: 'Sparkling and heart-pounding!',
@@ -194,5 +181,18 @@ export const Bands: BandData[] = [
     colorDark: '#FFAA33',
     displayInTracker: true,
     character_ids: [58, 59, 56, 60, 57],
+  },
+  {
+    id: 99,
+    name: 'Mixed',
+    catchphrase: '',
+    description: '',
+    background: '',
+    icon: 'images/bands/mixed_icon.webp',
+    logo: 'images/bands/mixed_logo.webp',
+    color: '#FFFFFF',
+    colorDark: '#020618',
+    isMixed: true,
+    displayInTracker: true,
   },
 ];

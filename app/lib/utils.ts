@@ -4,8 +4,24 @@ import { twMerge } from 'tailwind-merge';
 
 import { toast } from '@/components/ui/toast';
 
+import { BASE_URL } from './axios';
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function handleImageUrl(url?: string | null) {
+  if (!url) return '';
+
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+
+  if (url.includes('uploads') || url.startsWith('/')) {
+    return `${BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
+  }
+
+  return url;
 }
 
 export function handleApiResponseError(

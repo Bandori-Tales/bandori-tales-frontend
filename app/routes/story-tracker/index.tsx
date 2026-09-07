@@ -7,7 +7,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { api } from '@/lib/axios';
 import { generateMeta } from '@/lib/generate-meta';
 import { itemStorage } from '@/lib/storage';
-import { cn } from '@/lib/utils';
+import { cn, handleApiResponseError } from '@/lib/utils';
 
 import { Text } from '@/components/helper/text';
 
@@ -49,12 +49,21 @@ export async function clientLoader() {
   const userTrackFilter = getTrackerFilter();
   const userTrackSetting = getTrackerSetting();
 
-  const fetchedStories = await api.get<BandoriStory[]>('/story-tracker', {
-    params: buildStoryQuery(userTrackFilter),
-  });
+  let fetchedStories: BandoriStory[] = [];
+
+  try {
+    const response = await api.get<BandoriStory[]>('/story-tracker', {
+      params: buildStoryQuery(userTrackFilter),
+    });
+
+    fetchedStories = response.data;
+  } catch (error) {
+    handleApiResponseError(error, { withToast: true });
+    fetchedStories = [];
+  }
 
   return {
-    fetchedStories: fetchedStories.data,
+    fetchedStories,
     userTrack,
     userTrackFilter,
     userTrackSetting,

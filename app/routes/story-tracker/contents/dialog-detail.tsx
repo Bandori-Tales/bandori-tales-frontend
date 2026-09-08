@@ -179,7 +179,10 @@ export function DetailStoryDialog({
   }
 
   return (
-    <Dialog open={isOpen.story_detail} onOpenChange={(open) => handleCloseDialog(open)}>
+    <Dialog
+      open={isOpen[DIALOG_KEY.STORY_TRACKER.STORY_DETAIL]}
+      onOpenChange={(open) => handleCloseDialog(open)}
+    >
       {selectedStory ? (
         <DialogContent
           className={cn('h-160 max-w-sm bg-white sm:h-200 sm:max-w-xl lg:h-150 lg:max-w-4xl')}
@@ -417,6 +420,12 @@ export function DetailStoryDialog({
                 </DetailSection>
               </>
             )}
+
+            <DetailSection title="Notes">
+              <Text type="btn" lineHeight={5} weight="medium" className="text-slate-700">
+                {selectedStory.notes}
+              </Text>
+            </DetailSection>
           </div>
 
           <DialogFooter className="flex h-full w-full flex-row items-end justify-center">

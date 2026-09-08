@@ -36,7 +36,7 @@ export default function CheckboxForm({
       name={name}
       render={({ field }) => (
         <FormItem className="text-start">
-          <div className={cn(label && 'flex items-center gap-3', classNames?.wrapper)}>
+          <div className={cn(label && 'flex items-center gap-2', classNames?.wrapper)}>
             <FormControl>
               <Checkbox
                 disabled={isDisabled}

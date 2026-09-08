@@ -1,6 +1,7 @@
 export const DIALOG_KEY = {
   STORY_TRACKER: {
-    STORY_DETAIL: 'story_detail',
+    STORY_DETAIL: 'story-detail',
+    BULK_ACTION: 'story-bulk-action',
     CLEAR_FILTER: 'clear-tracker-filter',
   },
   YUNOGPT: {

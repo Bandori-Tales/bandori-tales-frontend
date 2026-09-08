@@ -26,6 +26,7 @@ type GeneralDialogProps = {
   onCancel?: () => void;
   confirmClassName?: string;
   cancelClassname?: string;
+  disabledConfirm?: boolean;
   children?: React.ReactNode;
 };
 
@@ -40,6 +41,7 @@ export default function GeneralDialog({
   onCancel,
   confirmClassName = '',
   cancelClassname = '',
+  disabledConfirm = false,
   children,
 }: GeneralDialogProps) {
   const { isOpen, close } = useDialogStore();
@@ -101,7 +103,7 @@ export default function GeneralDialog({
           )}
           <AlertDialogAction
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || disabledConfirm}
             className={cn(confirmClassName, isSubmitting && 'cursor-not-allowed opacity-70')}
             onClick={handleConfirm}
           >

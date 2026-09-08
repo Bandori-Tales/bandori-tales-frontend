@@ -1,5 +1,5 @@
 import { ChevronsDown } from 'lucide-react';
-import { useState } from 'react';
+import { type RefObject, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -15,6 +15,7 @@ export function StoryCollapsible({
   isMobile,
   isUnread,
   items,
+  ref,
   setDialogIsAnime,
   setDialogIsAnimeOnly,
   setSelectedStory,
@@ -24,6 +25,7 @@ export function StoryCollapsible({
   isMobile: boolean;
   isUnread: boolean;
   items: (BandoriStory & { status?: IReadingStatus })[];
+  ref?: RefObject<HTMLDivElement | null>;
   setDialogIsAnime: (data: boolean) => void;
   setDialogIsAnimeOnly: (data: boolean) => void;
   setSelectedStory: (story: (BandoriStory & { status?: IReadingStatus }) | null) => void;
@@ -43,11 +45,12 @@ export function StoryCollapsible({
 
   return (
     <Collapsible
-      className="pb-6 transition-all duration-300"
+      ref={ref}
+      className="scroll-mt-6 pb-6 transition-all duration-300 md:scroll-mt-15"
       open={isCollapsibleOpen}
       onOpenChange={inverseCollapsibleState}
     >
-      <CollapsibleTrigger className="group mb-4 flex h-fit w-full flex-row-reverse items-center justify-center gap-2.5 border-b py-2 lg:flex-row">
+      <CollapsibleTrigger className="group mb-4 flex h-fit w-full flex-row-reverse items-center justify-center gap-2.5 py-2 lg:flex-row">
         <Text
           type="t"
           weight="semibold"

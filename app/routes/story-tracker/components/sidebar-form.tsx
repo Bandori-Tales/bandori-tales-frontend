@@ -1,13 +1,20 @@
+import { MessageSquareShare } from 'lucide-react';
+import type { ReactNode } from 'react';
+
+import useDialogStore from '@/hooks/store/use-dialog';
+
 import CheckboxForm from '@/components/form/checkbox';
 import { SelectImage } from '@/components/form/select-image';
 import { SelectOrderButton } from '@/components/form/select-order';
 import GeneralDialog from '@/components/shared/general-dialog';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
 import {
   Bands,
   Characters,
+  DIALOG_KEY,
   StoryTrackerTagDescription,
   StoryTrackerTranslationDescription,
 } from '@/constants';
@@ -31,39 +38,55 @@ export function FilterSettingsSection({
     type: 'split-list' | 'show-unread' | 'show-skipped' | 'show-finished'
   ) => void;
 }) {
+  const { open: openDialog } = useDialogStore();
+  function SettingItem({ label, children }: { label: string; children: ReactNode }) {
+    return (
+      <div className="flex flex-col gap-1">
+        <Label className="text-sm leading-3">{label}</Label>
+        {children}
+      </div>
+    );
+  }
+
   return (
-    <div className="flex w-full flex-col gap-2">
-      <div className="flex w-full flex-row items-center justify-start gap-1">
+    <div className="flex w-full flex-col gap-2.5">
+      <SettingItem label="Split List">
         <Switch
           checked={settings.isListSplitted}
           onClick={() => handleUpdate(!settings.isListSplitted, 'split-list')}
         />
-        <Label>Split Reading Status</Label>
-      </div>
+      </SettingItem>
 
-      <div className="flex w-full flex-row items-center justify-start gap-1">
+      <SettingItem label="Show Unread">
         <Switch
           checked={settings.showUnread}
           onClick={() => handleUpdate(!settings.showUnread, 'show-unread')}
         />
-        <Label>Show Unread</Label>
-      </div>
+      </SettingItem>
 
-      <div className="flex w-full flex-row items-center justify-start gap-1">
+      <SettingItem label="Show Skipped">
         <Switch
           checked={settings.showSkipped}
           onClick={() => handleUpdate(!settings.showSkipped, 'show-skipped')}
         />
-        <Label>Show Skipped</Label>
-      </div>
+      </SettingItem>
 
-      <div className="flex w-full flex-row items-center justify-start gap-1">
+      <SettingItem label="Show Finished">
         <Switch
           checked={settings.showFinished}
           onClick={() => handleUpdate(!settings.showFinished, 'show-finished')}
         />
-        <Label>Show Finished</Label>
-      </div>
+      </SettingItem>
+
+      <SettingItem label="Batch Update">
+        <Button
+          size="sm"
+          leftIcon={<MessageSquareShare />}
+          onClick={() => openDialog(DIALOG_KEY.STORY_TRACKER.BULK_ACTION)}
+        >
+          Open
+        </Button>
+      </SettingItem>
     </div>
   );
 }

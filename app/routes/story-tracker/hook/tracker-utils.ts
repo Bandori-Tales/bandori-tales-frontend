@@ -2,8 +2,11 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import { itemStorage } from '@/lib/storage';
 
+import { toast } from '@/components/ui/toast';
+
 import { LOCAL_STORAGE_KEY } from '@/constants';
 import type {
+  BandoriStory,
   BandoriStoryForm,
   IReadingStatus,
   TrackerSetting,
@@ -156,4 +159,60 @@ export const handleUpdateReadingStatus =
 
     itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK, updatedTrack);
     itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.LAST_UPDATE, new Date(Date.now()));
+  };
+
+export const handleBulkUpdateReadingStatus =
+  (
+    stories: (BandoriStory & { status?: IReadingStatus })[],
+    userTrack: UserSavedTrack[],
+    revalidate: () => Promise<void>
+  ) =>
+  (target: IReadingStatus | ('unread' | 'all'), updatedStatus: IReadingStatus | 'unread') => {
+    const filteredStories =
+      target === 'all'
+        ? stories
+        : stories.filter((story) => {
+            switch (target) {
+              case 'skip':
+                return story.status === 'skip';
+              case 'finish':
+                return story.status === 'finish';
+              case 'unread':
+                return story.status !== 'skip' && story.status !== 'finish';
+            }
+          });
+
+    const updatedTrack: UserSavedTrack[] = userTrack;
+
+    switch (updatedStatus) {
+      case 'skip': {
+        for (const story of filteredStories) {
+          const trackIndex = updatedTrack.findIndex((track) => track.id === story.id);
+          if (trackIndex < 0) updatedTrack.push({ id: story.id, status: 'skip' });
+          else updatedTrack[trackIndex].status = 'skip';
+        }
+        break;
+      }
+      case 'finish': {
+        for (const story of filteredStories) {
+          const trackIndex = updatedTrack.findIndex((track) => track.id === story.id);
+          if (trackIndex < 0) updatedTrack.push({ id: story.id, status: 'finish' });
+          else updatedTrack[trackIndex].status = 'finish';
+        }
+        break;
+      }
+      case 'unread': {
+        for (const story of filteredStories) {
+          const trackIndex = updatedTrack.findIndex((track) => track.id === story.id);
+          if (trackIndex >= 0) updatedTrack.splice(trackIndex, 1);
+        }
+        break;
+      }
+    }
+
+    itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK, updatedTrack);
+    itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.LAST_UPDATE, new Date(Date.now()));
+    toast.success(`${filteredStories.length} stories status has been updated to ${updatedStatus}`);
+
+    revalidate();
   };

@@ -1,6 +1,6 @@
 import { ExternalLink } from 'lucide-react';
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router';
+import { useMemo, useRef, useState } from 'react';
+import { Link, useRevalidator } from 'react-router';
 import { parseFormData } from 'remix-hook-form';
 
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -15,13 +15,16 @@ import { LOCAL_STORAGE_KEY } from '@/constants';
 import type { BandoriStory, BandoriStoryForm, IReadingStatus } from '@/schemas/models';
 
 import type { Route } from './+types';
+import { ScrollNavigation } from './components/move-button';
 import { StoryCard } from './components/story-card';
+import { BulkActionDialog } from './contents/dialog-bulk-action';
 import { DetailStoryDialog } from './contents/dialog-detail';
 import { StoryTrackerSidebar } from './contents/sidebar';
 import { StoryCollapsible } from './contents/story-collapsible';
 import { getTrackerFilter, getTrackerReadingList, getTrackerSetting } from './hook/get-tracker';
 import {
   buildStoryQuery,
+  handleBulkUpdateReadingStatus,
   handleSettingUpdate,
   handleUpdateReadingStatus,
 } from './hook/tracker-utils';
@@ -72,6 +75,8 @@ export async function clientLoader() {
 
 export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
   const isMobile = useIsMobile();
+  const { revalidate } = useRevalidator();
+
   const [settings, setSettings] = useState(loaderData.userTrackSetting);
   const [userTrack, setUserTrack] = useState(loaderData.userTrack);
   const [dialogIsAnime, setDialogIsAnime] = useState(false);
@@ -104,8 +109,13 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
     settings.showFinished,
   ]);
 
+  const edgeRef = useRef<HTMLDivElement>(null);
+  const unreadRef = useRef<HTMLDivElement>(null);
+  const finishedRef = useRef<HTMLDivElement>(null);
+
   const settingsUpdate = handleSettingUpdate(settings, setSettings);
   const updateReadingStatus = handleUpdateReadingStatus(userTrack, setUserTrack);
+  const updateBlukReadingStatus = handleBulkUpdateReadingStatus(stories, userTrack, revalidate);
 
   return (
     <div
@@ -113,7 +123,9 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
         'flex min-h-screen w-full flex-col gap-3 bg-linear-to-t from-rose-50 to-background',
         isMobile ? 'px-3 py-6' : 'px-3 py-6 lg:px-12 lg:py-16'
       )}
+      ref={edgeRef}
     >
+      <BulkActionDialog stories={stories} bulkUpdateStatus={updateBlukReadingStatus} />
       <DetailStoryDialog
         isAnime={dialogIsAnime}
         isAnimeOnly={dialogIsAnimeOnly}
@@ -122,6 +134,7 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
         setSelectedStory={setSelectedStory}
         updateReadingStatus={updateReadingStatus}
       />
+      <ScrollNavigation edgeRef={edgeRef} unreadRef={unreadRef} finishedRef={finishedRef} />
       <Text
         type="btn"
         weight="regular"
@@ -143,6 +156,7 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
       {settings.isListSplitted ? (
         <>
           <StoryCollapsible
+            ref={unreadRef}
             sectionName="Unfinished"
             isMobile={isMobile}
             isUnread
@@ -153,6 +167,7 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
             updateReadingStatus={updateReadingStatus}
           />
           <StoryCollapsible
+            ref={finishedRef}
             sectionName="Finished"
             isMobile={isMobile}
             isUnread={false}

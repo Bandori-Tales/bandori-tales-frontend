@@ -34,27 +34,27 @@ export interface NavbarItem {
 export const MainFeatures = [
   {
     title: 'Story Tracker',
-    description: 'Lorem Ipsum',
+    description: 'Keep track your progress on reading / watching bandori contents',
     href: '/story-tracker',
     icon: Milestone,
   },
   {
     title: 'Story Arc',
-    description: 'Lorem Ipsum',
+    description: 'A fanmade defined arc for bandori stories',
     href: '/story-arc',
     icon: Book,
     isDisabled: true,
   },
   {
     title: 'Songs',
-    description: 'Lorem Ipsum',
+    description: 'Bandori songs database',
     href: '/songs',
     icon: DiscAlbum,
     isDisabled: true,
   },
   {
     title: 'Interaction',
-    description: 'Lorem Ipsum',
+    description: 'Bandori character interaction matrix',
     href: '/interaction',
     icon: MessageCircle,
     isDisabled: true,

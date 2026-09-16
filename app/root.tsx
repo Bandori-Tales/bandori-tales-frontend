@@ -38,7 +38,7 @@ function LoadingBar() {
   if (progress === 0 && !isLoading) return null;
 
   return (
-    <div className="fixed inset-x-0 top-0 z-50 h-0.5">
+    <div className="fixed inset-x-0 top-0 z-50 h-1">
       <div
         className="h-full bg-accent drop-shadow-black/20 drop-shadow-sm transition-all duration-200 ease-out"
         style={{ width: `${progress}%` }}

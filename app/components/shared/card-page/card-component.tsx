@@ -133,8 +133,8 @@ export function CardPageComponent({
       <div className="flex h-full w-full flex-col items-center justify-between gap-1.5">
         <div className="flex h-full w-full flex-col items-center justify-start gap-4 border-b border-b-primary-foreground transition-colors duration-300 group-hover:border-b-amber-400">
           <Text
-            type="st1"
-            weight="bold"
+            type="st2"
+            weight="semibold"
             className="w-full text-center text-primary-foreground transition-colors duration-300 group-hover:text-amber-400"
           >
             {title}

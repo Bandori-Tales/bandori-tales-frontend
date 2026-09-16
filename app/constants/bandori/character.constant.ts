@@ -97,7 +97,10 @@ export const Characters = [
     dislikes: ['Peas'],
     hobbies: ['None'],
     birthday_date: '04-10',
-    profile_picture: '/images/characters/ran_profile.webp',
+    profile_picture: [
+      '/images/characters/ran_profile.webp',
+      '/images/characters/ran_profile_disband.webp',
+    ],
     image_color: '#EE0022',
   },
   {
@@ -110,7 +113,10 @@ export const Characters = [
     dislikes: ['Anything spicy'],
     hobbies: ['Sleeping', 'Collecting point cards'],
     birthday_date: '09-03',
-    profile_picture: '/images/characters/moca_profile.webp',
+    profile_picture: [
+      '/images/characters/moca_profile.webp',
+      '/images/characters/moca_profile_disband.webp',
+    ],
     image_color: '#00CCAA',
   },
   {
@@ -127,7 +133,10 @@ export const Characters = [
       'Reading fashion magazines',
     ],
     birthday_date: '10-23',
-    profile_picture: '/images/characters/himari_profile.webp',
+    profile_picture: [
+      '/images/characters/himari_profile.webp',
+      '/images/characters/himari_profile_disband.webp',
+    ],
     image_color: '#FF9999',
   },
   {
@@ -140,7 +149,10 @@ export const Characters = [
     dislikes: ['None'],
     hobbies: ['Fashion', 'Taiko drumming'],
     birthday_date: '04-15',
-    profile_picture: '/images/characters/tomoe_profile.webp',
+    profile_picture: [
+      '/images/characters/tomoe_profile.webp',
+      '/images/characters/tomoe_profile_disband.webp',
+    ],
     image_color: '#BB0033',
   },
   {
@@ -153,7 +165,10 @@ export const Characters = [
     dislikes: ['Black coffee'],
     hobbies: ['Collecting bath powder'],
     birthday_date: '01-07',
-    profile_picture: '/images/characters/tsugumi_profile.webp',
+    profile_picture: [
+      '/images/characters/tsugumi_profile.webp',
+      '/images/characters/tsugumi_profile_disband.webp',
+    ],
     image_color: '#FFEE88',
   },
   {
@@ -179,7 +194,10 @@ export const Characters = [
     dislikes: ['Raw seafood'],
     hobbies: ['Reading philosophy books'],
     birthday_date: '02-28',
-    profile_picture: '/images/characters/kaoru_profile.webp',
+    profile_picture: [
+      '/images/characters/kaoru_profile.webp',
+      '/images/characters/kaoru_profile_ga.webp',
+    ],
     image_color: '#AA33CC',
   },
   {
@@ -205,7 +223,10 @@ export const Characters = [
     dislikes: ['Mushrooms'],
     hobbies: ['Watching jellyfish', 'Cafe-hopping'],
     birthday_date: '05-11',
-    profile_picture: '/images/characters/kanon_profile.webp',
+    profile_picture: [
+      '/images/characters/kanon_profile.webp',
+      '/images/characters/kanon_profile_ga.webp',
+    ],
     image_color: '#44DDFF',
   },
   {
@@ -236,7 +257,10 @@ export const Characters = [
     dislikes: ['Octopus'],
     hobbies: ['Social media', 'Taking selfies'],
     birthday_date: '12-27',
-    profile_picture: '/images/characters/aya_profile.webp',
+    profile_picture: [
+      '/images/characters/aya_profile.webp',
+      '/images/characters/aya_profile_ga.webp',
+    ],
     image_color: '#FF88BB',
   },
   {
@@ -301,7 +325,11 @@ export const Characters = [
     dislikes: ['Anything too bitter (especially bitter melon)'],
     hobbies: ['None'],
     birthday_date: '10-26',
-    profile_picture: '/images/characters/yukina_profile.webp',
+    profile_picture: [
+      '/images/characters/yukina_profile.webp',
+      '/images/characters/yukina_profile_nfo.webp',
+      '/images/characters/yukina_profile_ga.webp',
+    ],
     image_color: '#881188',
   },
   {
@@ -314,7 +342,11 @@ export const Characters = [
     dislikes: ['Carrots'],
     hobbies: ['None'],
     birthday_date: '03-20',
-    profile_picture: '/images/characters/sayo_profile.webp',
+    profile_picture: [
+      '/images/characters/sayo_profile.webp',
+      '/images/characters/sayo_profile_nfo.webp',
+      '/images/characters/sayo_profile_ga.webp',
+    ],
     image_color: '#00AABB',
   },
   {
@@ -327,7 +359,10 @@ export const Characters = [
     dislikes: ['Green smoothies'],
     hobbies: ['Knitting', 'Shopping', 'Baking cookies'],
     birthday_date: '08-25',
-    profile_picture: '/images/characters/lisa_profile.webp',
+    profile_picture: [
+      '/images/characters/lisa_profile.webp',
+      '/images/characters/lisa_profile_nfo.webp',
+    ],
     image_color: '#DD2200',
   },
   {
@@ -340,7 +375,10 @@ export const Characters = [
     dislikes: ['Sea cucumbers', 'Eggs', 'Bell peppers', 'Broccoli'],
     hobbies: ['Finding the latest and coolest trends'],
     birthday_date: '07-03',
-    profile_picture: '/images/characters/ako_profile.webp',
+    profile_picture: [
+      '/images/characters/ako_profile.webp',
+      '/images/characters/ako_profile_nfo.webp',
+    ],
     image_color: '#DD0088',
   },
   {
@@ -353,7 +391,10 @@ export const Characters = [
     dislikes: ['Celery'],
     hobbies: ['Playing online games', 'Solving crosswords', 'Reading'],
     birthday_date: '10-17',
-    profile_picture: '/images/characters/rinko_profile.webp',
+    profile_picture: [
+      '/images/characters/rinko_profile.webp',
+      '/images/characters/rinko_profile_nfo.webp',
+    ],
     image_color: '#BBBBBB',
   },
   {

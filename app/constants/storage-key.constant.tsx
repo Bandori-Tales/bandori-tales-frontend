@@ -1,4 +1,8 @@
 export const DIALOG_KEY = {
+  FOOTER: {
+    CREDITS: 'footer-credits',
+    POLICIES: 'footer-privacy-policies',
+  },
   STORY_TRACKER: {
     STORY_DETAIL: 'story-detail',
     BULK_ACTION: 'story-bulk-action',

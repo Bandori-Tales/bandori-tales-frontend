@@ -16,10 +16,15 @@ interface NavbarButtonProps {
   handleCloseSideMenu?: () => void;
 }
 
-function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsActive, isNavExpand, handleCloseSideMenu }: NavbarItem & NavbarButtonProps) {
+function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsActive, isNavExpand, handleCloseSideMenu}: NavbarItem & NavbarButtonProps) {
   const { pathname } = useLocation();
-  const isActive = propIsActive ?? pathname.includes(href);
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false);
+  const isActive = propIsActive ?? pathname.includes(href);
+
+  function handleClose() {
+    setIsCollapsibleOpen(false);
+    handleCloseSideMenu?.();
+  }
 
   return (
     title === 'Bandori' ? (
@@ -28,7 +33,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
           isNavExpand ? (
             <Collapsible
               open={isCollapsibleOpen}
-              onOpenChange={setIsCollapsibleOpen}
+              onOpenChange={(open) => setIsCollapsibleOpen(open)}
               className="flex w-full flex-col"
             >
               <CollapsibleTrigger className={cn(
@@ -57,7 +62,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                         <button
                           key={id}
                           className="flex w-full py-1 px-2 items-center gap-2 bg-transparent text-primary-foreground opacity-50"
-                          onClick={() => handleCloseSideMenu?.()}
+                          onClick={handleClose}
                           disabled={item.isDisabled}
                         >
                           {
@@ -71,7 +76,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                         <Link to={item.href} key={id} className={cn("focus:bg-amber-400 transition-colors duration-300 py-1 px-2 rounded-md", isSubActive ? 'bg-amber-400' : 'bg-transparent')}>
                           <button
                             className="flex w-full items-center gap-2 bg-transparent text-primary-foreground"
-                            onClick={() => handleCloseSideMenu?.()}
+                            onClick={handleClose}
                             disabled={item.isDisabled}
                           >
                             {
@@ -89,7 +94,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
               </CollapsibleContent>
             </Collapsible>
           ) : (
-            <DropdownMenu>
+            <DropdownMenu open={isCollapsibleOpen} onOpenChange={(open) => setIsCollapsibleOpen(open)}>
               <DropdownMenuTrigger className={cn(
                     'flex w-36 h-fit items-center justify-center cursor-pointer gap-2 bg-transparent transition-colors duration-300 text-primary-foreground hover:text-amber-400'
                   )}>
@@ -118,7 +123,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                           <Link to={item.href}>
                             <button
                               className="flex w-full items-center gap-2 bg-transparent text-primary-foreground"
-                              onClick={() => handleCloseSideMenu?.()}
+                              onClick={handleClose}
                               disabled={item.isDisabled}
                             >
                               {
@@ -148,7 +153,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
             isActive ? 'text-amber-400' : 'text-primary-foreground',
             isNavExpand ? 'w-full items-center justify-start' : 'w-36 items-center justify-center'
           )}
-          onClick={() => handleCloseSideMenu?.()}
+          onClick={handleClose}
         >
           {Icon && (
             <Icon className="stroke-3 size-5" />
@@ -197,7 +202,7 @@ export default function Navbar() {
       <nav className={cn(
         'fixed top-0 z-30 w-full h-fit flex flex-row items-center justify-between transition-all duration-300 px-6 py-1 bg-primary border-b border-b-primary-foreground  max-lg:hidden'
       )}>
-        <WebNameLogo size='regular' wrap_text />
+        <WebNameLogo size='regular' wrapText />
         <div className="flex flex-row gap-0">
           {
             NavbarItems.map((item, idx) => (
@@ -241,7 +246,7 @@ export default function Navbar() {
             </Button>
           </div>
           <div className="flex flex-col w-full px-4 items-center">
-            <WebNameLogo size="regular" wrap_text={false} handleCloseSideMenu={handleHideSidebar} />
+            <WebNameLogo size="regular" wrapText={false} handleCloseSideMenu={handleHideSidebar} />
           </div>
           <Separator className="bg-amber-400" />
           <div className="flex flex-col items-baseline justify-start gap-4 px-3 pt-2">

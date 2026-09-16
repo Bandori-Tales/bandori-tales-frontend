@@ -154,25 +154,33 @@ export function StoryCard({
           isAnimeOnly ? 'flex-row' : 'flex-col'
         )}
       >
-        {story.story_banner_img && (
-          <Image
-            src={handleImageUrl(story.story_banner_img)}
-            alt={`${story.name} Event Banner`}
-            className="h-20 w-60 shrink-0"
-          />
-        )}
-        {isAnimeOnly && (
-          <Image
-            src={handleImageUrl(story.anime_banner_img)}
-            alt={`${story.name} Banner`}
-            className="h-40 w-30 shrink-0"
-          />
-        )}
+        <div
+          className={cn(
+            'flex overflow-hidden rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-sm',
+            isAnimeOnly ? 'h-fit w-40' : 'h-20 w-60'
+          )}
+        >
+          {story.story_banner_img && (
+            <Image
+              src={handleImageUrl(story.story_banner_img)}
+              alt={`${story.name} Event Banner`}
+              className="shrink-0"
+            />
+          )}
+          {isAnimeOnly && (
+            <Image
+              src={handleImageUrl(story.anime_banner_img)}
+              alt={`${story.name} Banner`}
+              className="shrink-0"
+            />
+          )}
+        </div>
         <div className="flex h-fit w-full flex-col gap-1.5">
           {!isAnimeOnly && (
             <Text
               type="p"
               weight="semibold"
+              lineHeight={5}
               className="text-center text-primary transition-colors duration-300 group-active:text-amber-500"
             >
               {story.name}
@@ -182,7 +190,11 @@ export function StoryCard({
             <Text
               type="btn"
               weight="semibold"
-              className="text-center text-primary/80 transition-colors duration-300 group-active:text-amber-500/80"
+              lineHeight={4}
+              className={cn(
+                'text-primary/80 transition-colors duration-300 group-active:text-amber-500/80',
+                isAnimeOnly ? 'text-left' : 'text-center'
+              )}
             >
               {story.anime_name}
             </Text>
@@ -250,20 +262,20 @@ export function StoryCard({
     >
       <div
         className={cn(
-          'absolute top-0 left-0 flex items-center justify-center rounded-br-xl px-2.5 py-1.5 drop-shadow-black/50 drop-shadow-sm transition-colors duration-300 group-hover:bg-amber-400',
+          'absolute top-0 left-0 z-21 flex items-center justify-center rounded-br-xl px-2.5 py-1.5 drop-shadow-black/50 drop-shadow-sm transition-colors duration-300 group-hover:bg-amber-400',
           storyStatusMap[readStatus].background,
           readStatus === 'unread' ? 'hidden' : undefined
         )}
       >
         <Icon className="size-4 stroke-3 text-white" />
       </div>
-      <div className="flex h-full w-fit shrink-0 items-center justify-center overflow-hidden rounded-lg">
+      <div className="z-20 flex h-full w-fit shrink-0 items-center justify-center overflow-hidden rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-sm">
         {(story.story_banner_img || story.anime_banner_img) && (
           <Image
             src={handleImageUrl(isAnimeOnly ? story.anime_banner_img : story.story_banner_img)}
             alt={`${story.name} Event Banner`}
             className={cn(
-              'w-fit shrink-0 py-0 lg:h-full',
+              'w-fit shrink-0 rounded-sm py-0 lg:h-full',
               isAnimeOnly ? 'h-16 w-48 overflow-hidden object-cover lg:h-30 lg:w-59' : 'h-16'
             )}
           />

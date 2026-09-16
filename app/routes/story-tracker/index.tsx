@@ -10,6 +10,7 @@ import { itemStorage } from '@/lib/storage';
 import { cn, handleApiResponseError } from '@/lib/utils';
 
 import { Text } from '@/components/helper/text';
+import { toast } from '@/components/ui/toast';
 
 import { LOCAL_STORAGE_KEY } from '@/constants';
 import type { BandoriStory, BandoriStoryForm, IReadingStatus } from '@/schemas/models';
@@ -43,6 +44,8 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   }
 
   itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.FILTER, data);
+
+  toast.success('Filter Applied');
 
   return { success: true };
 }

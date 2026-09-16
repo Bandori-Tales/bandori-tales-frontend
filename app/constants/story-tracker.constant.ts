@@ -1,4 +1,5 @@
 import type { BandoriStory, BandoriStoryForm, IStoryTag, ITranslationType } from '@/schemas/models';
+import type { CustomImageOverlay } from '@/schemas/types';
 
 export const StoryTrackerDefaultValue = {
   search: '',
@@ -14,7 +15,7 @@ export const StoryTrackerDefaultValue = {
   enable_translation: false,
   translation: ['FAN', 'OFFICIAL', 'NONE'],
   translation_operation: 'OR',
-  enable_tag: false,
+  enable_tag: true,
   tag: ['COLLAB', 'EXPLORATION', 'FILLER', 'MAJOR', 'RELEVANT', 'NOTCANON'],
   enable_main_band: false,
   main_band: [...Array.from({ length: 12 }, (_, i) => i + 1), 99],
@@ -83,6 +84,163 @@ export const StoryTrackerTagDescription: Record<IStoryTag, string> = {
   COLLAB: 'Story for collaboration with another franchise.',
   NOTCANON:
     "The story didn't happen in the actual timeline. Take a note that past event could still being mentioned here.",
+  UNCATEGORIZED: 'Awaiting for site admin to read the story so it can be categorized.',
+};
+
+export const StoryTrackerCustomCharacter: Record<number, Record<number, CustomImageOverlay>> = {
+  39: {
+    // NFO 1, Roselia use Image Array Index 1
+    21: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    22: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    23: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    24: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    25: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+  },
+  50: {
+    // Girls Anthology, Side Character use other profile
+    12: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    14: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    16: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    21: {
+      useImageArray: true,
+      imageArrayIndex: 2,
+    },
+    22: {
+      useImageArray: true,
+      imageArrayIndex: 2,
+    },
+  },
+  133: {
+    // NFO 2, Roselia use Image Array Index 1
+    21: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    22: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    23: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    24: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    25: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+  },
+  217: {
+    // Summer Returning to ZERO, Side Character use overlay image
+    1: {
+      useOverlay: true,
+      overlayImageSource: '/images/scribbled_eyes.webp',
+      overlayImageClassname: 'rotate-5',
+    },
+    2: {
+      useOverlay: true,
+      overlayImageSource: '/images/scribbled_eyes.webp',
+      overlayImageClassname: '-rotate-5',
+    },
+    3: {
+      useOverlay: true,
+      overlayImageSource: '/images/scribbled_eyes.webp',
+      overlayImageClassname: '-rotate-10',
+    },
+    4: {
+      useOverlay: true,
+      overlayImageSource: '/images/scribbled_eyes.webp',
+      overlayImageClassname: 'rotate-5',
+    },
+    5: {
+      useOverlay: true,
+      overlayImageSource: '/images/scribbled_eyes.webp',
+      overlayImageClassname: 'rotate-5',
+    },
+    11: {
+      useOverlay: true,
+      overlayImageSource: '/images/scribbled_eyes.webp',
+      overlayImageClassname: 'rotate-10',
+    },
+    15: {
+      useOverlay: true,
+      overlayImageSource: '/images/scribbled_eyes.webp',
+      overlayImageClassname: 'rotate-20',
+    },
+    17: {
+      useOverlay: true,
+      overlayImageSource: '/images/scribbled_eyes.webp',
+      overlayImageClassname: '-rotate-30',
+    },
+  },
+  263: {
+    // Our Sounds The End of the Sky, Afterglow use Image Array Index 1
+    6: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    7: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    8: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    9: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+    10: {
+      useImageArray: true,
+      imageArrayIndex: 1,
+    },
+  },
+  276: {
+    // Pale Rose Mirage, Grayscale
+    21: {
+      grayscale: true,
+    },
+    22: {
+      grayscale: true,
+    },
+    23: {
+      grayscale: true,
+    },
+    24: {
+      grayscale: true,
+    },
+    25: {
+      grayscale: true,
+    },
+  },
 };
 
 export const DUMMY_STORY: BandoriStory[] = [
@@ -115,7 +273,7 @@ export const DUMMY_STORY: BandoriStory[] = [
       },
       {
         name: 'TL By NameHere',
-        source: 'BLUESKY',
+        source: 'TUMBLR',
         type: 'FAN',
         url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
       },
@@ -163,7 +321,7 @@ export const DUMMY_STORY: BandoriStory[] = [
       },
       {
         name: 'TL By NameHere',
-        source: 'BLUESKY',
+        source: 'TUMBLR',
         type: 'FAN',
         url: 'https://bestdori.com/info/events/16/The-6th-Afterglow',
       },

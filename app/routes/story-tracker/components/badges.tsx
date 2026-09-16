@@ -34,6 +34,11 @@ export const StoryBadgeColorMaps: Record<string, BadgeProps> = {
     border: 'border-violet-900',
   },
   NOTCANON: {
+    textColor: 'text-indigo-100',
+    background: 'bg-indigo-700',
+    border: 'border-indigo-900',
+  },
+  UNCATEGORIZED: {
     textColor: 'text-slate-100',
     background: 'bg-slate-700',
     border: 'border-slate-900',

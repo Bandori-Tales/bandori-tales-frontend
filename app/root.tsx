@@ -1,12 +1,51 @@
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useNavigation } from 'react-router';
 
 import type { Route } from './+types/root';
 import 'react-photo-view/dist/react-photo-view.css';
 import './styles/globals.css';
 
+import { useEffect, useState } from 'react';
+
 import ErrorBoundaryComponent from './components/error/error-boundary-component';
 import Loading from './components/helper/loading';
 import { Toaster } from './components/ui/sonner';
+
+function LoadingBar() {
+  const navigation = useNavigation();
+  const [progress, setProgress] = useState(0);
+  const isLoading = navigation.state !== 'idle';
+
+  useEffect(() => {
+    if (isLoading) {
+      setProgress(0);
+      const timer1 = setTimeout(() => setProgress(30), 100);
+      const timer2 = setTimeout(() => setProgress(60), 300);
+      const timer3 = setTimeout(() => setProgress(80), 600);
+      const timer4 = setTimeout(() => setProgress(90), 1000);
+      return () => {
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+        clearTimeout(timer3);
+        clearTimeout(timer4);
+      };
+    }
+
+    setProgress(100);
+    const timer = setTimeout(() => setProgress(0), 200);
+    return () => clearTimeout(timer);
+  }, [isLoading]);
+
+  if (progress === 0 && !isLoading) return null;
+
+  return (
+    <div className="fixed inset-x-0 top-0 z-50 h-0.5">
+      <div
+        className="h-full bg-accent drop-shadow-black/20 drop-shadow-sm transition-all duration-200 ease-out"
+        style={{ width: `${progress}%` }}
+      />
+    </div>
+  );
+}
 
 export const links: Route.LinksFunction = () => [
   {
@@ -61,6 +100,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <LoadingBar />
         {children}
         <ScrollRestoration />
         <Scripts />

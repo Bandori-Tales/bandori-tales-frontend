@@ -37,6 +37,7 @@ export const storyTagMap = {
   MAJOR: 'Major Arc',
   COLLAB: 'Collab Event',
   NOTCANON: 'Not Canon',
+  UNCATEGORIZED: 'Uncategorized',
 };
 
 export const StoryTag = {
@@ -46,6 +47,7 @@ export const StoryTag = {
   MAJOR: 'MAJOR',
   COLLAB: 'COLLAB',
   NOTCANON: 'NOTCANON',
+  UNCATEGORIZED: 'UNCATEGORIZED',
 } as const;
 
 export const StoryTagSchema = v.enum(StoryTag);
@@ -66,15 +68,17 @@ export const TranslationTypeSchema = v.enum(TranslationType);
 
 export const translationSourceMap = {
   YOUTUBE: 'Youtube',
-  BLUESKY: 'Bluesky',
+  TUMBLR: 'Tumblr',
   BESTDORI: 'Bestdori',
-  FANDOM: 'Miraheze Fandom',
+  GDRIVE: 'Google Drive',
+  FANDOM: 'Bandori Wiki',
 };
 
 export const TranslationSource = {
   YOUTUBE: 'YOUTUBE',
-  BLUESKY: 'BLUESKY',
+  TUMBLR: 'TUMBLR',
   BESTDORI: 'BESTDORI',
+  GDRIVE: 'GDRIVE',
   FANDOM: 'FANDOM',
 } as const;
 

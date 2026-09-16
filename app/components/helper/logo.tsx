@@ -7,11 +7,11 @@ import { Text } from './text';
 
 export default function WebNameLogo({
   size,
-  wrap_text,
+  wrapText,
   handleCloseSideMenu,
 }: {
   size: 'regular' | 'small';
-  wrap_text: boolean;
+  wrapText: boolean;
   handleCloseSideMenu?: () => void;
 }) {
   return (
@@ -33,7 +33,7 @@ export default function WebNameLogo({
             : 'h-7 group-hover:drop-shadow-[0px_0px_6px_rgba(255,241,242,0.2)]'
         )}
       />
-      <div className={cn('flex h-fit w-fit gap-0', wrap_text ? 'flex-col' : 'flex-row gap-1')}>
+      <div className={cn('flex h-fit w-fit gap-0', wrapText ? 'flex-col' : 'flex-row gap-1')}>
         <Text
           type="btn"
           weight="bold"
@@ -44,9 +44,9 @@ export default function WebNameLogo({
         </Text>
         <Text
           type="btn"
-          weight={wrap_text ? 'extrabold' : 'bold'}
-          lineHeight={wrap_text ? 5 : 4}
-          className={cn('text-rose-50 group-hover:underline', wrap_text ? 'not-italic' : 'italic')}
+          weight={wrapText ? 'extrabold' : 'bold'}
+          lineHeight={wrapText ? 5 : 4}
+          className={cn('text-rose-50 group-hover:underline', wrapText ? 'not-italic' : 'italic')}
         >
           TALES
         </Text>

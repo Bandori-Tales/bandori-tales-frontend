@@ -7,6 +7,7 @@ import { cn, handleImageUrl } from '@/lib/utils';
 
 import Image from '@/components/helper/image';
 import { Text } from '@/components/helper/text';
+import ProfileImageAlter from '@/components/shared/alter-image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,7 +19,13 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { Bands, Characters, DIALOG_KEY, StoryTrackerTagDescription } from '@/constants';
+import {
+  Bands,
+  Characters,
+  DIALOG_KEY,
+  StoryTrackerCustomCharacter,
+  StoryTrackerTagDescription,
+} from '@/constants';
 import {
   type AvailableTranslation,
   type BandoriStory,
@@ -52,8 +59,12 @@ const translationButtonMap: Record<
     logo: '/images/translation/youtube.webp',
     background: 'bg-red-500 hover:bg-red-500/85',
   },
-  BLUESKY: {
-    logo: '/images/translation/bluesky.webp',
+  GDRIVE: {
+    logo: '/images/translation/google_drive.webp',
+    background: 'bg-emerald-500 hover:bg-emerald-500/85',
+  },
+  TUMBLR: {
+    logo: '/images/translation/tumblr.webp',
     background: 'bg-sky-500 hover:bg-sky-500/85',
   },
   BESTDORI: {
@@ -225,7 +236,7 @@ export function DetailStoryDialog({
                   isAnime ? selectedStory.anime_banner_img : selectedStory.story_banner_img
                 )}
                 className={cn(
-                  'h-full w-full',
+                  'h-full w-full rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-md',
                   isAnimeOnly && isBannerCollapse ? 'max-h-20 object-cover' : 'max-h-xl'
                 )}
               />
@@ -243,14 +254,21 @@ export function DetailStoryDialog({
               </Text>
               {(selectedStory.has_anime_eq || isAnimeOnly) &&
                 (selectedStory.anime_url ? (
-                  <Link to={selectedStory.anime_url} target="_blank" rel="noopener noreferrer">
+                  <Link
+                    to={selectedStory.anime_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full flex-row items-center justify-center gap-1 border-b border-b-transparent transition-colors duration-300 hover:border-b-primary/80 sm:w-fit sm:items-baseline"
+                  >
                     <Text
-                      type="p"
+                      type="btn"
                       weight="medium"
-                      className="text-center text-primary/80 underline hover:underline sm:text-left lg:no-underline"
+                      lineHeight={4}
+                      className="text-center text-primary/80 underline sm:text-left lg:no-underline"
                     >
                       {selectedStory.anime_name}
                     </Text>
+                    <ExternalLink className="hidden size-4 text-primary/80 md:block" />
                   </Link>
                 ) : (
                   <Text
@@ -329,7 +347,17 @@ export function DetailStoryDialog({
                   ? characterDetail.profile_picture[0]
                   : characterDetail.profile_picture;
 
-                return (
+                const imageAlterDetail = StoryTrackerCustomCharacter[selectedStory.id]?.[character];
+
+                return imageAlterDetail ? (
+                  <ProfileImageAlter
+                    key={`main_character_${characterDetail.id}`}
+                    {...imageAlterDetail}
+                    alt={`${nickname} profile picture`}
+                    source={characterDetail.profile_picture}
+                    className="aspect-square w-12 rounded-full"
+                  />
+                ) : (
                   <Image
                     key={`main_character_${characterDetail.id}`}
                     alt={`${nickname} profile picture`}
@@ -368,18 +396,30 @@ export function DetailStoryDialog({
                   ? characterDetail.profile_picture[0]
                   : characterDetail.profile_picture;
 
-                return (
+                const imageAlterDetail = StoryTrackerCustomCharacter[selectedStory.id]?.[character];
+
+                return imageAlterDetail ? (
+                  <ProfileImageAlter
+                    key={`side_character_${characterDetail.id}`}
+                    {...imageAlterDetail}
+                    alt={`${nickname} profile picture`}
+                    source={characterDetail.profile_picture}
+                    className="aspect-square w-12 rounded-full"
+                  />
+                ) : (
                   <Image
                     key={`side_character_${characterDetail.id}`}
                     alt={`${nickname} profile picture`}
                     src={profilePicture}
-                    className="aspect-square size-12 rounded-full"
+                    className="aspect-square w-12 rounded-full"
                   />
                 );
               })}
             </DetailSection>
 
-            {selectedStory.category !== 'ANIME' && (
+            {(selectedStory.category !== 'ANIME' ||
+              (selectedStory.category === 'ANIME' &&
+                !selectedStory.available_tl_type?.includes('NONE'))) && (
               <>
                 <DetailSection title="Official Translation" withBackground={false}>
                   {officialTl && officialTl.length > 0 ? (

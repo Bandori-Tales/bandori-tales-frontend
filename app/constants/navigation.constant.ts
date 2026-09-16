@@ -114,6 +114,14 @@ export const GameFeatures = {
   internal: [] satisfies SiteFeature[],
   other: [
     {
+      title: 'Strawberry Chocolate',
+      description:
+        'A "BanG Dream!" Doujin Game where players will operate Anon and Taki in different game worlds to carry out crazy adventures',
+      author: '河豚生态救助小组',
+      href: 'https://store.steampowered.com/app/3579050/Strawberry_Chocolate',
+      profilePicture: '/images/games/other/strawberry_chocolatte.webp',
+    },
+    {
       title: "Shiina Taki's Decameron",
       description: "An interactive doujin fiction based on anime「BanG Dream! It's MyGO!!!!!」.",
       author: '面影桥花见同好会',

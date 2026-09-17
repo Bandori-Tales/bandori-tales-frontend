@@ -14,7 +14,7 @@ export function meta() {
   });
 }
 
-export async function clientLoader() {
+export async function loader() {
   const todayDate = japanDate();
   const todayMonthDay = `${todayDate.format('MM-DD')}`;
   const todayYear = todayDate.year();
@@ -45,11 +45,12 @@ export async function clientLoader() {
   }
 
   return {
-    todayDate,
+    todayDateStr: todayDate.toISOString(),
     birthdayData,
   };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  return <HeroContent todayDate={loaderData.todayDate} birthdayData={loaderData.birthdayData} />;
+  const todayDate = japanDate(loaderData.todayDateStr);
+  return <HeroContent todayDate={todayDate} birthdayData={loaderData.birthdayData} />;
 }

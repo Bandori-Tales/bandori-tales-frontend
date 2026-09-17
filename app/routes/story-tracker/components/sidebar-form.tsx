@@ -83,6 +83,7 @@ export function FilterSettingsSection({
           size="sm"
           leftIcon={<MessageSquareShare />}
           onClick={() => openDialog(DIALOG_KEY.STORY_TRACKER.BULK_ACTION)}
+          className="w-fit"
         >
           Open
         </Button>

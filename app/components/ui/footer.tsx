@@ -153,7 +153,7 @@ function PrivacyPoliciesDialog() {
           <ul className="list-inside list-disc py-3">
             {
               FooterPrivacyPolicies.map((item, index) => (
-                <Text key={`privacy_policies_${index}`} type='p' weight='medium' className="text-slate-600 pb-3" lineHeight={5}>
+                <Text key={`privacy_policies_${index}`} type='p' weight='medium' className="text-slate-700 pb-3 text-justify" lineHeight={5}>
                   <li>
                     {item}
                   </li>

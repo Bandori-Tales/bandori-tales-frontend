@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { createImageResource } from '@/lib/image';
 import { cn } from '@/lib/utils';
 
-interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+export interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
   fallbackClassName?: string;

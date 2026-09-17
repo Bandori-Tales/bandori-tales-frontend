@@ -1,4 +1,3 @@
-import { ExternalLink } from 'lucide-react';
 import { useMemo, useRef, useState } from 'react';
 import { Link, useRevalidator } from 'react-router';
 import { parseFormData } from 'remix-hook-form';
@@ -138,20 +137,17 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
         updateReadingStatus={updateReadingStatus}
       />
       <ScrollNavigation edgeRef={edgeRef} unreadRef={unreadRef} finishedRef={finishedRef} />
-      <Text
-        type="btn"
-        weight="regular"
-        className="flex w-full flex-row items-center gap-1 text-rose-500 italic"
-      >
-        For spreadsheet version,
+      <Text type="btn" weight="regular" className="text-rose-500 italic">
+        This feature is still in beta version, some data might lost during update. For spreadsheet
+        version,{' '}
         {
           <Link
             to="https://docs.google.com/spreadsheets/d/1g4MsZ_U7CbwCK7TcW_9_d-Q7CSGtK0R2M1B10XrZGns/edit"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-row items-center gap-1 text-blue-600 text-sm underline"
+            className="text-blue-600 text-sm underline"
           >
-            Click Here {<ExternalLink className="size-4 text-blue-600" />}
+            Click Here
           </Link>
         }
       </Text>

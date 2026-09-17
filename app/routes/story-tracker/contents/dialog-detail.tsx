@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import useDialogStore from '@/hooks/store/use-dialog';
 import { cn, handleImageUrl } from '@/lib/utils';
 
+import ExpandableImage from '@/components/helper/expandable-image';
 import Image from '@/components/helper/image';
 import { Text } from '@/components/helper/text';
 import ProfileImageAlter from '@/components/shared/alter-image';
@@ -93,7 +94,7 @@ function DetailSection({
       </Text>
       <div
         className={cn(
-          'flex min-h-10 w-full flex-row flex-wrap gap-2 rounded-md',
+          'flex min-h-10 w-full flex-row flex-wrap gap-2.5 rounded-md',
           withBackground ? 'bg-slate-100 p-2 shadow-black/50 shadow-inner' : 'bg-transparent'
         )}
       >
@@ -124,7 +125,12 @@ function TranslationButton({ name, source, type, url }: AvailableTranslation) {
           src={translationButtonMap[source].logo}
           className="size-6 rounded-full"
         />
-        <Text type="btn" weight="semibold" lineHeight={5} className="text-white">
+        <Text
+          type="btn"
+          weight="semibold"
+          lineHeight={5}
+          className={cn('text-center text-white', type === 'FAN' ? 'text-wrap' : 'text-nowrap')}
+        >
           {type === 'FAN' ? name : translationSourceMap[source]}
         </Text>
         <ExternalLink className="size-5 stroke-3 text-white" />
@@ -230,16 +236,25 @@ export function DetailStoryDialog({
                   />
                 </Button>
               )}
-              <Image
-                alt={`${selectedStory.name} banner`}
-                src={handleImageUrl(
-                  isAnime ? selectedStory.anime_banner_img : selectedStory.story_banner_img
-                )}
-                className={cn(
-                  'h-full w-full rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-md',
-                  isAnimeOnly && isBannerCollapse ? 'max-h-20 object-cover' : 'max-h-xl'
-                )}
-              />
+              {isAnime ? (
+                <ExpandableImage
+                  alt={`${selectedStory.name} banner`}
+                  src={handleImageUrl(selectedStory.anime_banner_img)}
+                  className={cn(
+                    'h-full w-full rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-md',
+                    isAnimeOnly && isBannerCollapse ? 'max-h-20 object-cover' : 'max-h-xl'
+                  )}
+                />
+              ) : (
+                <ExpandableImage
+                  alt={`${selectedStory.name} banner`}
+                  src={handleImageUrl(selectedStory.story_banner_img)}
+                  className={cn(
+                    'h-full w-full rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-md',
+                    isAnimeOnly && isBannerCollapse ? 'max-h-20 object-cover' : 'max-h-xl'
+                  )}
+                />
+              )}
             </div>
             <div className="flex w-full flex-col gap-2">
               <Text

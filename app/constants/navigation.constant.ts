@@ -1,7 +1,6 @@
 import {
   Book,
   DiscAlbum,
-  Info,
   Joystick,
   type LucideIcon,
   MessageCircle,
@@ -204,10 +203,11 @@ export const NavbarItems = [
     href: '/games',
     isDisabled: true,
   },
-  {
-    icon: Info,
-    title: 'About',
-    href: '/about',
-    isDisabled: true,
-  },
+  // Unused for now. Idk what to put for this page
+  // {
+  //   icon: Info,
+  //   title: 'About',
+  //   href: '/about',
+  //   isDisabled: true,
+  // },
 ] satisfies NavbarItem[];

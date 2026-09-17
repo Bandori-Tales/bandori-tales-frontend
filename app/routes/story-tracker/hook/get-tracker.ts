@@ -43,7 +43,7 @@ export function getTrackerReadingList() {
 
   const parsed = safeParse(UserTrackListSchema, userTrack);
   if (!parsed.success) {
-    toast.warning('There is an error while parsing your data. Resetting tracker.');
+    if (userTrack) toast.warning('There is an error while parsing your data. Resetting tracker.');
 
     itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK, []);
     return [];

@@ -202,12 +202,12 @@ export function StoryTrackerSidebar({ settings, handleSettingsUpdate }: StoryTra
               </Text>
 
               <div className="flex h-full w-full flex-col items-center justify-start gap-3 overflow-scroll px-1">
-                <SidebarFilterSection title="Search" fullWidth>
-                  <InputForm type="text" name="search" placeholder="search" />
-                </SidebarFilterSection>
-
                 <SidebarFilterSection title="Settings" isCollapsible>
                   <FilterSettingsSection settings={settings} handleUpdate={handleSettingsUpdate} />
+                </SidebarFilterSection>
+
+                <SidebarFilterSection title="Search" fullWidth>
+                  <InputForm type="text" name="search" placeholder="search" />
                 </SidebarFilterSection>
 
                 <SidebarFilterSection

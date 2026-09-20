@@ -37,7 +37,7 @@ export function CardPageComponent({
   return isMobile ? (
     <div
       className={cn(
-        'relative flex h-58 w-full flex-col items-center justify-start gap-2 rounded-xl border border-primary-foreground bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors duration-300',
+        'relative flex h-64 w-full flex-col items-center justify-start gap-2 rounded-xl border border-primary-foreground bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors duration-300',
         isDisabled ? undefined : 'group active:border-amber-400 active:from-rose-600'
       )}
     >

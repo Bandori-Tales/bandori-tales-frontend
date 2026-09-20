@@ -106,7 +106,11 @@ export function SidebarImageDialog({
                 )}
                 onClick={() => setSelectedImageId(item.id)}
               >
-                <Image alt={item.label} src={item.url} className="h-20 w-auto object-cover" />
+                <Image
+                  alt={item.label}
+                  src={item.url}
+                  className="h-20 w-auto overflow-visible object-cover"
+                />
                 <Text
                   type="c"
                   weight="medium"

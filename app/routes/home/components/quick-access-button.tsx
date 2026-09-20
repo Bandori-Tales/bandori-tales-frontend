@@ -1,6 +1,8 @@
 import type { LucideIcon } from 'lucide-react';
 import { Link } from 'react-router';
 
+import { cn } from '@/lib/utils';
+
 import Image from '@/components/helper/image';
 import { Text } from '@/components/helper/text';
 import { Button } from '@/components/ui/button';
@@ -10,9 +12,16 @@ type QuickAccessButtonProps = {
   path: string;
   icon?: LucideIcon;
   image?: string;
+  reverseFlex?: boolean;
 };
 
-export function QuickAccessButton({ title, path, icon, image }: QuickAccessButtonProps) {
+export function QuickAccessButton({
+  title,
+  path,
+  icon,
+  image,
+  reverseFlex = false,
+}: QuickAccessButtonProps) {
   const Icon = icon;
 
   return (
@@ -22,7 +31,10 @@ export function QuickAccessButton({ title, path, icon, image }: QuickAccessButto
     >
       <Link
         to={path}
-        className="flex h-fit w-52 flex-col items-center justify-center gap-1 text-white"
+        className={cn(
+          'flex h-fit w-80 flex-row items-center justify-start gap-1 text-white lg:w-52 lg:flex-col lg:justify-center',
+          reverseFlex && 'flex-row-reverse'
+        )}
       >
         {Icon && (
           <div className="flex items-center justify-center rounded-full bg-foreground/50 p-2">

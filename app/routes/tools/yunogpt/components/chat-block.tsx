@@ -58,12 +58,7 @@ export function ChatBlock({
             . . .
           </Text>
         ) : (
-          <Text
-            type="p"
-            weight="medium"
-            lineHeight={5}
-            className="wrap-anywhere flex h-fit flex-col gap-2 text-wrap"
-          >
+          <div className="wrap-anywhere flex h-fit flex-col gap-2 text-wrap font-regular text-md leading-6">
             <ReactMarkdown
               disallowedElements={blockedElements}
               unwrapDisallowed
@@ -76,7 +71,7 @@ export function ChatBlock({
             >
               {chatItem.chat}
             </ReactMarkdown>
-          </Text>
+          </div>
         )}
       </hgroup>
       <style>

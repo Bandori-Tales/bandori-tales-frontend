@@ -19,10 +19,12 @@ interface NavbarButtonProps {
 function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsActive, isNavExpand, handleCloseSideMenu}: NavbarItem & NavbarButtonProps) {
   const { pathname } = useLocation();
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const isActive = propIsActive ?? pathname.includes(href);
 
   function handleClose() {
     setIsCollapsibleOpen(false);
+    setIsDropdownOpen(false);
     handleCloseSideMenu?.();
   }
 
@@ -43,7 +45,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                     {Icon && (
                       <Icon className="stroke-3 size-5" />
                     )}
-                    <Text type='st1' lineHeight={7} weight='semibold'>
+                    <Text type='st2' lineHeight={7} weight='semibold'>
                       {title}
                     </Text>
                   </div>
@@ -94,7 +96,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
               </CollapsibleContent>
             </Collapsible>
           ) : (
-            <DropdownMenu open={isCollapsibleOpen} onOpenChange={(open) => setIsCollapsibleOpen(open)}>
+            <DropdownMenu open={isDropdownOpen} onOpenChange={(open) => setIsDropdownOpen(open)}>
               <DropdownMenuTrigger className={cn(
                     'flex w-36 h-fit items-center justify-center cursor-pointer gap-2 bg-transparent transition-colors duration-300 text-primary-foreground hover:text-amber-400'
                   )}>

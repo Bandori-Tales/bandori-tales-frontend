@@ -82,7 +82,7 @@ export function ChatroomNavbar({
       className={cn(
         isProfileOpen ? 'w-full md:w-[calc(100vw-300px)]' : 'w-full',
         theme_primary,
-        'fixed top-0 z-30 flex h-fit flex-row items-center justify-between px-3 py-1 drop-shadow-black/25 drop-shadow-lg transition-all duration-300 sm:px-9'
+        'fixed top-0 z-30 flex h-fit flex-row items-center justify-between px-2 py-1 drop-shadow-black/25 drop-shadow-lg transition-all duration-300 sm:px-9'
       )}
     >
       <div className="flex flex-row items-center justify-center gap-2">
@@ -105,7 +105,7 @@ export function ChatroomNavbar({
               <Text type="p" weight="bold">
                 {YUNOGPT_WRITE_ASSETS.NICKNAME}
               </Text>
-              <Text type="btn" weight="semibold" className="text-mauve-50">
+              <Text type="c" weight="medium" className="text-mauve-50">
                 {online_status}
               </Text>
             </div>

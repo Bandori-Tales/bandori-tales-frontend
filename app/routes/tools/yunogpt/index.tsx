@@ -113,12 +113,13 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   let lastYunoChat = 'No History Yet';
   if (currentChats.length >= 2) {
     const reversedChat = [...currentChats].reverse();
-    const lastUserChatReversedIndex = reversedChat
-      .reverse()
-      .findIndex((chat) => chat.sender === 'user');
-    const lastYunoChatReversedIndex = reversedChat
-      .reverse()
-      .findIndex((chat) => chat.sender === 'yuno');
+    const lastUserChatReversedIndex = reversedChat.findIndex((chat) => chat.sender === 'user');
+    const lastYunoChatReversedIndex = reversedChat.findIndex((chat) => chat.sender === 'yuno');
+
+    console.log(reversedChat);
+    console.log(
+      `last user index: ${lastUserChatReversedIndex}, last yuno: ${lastYunoChatReversedIndex}`
+    );
 
     if (lastUserChatReversedIndex > 0 && lastYunoChatReversedIndex >= 0) {
       lastUserChat = reversedChat[lastUserChatReversedIndex].chat;

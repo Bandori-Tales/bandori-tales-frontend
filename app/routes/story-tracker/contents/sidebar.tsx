@@ -106,7 +106,7 @@ function SidebarFilterSection({
       )}
       <CollapsibleContent
         className={cn(
-          fullWidth ? 'px-0' : 'pl-6',
+          fullWidth ? 'px-0' : 'ml-1.5 border-l border-l-primary pl-4.5',
           'data-[state=closed]:slide-out-to-top-10 data-[state=closed]:fade-out-0 data-[state=open]:slide-in-from-top-10 data-[state=open]:fade-in-0 pt-1 data-[state=closed]:animate-out data-[state=open]:animate-in'
         )}
       >

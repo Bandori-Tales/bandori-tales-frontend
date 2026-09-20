@@ -53,6 +53,12 @@ export function HeroContent({
               />
 
               <QuickAccessButton
+                title="Stamp Generator"
+                path="/tools/stamp-generator"
+                image="/images/tools/stamp-generator/stamp_generator_icon.webp"
+              />
+
+              <QuickAccessButton
                 title="Yuno GPT"
                 path="/tools/yunogpt"
                 image="/images/tools/yunogpt/yunogpt_icon.webp"

@@ -69,11 +69,11 @@ export const ToolFeatures = {
       profilePicture: '/images/tools/yunogpt/yunogpt_icon.webp',
     },
     {
-      title: 'Sticker Garage',
-      description: 'Lorem Ipsum',
-      href: '/tools/sticker-garage',
-      profilePicture: '/images/tools/garage/sticker_garage_icon.webp',
-      isDisabled: true,
+      title: 'Stamp Generator',
+      description: 'A tool to create your own custom bandori stamp',
+      href: '/tools/stamp-generator',
+      profilePicture: '/images/tools/stamp-generator/stamp_generator_icon.webp',
+      isDisabled: false,
     },
   ] satisfies SiteFeature[],
   other: [

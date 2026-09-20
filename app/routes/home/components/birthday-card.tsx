@@ -1,5 +1,3 @@
-import type { Dayjs } from 'dayjs';
-
 import { japanDate } from '@/lib/jp-date';
 import { cn } from '@/lib/utils';
 
@@ -7,20 +5,17 @@ import Image from '@/components/helper/image';
 import { Text } from '@/components/helper/text';
 
 export function BirthdayCard({
-  todayDate,
+  isBirthday,
   birthdayDateString,
   nickname,
   profile_picture,
 }: {
-  todayDate: Dayjs;
+  isBirthday: boolean;
   birthdayDateString: string;
   nickname: string | string[];
   profile_picture: string | string[];
 }) {
   const birthdayDate = japanDate(birthdayDateString).startOf('day');
-  const isBirthday =
-    todayDate.startOf('day') <= birthdayDate && birthdayDate <= todayDate.startOf('day');
-
   const birthdayString = isBirthday ? 'Today!' : `${birthdayDate.format('MMM, DD')}`;
   const nicknameString = Array.isArray(nickname) ? nickname[0] : (nickname as string);
   const profilePictureString = Array.isArray(profile_picture)

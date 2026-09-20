@@ -1,4 +1,3 @@
-import type { Dayjs } from 'dayjs';
 import { Milestone } from 'lucide-react';
 
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -12,11 +11,9 @@ import { BirthdayCard } from '../components/birthday-card';
 import { QuickAccessButton } from '../components/quick-access-button';
 
 export function HeroContent({
-  todayDate,
   birthdayData,
 }: {
-  todayDate: Dayjs;
-  birthdayData: CharacterData[];
+  birthdayData: (CharacterData & { isBirthday: boolean })[];
 }) {
   const isMobile = useIsMobile();
 
@@ -82,7 +79,7 @@ export function HeroContent({
             {birthdayData.map((data) => (
               <BirthdayCard
                 key={Array.isArray(data.fullname[0]) ? data.fullname[0] : (data.fullname as string)}
-                todayDate={todayDate}
+                isBirthday={data.isBirthday}
                 birthdayDateString={data.birthday_date}
                 nickname={data.nickname}
                 profile_picture={data.profile_picture}

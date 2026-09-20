@@ -11,7 +11,10 @@ export default [
 
   // route('sandbox', 'routes/sandbox/index.tsx'), // Comment this line before push
 
-  ...prefix('tools', [route('yunogpt', 'routes/tools/yunogpt/index.tsx')]),
+  ...prefix('tools', [
+    route('yunogpt', 'routes/tools/yunogpt/index.tsx'),
+    route('stamp-generator', 'routes/tools/stamp-generator/index.tsx'),
+  ]),
 
   route('*', 'routes/not-found.tsx'),
   route('robots.txt', 'routes/robots.txt.ts'),

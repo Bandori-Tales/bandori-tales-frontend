@@ -32,7 +32,7 @@ export async function loader() {
     };
   }).sort((a, b) => (a.birthday_date > b.birthday_date ? 1 : -1));
 
-  const birthdayData: CharacterData[] = [];
+  const birthdayData: (CharacterData & { isBirthday: boolean })[] = [];
 
   for (let i = 0; i < 5; i++) {
     const character = Characters.find((item) => item.id === birthdayArray[i].id);
@@ -41,16 +41,17 @@ export async function loader() {
     birthdayData.push({
       ...character,
       birthday_date: birthdayArray[i].birthday_date,
+      isBirthday:
+        todayDate.startOf('day') <= japanDate(birthdayArray[i].birthday_date).startOf('day') &&
+        japanDate(birthdayArray[i].birthday_date).startOf('day') <= todayDate.startOf('day'),
     });
   }
 
   return {
-    todayDateStr: todayDate.toISOString(),
     birthdayData,
   };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const todayDate = japanDate(loaderData.todayDateStr);
-  return <HeroContent todayDate={todayDate} birthdayData={loaderData.birthdayData} />;
+  return <HeroContent birthdayData={loaderData.birthdayData} />;
 }

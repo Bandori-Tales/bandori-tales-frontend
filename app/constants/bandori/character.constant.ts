@@ -711,7 +711,7 @@ export const Characters = [
     likes: ['Donuts', 'Sushi'],
     dislikes: ['TBA'],
     hobbies: ['Ikebana'],
-    birthday_date: '19-09',
+    birthday_date: '09-19',
     profile_picture: '/images/characters/miyako_profile.webp',
     image_color: '#9977DD',
   },

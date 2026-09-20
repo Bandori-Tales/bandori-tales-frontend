@@ -9,6 +9,8 @@
     "Segoe UI Symbol", "Noto Color Emoji";
 
   --font-racing-sans: "racing-sans";
+  --font-yuruka-std: "yuruka-std";
+  --font-angella: "angella";
 }
 
 html,
@@ -284,6 +286,20 @@ body {
 @font-face {
   font-family: "racing-sans";
   src: url("/fonts/RacingSansOne-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "yuruka-std";
+  src: url("/fonts/font-yuruka-std.ttf") format("truetype");
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "angella";
+  src: url("/fonts/angella-regular.otf") format("opentype");
   font-style: normal;
   font-display: swap;
 }

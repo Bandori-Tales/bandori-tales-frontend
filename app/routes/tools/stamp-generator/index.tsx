@@ -51,12 +51,12 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
 
   const handleStampDownload = async () => {
     setSelectedElementId(null);
-    await downloadStamp(elements)();
+    await downloadStamp(elements);
   };
 
   const handleStampCopy = async () => {
     setSelectedElementId(null);
-    await copyStamp(elements)();
+    await copyStamp(elements);
   };
 
   useEffect(() => {

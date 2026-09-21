@@ -69,7 +69,7 @@ export const DndDragEnd =
       });
   };
 
-export const downloadStamp = (elements: CanvasElement[]) => async () => {
+export const downloadStamp = async (elements: CanvasElement[]) => {
   return new Promise<void>((resolve) => {
     setTimeout(async () => {
       const canvasNode = document.getElementById('canvas-export');
@@ -82,7 +82,7 @@ export const downloadStamp = (elements: CanvasElement[]) => async () => {
         // Manually fetch fonts to guarantee they are embedded since html-to-image sometimes fails
         let fontEmbedCSS = '';
         for (const font of StampFonts.filter((fontItem) =>
-          elements.find(
+          elements.some(
             (element) => element.type === 'TEXT' && element.fontFamilyId === fontItem.id
           )
         )) {
@@ -131,7 +131,7 @@ export const downloadStamp = (elements: CanvasElement[]) => async () => {
   });
 };
 
-export const copyStamp = (elements: CanvasElement[]) => async () => {
+export const copyStamp = async (elements: CanvasElement[]) => {
   const canvasNode = document.getElementById('canvas-export');
   if (!canvasNode) return;
 
@@ -139,7 +139,7 @@ export const copyStamp = (elements: CanvasElement[]) => async () => {
     const makeBlob = async () => {
       let fontEmbedCSS = '';
       for (const font of StampFonts.filter((fontItem) =>
-        elements.find((element) => element.type === 'TEXT' && element.fontFamilyId === fontItem.id)
+        elements.some((element) => element.type === 'TEXT' && element.fontFamilyId === fontItem.id)
       )) {
         try {
           const res = await fetch(font.url);

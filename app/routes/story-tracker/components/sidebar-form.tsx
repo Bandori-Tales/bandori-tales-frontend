@@ -6,7 +6,7 @@ import useDialogStore from '@/hooks/store/use-dialog';
 import CheckboxForm from '@/components/form/checkbox';
 import { SelectImage } from '@/components/form/select-image';
 import { SelectOrderButton } from '@/components/form/select-order';
-import GeneralDialog from '@/components/shared/general-dialog';
+import GeneralAlertDialog from '@/components/shared/general-alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
@@ -255,7 +255,7 @@ export function FilterSideCharacter() {
 
 export function ClearFilterDialog({ reset }: { reset: () => void }) {
   return (
-    <GeneralDialog
+    <GeneralAlertDialog
       dialogKey="clear-tracker-filter"
       title="Clear Filter?"
       description="This action will set filter and sort to the default state"

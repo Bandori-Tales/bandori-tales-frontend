@@ -18,6 +18,7 @@ import { StampGeneratorSidebar } from './contents/sidebar';
 import { getStampElements } from './hook/get-stamp';
 import {
   addElement,
+  copyStamp,
   DndDragEnd,
   downloadStamp,
   updateSelected,
@@ -51,6 +52,11 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
   const handleStampDownload = async () => {
     setSelectedElementId(null);
     await downloadStamp();
+  };
+
+  const handleStampCopy = async () => {
+    setSelectedElementId(null);
+    await copyStamp();
   };
 
   useEffect(() => {
@@ -126,6 +132,7 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
         selectedId={selectedElementId}
         setSelectedId={setSelectedElementId}
         handleDownload={handleStampDownload}
+        handleCopy={handleStampCopy}
       />
     </main>
   );

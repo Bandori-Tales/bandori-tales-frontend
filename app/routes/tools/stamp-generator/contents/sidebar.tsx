@@ -12,7 +12,17 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { Download, Image, Layers, LoaderCircle, Save, Trash2, Type, X } from 'lucide-react';
+import {
+  ClipboardIcon,
+  Download,
+  Image,
+  Layers,
+  LoaderCircle,
+  Save,
+  Trash2,
+  Type,
+  X,
+} from 'lucide-react';
 import { useState } from 'react';
 
 import useDialogStore from '@/hooks/store/use-dialog';
@@ -20,7 +30,7 @@ import { itemStorage } from '@/lib/storage';
 import { cn } from '@/lib/utils';
 
 import { Text } from '@/components/helper/text';
-import GeneralDialog from '@/components/shared/general-dialog';
+import GeneralAlertDialog from '@/components/shared/general-alert-dialog';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/toast';
 
@@ -38,6 +48,7 @@ export function StampGeneratorSidebar({
   selectedId,
   setSelectedId,
   handleDownload,
+  handleCopy,
 }: {
   elements: CanvasElement[];
   setElements: (items: CanvasElement[]) => void;
@@ -46,8 +57,10 @@ export function StampGeneratorSidebar({
   selectedId: string | null;
   setSelectedId: (id: string | null) => void;
   handleDownload: () => Promise<void>;
+  handleCopy: () => Promise<void>;
 }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingDownload, setIsLoadingDownload] = useState(false);
+  const [isLoadingCopy, setIsLoadingCopy] = useState(false);
   const [isExpand, setIsExpand] = useState(false);
   const [elementToEdit, setElementToEdit] = useState<CanvasElement | null>(null);
   const { open: openDialog } = useDialogStore();
@@ -82,9 +95,15 @@ export function StampGeneratorSidebar({
   }
 
   async function handleStampDownload() {
-    setIsLoading(true);
+    setIsLoadingDownload(true);
     await handleDownload();
-    setIsLoading(false);
+    setIsLoadingDownload(false);
+  }
+
+  async function handleStampCopy() {
+    setIsLoadingCopy(true);
+    await handleCopy();
+    setIsLoadingCopy(false);
   }
 
   return (
@@ -139,7 +158,7 @@ export function StampGeneratorSidebar({
         }}
       />
 
-      <GeneralDialog
+      <GeneralAlertDialog
         dialogKey={DIALOG_KEY.STAMP_GENERATOR.CLEAR_DATA}
         title="Clear Canvas"
         description="This action will clear all layer in current canvas"
@@ -268,17 +287,34 @@ export function StampGeneratorSidebar({
               Save Progress
             </Button>
 
-            <Button
-              type="button"
-              variant="default"
-              size="sm"
-              className="w-full"
-              leftIcon={isLoading ? <LoaderCircle className="animate-spin" /> : <Download />}
-              onClick={handleStampDownload}
-              disabled={isLoading}
-            >
-              Download Stamp
-            </Button>
+            <div className="flex w-full flex-row items-center justify-between gap-3">
+              <Button
+                type="button"
+                variant="default"
+                size="sm"
+                className="w-full"
+                leftIcon={
+                  isLoadingCopy ? <LoaderCircle className="animate-spin" /> : <ClipboardIcon />
+                }
+                onClick={handleStampCopy}
+                disabled={isLoadingCopy}
+              >
+                Copy Image
+              </Button>
+              <Button
+                type="button"
+                variant="default"
+                size="sm"
+                className="w-full"
+                leftIcon={
+                  isLoadingDownload ? <LoaderCircle className="animate-spin" /> : <Download />
+                }
+                onClick={handleStampDownload}
+                disabled={isLoadingDownload}
+              >
+                Download
+              </Button>
+            </div>
 
             <Button
               type="button"

@@ -4,31 +4,17 @@ import { useState } from 'react';
 import useDialogStore from '@/hooks/store/use-dialog';
 import { cn } from '@/lib/utils';
 
+import { Button } from '../ui/button';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-
-type GeneralDialogProps = {
-  dialogKey: string;
-  title: React.ReactNode;
-  description?: React.ReactNode;
-  confirmText?: string;
-  useCancel?: boolean;
-  cancelText?: string;
-  onConfirm?: () => Promise<void> | void;
-  onCancel?: () => void;
-  confirmClassName?: string;
-  cancelClassname?: string;
-  disabledConfirm?: boolean;
-  children?: React.ReactNode;
-};
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '../ui/dialog';
+import type { GeneralDialogProps } from './general-alert-dialog';
 
 export default function GeneralDialog({
   dialogKey,
@@ -64,7 +50,7 @@ export default function GeneralDialog({
   };
 
   return (
-    <AlertDialog
+    <Dialog
       open={isOpen[dialogKey]}
       onOpenChange={(open) => {
         if (!open && !isSubmitting) {
@@ -73,44 +59,45 @@ export default function GeneralDialog({
         }
       }}
     >
-      <AlertDialogContent className="max-w-sm bg-white sm:max-w-xl lg:max-w-2xl">
-        <AlertDialogCancel className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none">
+      <DialogContent className="max-w-sm bg-white sm:max-w-xl lg:max-w-2xl" showCloseButton={false}>
+        <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none">
           <X size={18} />
-        </AlertDialogCancel>
+        </DialogClose>
 
-        <AlertDialogHeader className="space-y-2">
-          <AlertDialogTitle className="font-semibold text-lg text-primary">
-            {title}
-          </AlertDialogTitle>
+        <DialogHeader className="space-y-2">
+          <DialogTitle>{title}</DialogTitle>
           {description && (
-            <AlertDialogDescription className="text-gray-500 text-sm">
-              {description}
-            </AlertDialogDescription>
+            <DialogDescription className="text-gray-500 text-sm">{description}</DialogDescription>
           )}
-        </AlertDialogHeader>
+        </DialogHeader>
 
         {children}
 
-        <AlertDialogFooter className="mt-4">
+        <DialogFooter>
           {useCancel && (
-            <AlertDialogCancel
+            <DialogClose
               disabled={isSubmitting}
               className={cn(cancelClassname, isSubmitting && 'cursor-not-allowed opacity-70')}
               onClick={handleCancel}
             >
               {cancelText}
-            </AlertDialogCancel>
+            </DialogClose>
           )}
-          <AlertDialogAction
+
+          <Button
             type="submit"
             disabled={isSubmitting || disabledConfirm}
-            className={cn(confirmClassName, isSubmitting && 'cursor-not-allowed opacity-70')}
+            className={cn(
+              'text-sm',
+              confirmClassName,
+              isSubmitting && 'cursor-not-allowed opacity-70'
+            )}
             onClick={handleConfirm}
           >
-            {isSubmitting ? 'Processing' : confirmText}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+            {confirmText}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

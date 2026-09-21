@@ -1,6 +1,6 @@
 import type { DragEndEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
-import { toPng } from 'html-to-image';
+import { toBlob } from 'html-to-image';
 import type { Dispatch, SetStateAction } from 'react';
 
 import { toast } from '@/components/ui/toast';
@@ -92,19 +92,25 @@ export const downloadStamp = async () => {
         }
       }
 
-      const imageUrl = await toPng(canvasNode, {
+      // Use blob instead png base64 string since Safari can't handle the massive string
+      const blob = await toBlob(canvasNode, {
         quality: 1,
         pixelRatio: 1,
         fontEmbedCSS,
       });
 
+      if (!blob) throw new Error('Failed to create image blob');
+
+      const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.download = 'stamp.png';
-      link.href = imageUrl;
+      link.href = url;
 
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+
+      setTimeout(() => URL.revokeObjectURL(url), 100);
 
       toast.success('Stamp downloaded');
     } catch (error) {
@@ -112,4 +118,49 @@ export const downloadStamp = async () => {
       toast.error('Stamp download failed');
     }
   });
+};
+
+export const copyStamp = async () => {
+  const canvasNode = document.getElementById('canvas-export');
+  if (!canvasNode) return;
+
+  try {
+    const makeBlob = async () => {
+      let fontEmbedCSS = '';
+      for (const font of StampFonts) {
+        try {
+          const res = await fetch(font.url);
+          const blob = await res.blob();
+          const base64 = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+          });
+          fontEmbedCSS += `@font-face { font-family: "${font.fontFamily}"; src: url(${base64}) format("${font.format}"); font-weight: ${font.weight}; font-style: normal; }\n`;
+        } catch (e) {
+          console.error(`Failed to load font ${font.fontFamily}`, e);
+        }
+      }
+
+      const blob = await toBlob(canvasNode, {
+        quality: 1,
+        pixelRatio: 1,
+        fontEmbedCSS,
+      });
+
+      if (!blob) throw new Error('Failed to create image blob');
+      return blob;
+    };
+
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        'image/png': makeBlob(),
+      }),
+    ]);
+
+    toast.success('Stamp copied to clipboard');
+  } catch (error) {
+    console.error(error);
+    toast.error('Stamp copy failed');
+  }
 };

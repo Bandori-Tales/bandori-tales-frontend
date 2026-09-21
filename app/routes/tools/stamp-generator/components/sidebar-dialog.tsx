@@ -78,6 +78,7 @@ export function SidebarImageDialog({
     <GeneralDialog
       dialogKey={dialogKey}
       title={title}
+      description="Select image for your stamp"
       confirmText={confirmText}
       useCancel
       onConfirm={handleConfirm}
@@ -179,6 +180,7 @@ export function SidebarTextDialog({
     <GeneralDialog
       dialogKey={dialogKey}
       title={title}
+      description="Set text for your stamp"
       confirmText={confirmText}
       useCancel
       onConfirm={handleConfirm}

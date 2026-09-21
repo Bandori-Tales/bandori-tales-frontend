@@ -138,8 +138,7 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
       />
       <ScrollNavigation edgeRef={edgeRef} unreadRef={unreadRef} finishedRef={finishedRef} />
       <Text type="btn" weight="regular" className="text-rose-500 italic">
-        This feature is still in beta version, some data might lost during update. For spreadsheet
-        version,{' '}
+        This feature is still in beta version. For spreadsheet version,{' '}
         {
           <Link
             to="https://docs.google.com/spreadsheets/d/1g4MsZ_U7CbwCK7TcW_9_d-Q7CSGtK0R2M1B10XrZGns/edit"

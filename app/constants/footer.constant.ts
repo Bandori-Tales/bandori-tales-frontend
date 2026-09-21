@@ -61,5 +61,5 @@ export const FooterCredits = {
 export const FooterPrivacyPolicies: string[] = [
   'Bandori-Tales uses Cloudflare to collect statistics. This includes IP, country location and paths in order to improve the site quality and security reasons. The data used only for those purpose and will never be used for advertisement.',
   "No personal data is saved inside Bandori-Tales Database. Story Tracker and other personal data in this site is stored in your browser's local storage and session storage.",
-  'By using Google Drive Sync, Bandori-Tales will have access to modify your drive data to read and write your site personal data inside bandori-tales folder.',
+  // 'By using Google Drive Sync, Bandori-Tales will have access to modify your drive data to read and write your site personal data inside bandori-tales folder.',
 ];

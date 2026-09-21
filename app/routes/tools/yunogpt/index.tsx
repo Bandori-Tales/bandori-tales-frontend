@@ -116,11 +116,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     const lastUserChatReversedIndex = reversedChat.findIndex((chat) => chat.sender === 'user');
     const lastYunoChatReversedIndex = reversedChat.findIndex((chat) => chat.sender === 'yuno');
 
-    console.log(reversedChat);
-    console.log(
-      `last user index: ${lastUserChatReversedIndex}, last yuno: ${lastYunoChatReversedIndex}`
-    );
-
     if (lastUserChatReversedIndex > 0 && lastYunoChatReversedIndex >= 0) {
       lastUserChat = reversedChat[lastUserChatReversedIndex].chat;
       lastYunoChat = reversedChat[lastUserChatReversedIndex - 1].chat;
@@ -186,7 +181,7 @@ function ChatContents({
     <div
       className={cn(
         isProfileOpen ? 'w-full md:w-[calc(100vw-300px)]' : 'w-full',
-        'flex h-full max-h-screen flex-col gap-4 overflow-scroll px-4 transition-all duration-300 md:px-9'
+        'flex h-full max-h-screen flex-col gap-4 overflow-y-scroll px-4 transition-all duration-300 md:px-9'
       )}
     >
       <div className="block h-20 w-full shrink-0" />

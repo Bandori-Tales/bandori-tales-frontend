@@ -42,7 +42,7 @@ export function TextElement({
       width={width}
       height={height}
       viewBox="0 0 400 200"
-      className={cn('pointer-events-none overflow-visible', className)}
+      className={cn('scrollbar-none pointer-events-none overflow-visible', className)}
     >
       <title>{name}</title>
       {lines.map((line, index) => {

@@ -12,7 +12,6 @@ export const getStampElements = () => {
 
   const parsed = safeParse(CanvasElementArraySchema, stampElements);
   if (!parsed.success) {
-    console.log(parsed.issues);
     itemStorage.local.set(LOCAL_STORAGE_KEY.STAMP_GENERATOR.DATA, []);
     return [] as CanvasElement[];
   }

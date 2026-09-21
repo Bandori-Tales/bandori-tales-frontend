@@ -197,10 +197,10 @@ export function StampGeneratorSidebar({
               </Button>
             </div>
 
-            <div className="h-full w-full">
+            <div className="flex h-full w-full flex-col items-baseline">
               <div
                 className={cn(
-                  'flex flex-row items-center',
+                  'flex w-full flex-row items-center',
                   elements.length > 0 ? 'justify-between' : 'justify-start'
                 )}
               >
@@ -220,7 +220,7 @@ export function StampGeneratorSidebar({
                 )}
               </div>
 
-              <div className="flex h-full w-full flex-col gap-2 overflow-scroll pt-3">
+              <div className="scrollbar-none flex h-full w-full flex-col gap-2 overflow-y-scroll pt-3">
                 <DndContext
                   sensors={sensors}
                   collisionDetection={closestCenter}

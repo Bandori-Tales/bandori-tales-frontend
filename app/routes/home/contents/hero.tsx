@@ -45,7 +45,7 @@ export function HeroContent({
               Quick Access
             </Text>
 
-            <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="flex flex-col flex-wrap items-center justify-center gap-3 sm:flex-row">
               <QuickAccessButton
                 title="Story Tracker (Beta)"
                 path="/story-tracker"
@@ -81,7 +81,7 @@ export function HeroContent({
             <Image src="/images/party_hat.webp" alt="party hat" className="w-8" />
           </div>
 
-          <div className="flex w-full flex-row items-center justify-start gap-2.5 overflow-scroll py-2 xl:justify-center">
+          <div className="scrollbar-none flex w-full flex-row items-center justify-start gap-2.5 overflow-x-scroll py-2 xl:justify-center">
             {birthdayData.map((data) => (
               <BirthdayCard
                 key={Array.isArray(data.fullname[0]) ? data.fullname[0] : (data.fullname as string)}

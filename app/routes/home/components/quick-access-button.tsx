@@ -32,7 +32,7 @@ export function QuickAccessButton({
       <Link
         to={path}
         className={cn(
-          'flex h-fit w-80 flex-row items-center justify-start gap-1 text-white lg:w-52 lg:flex-col lg:justify-center',
+          'flex h-fit w-80 flex-row items-center justify-start gap-1 text-white sm:w-52 sm:flex-col sm:justify-center',
           reverseFlex && 'flex-row-reverse'
         )}
       >

@@ -192,7 +192,7 @@ export function StoryTrackerSidebar({ settings, handleSettingsUpdate }: StoryTra
             >
               <X className="stroke-3 text-primary" />
             </Button>
-            <div className="flex h-full w-full flex-col items-center justify-start gap-2 overflow-y-scroll border-b border-b-primary px-2 pb-3">
+            <div className="flex h-full w-full flex-col items-center justify-start gap-2 px-2">
               <Text
                 type="st1"
                 weight="bold"
@@ -201,7 +201,7 @@ export function StoryTrackerSidebar({ settings, handleSettingsUpdate }: StoryTra
                 Story Tracker
               </Text>
 
-              <div className="flex h-full w-full flex-col items-center justify-start gap-3 overflow-scroll px-1">
+              <div className="flex h-full w-full flex-col items-center justify-start gap-3 overflow-y-scroll px-1">
                 <SidebarFilterSection title="Settings" isCollapsible>
                   <FilterSettingsSection settings={settings} handleUpdate={handleSettingsUpdate} />
                 </SidebarFilterSection>
@@ -286,29 +286,28 @@ export function StoryTrackerSidebar({ settings, handleSettingsUpdate }: StoryTra
                   <FilterSort />
                 </SidebarFilterSection>
               </div>
-            </div>
+              <div className="flex h-fit w-full shrink-0 flex-col items-center justify-center gap-2 border-t border-t-primary pt-3">
+                <Button
+                  type="submit"
+                  variant="default"
+                  size="sm"
+                  className="w-full"
+                  leftIcon={<Funnel />}
+                >
+                  Apply Filter
+                </Button>
 
-            <div className="flex h-fit w-full shrink-0 flex-col items-center justify-center gap-2 px-2">
-              <Button
-                type="submit"
-                variant="default"
-                size="sm"
-                className="w-full"
-                leftIcon={<Funnel />}
-              >
-                Apply Filter
-              </Button>
-
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="w-full hover:bg-black/10"
-                leftIcon={<Trash2 />}
-                onClick={() => openDialog(DIALOG_KEY.STORY_TRACKER.CLEAR_FILTER)}
-              >
-                Clear Filter
-              </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="w-full hover:bg-black/10"
+                  leftIcon={<Trash2 />}
+                  onClick={() => openDialog(DIALOG_KEY.STORY_TRACKER.CLEAR_FILTER)}
+                >
+                  Clear Filter
+                </Button>
+              </div>
             </div>
           </Form>
         </RemixFormProvider>

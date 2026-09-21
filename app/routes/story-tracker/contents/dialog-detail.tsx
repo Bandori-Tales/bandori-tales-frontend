@@ -1,4 +1,11 @@
-import { ArrowLeftRight, ChevronDown, ExternalLink, Loader2, X } from 'lucide-react';
+import {
+  ArrowLeftRight,
+  ChevronDown,
+  ExternalLink,
+  ExternalLinkIcon,
+  Loader2,
+  X,
+} from 'lucide-react';
 import { type ReactNode, useState } from 'react';
 import { Link } from 'react-router';
 
@@ -104,6 +111,14 @@ function DetailSection({
   );
 }
 
+function DetailProfileGrid({ children }: { children: ReactNode }) {
+  return (
+    <div className="grid h-fit w-full grid-cols-5 gap-y-4 sm:grid-cols-8 lg:grid-cols-12">
+      {children}
+    </div>
+  );
+}
+
 function TranslationButton({ name, source, type, url }: AvailableTranslation) {
   return (
     <Button
@@ -202,7 +217,9 @@ export function DetailStoryDialog({
     >
       {selectedStory ? (
         <DialogContent
-          className={cn('h-160 max-w-sm bg-white sm:h-200 sm:max-w-xl lg:h-150 lg:max-w-4xl')}
+          className={cn(
+            'h-160 max-h-[95vh] max-w-sm bg-white sm:h-200 sm:max-w-xl lg:h-150 lg:max-w-4xl'
+          )}
           showCloseButton={false}
         >
           <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none">
@@ -213,20 +230,15 @@ export function DetailStoryDialog({
             <DialogTitle className="font-semibold text-lg">Story Detail</DialogTitle>
           </DialogHeader>
 
-          <div className="relative flex w-full flex-col items-center justify-start gap-2 border-b border-b-primary pb-2 sm:flex-row sm:justify-center">
-            <div
-              className={cn(
-                'flex h-fit w-48 items-center justify-center gap-1',
-                isAnimeOnly || isAnime ? 'sm:w-50' : 'sm:w-75'
-              )}
-            >
+          <div className="flex w-full flex-col items-center justify-start gap-2 border-b border-b-primary pb-2 sm:justify-center">
+            <div className="relative flex h-fit w-fit shrink-0 items-center justify-start gap-1">
               {selectedStory.category !== 'ANIME' && selectedStory.has_anime_eq && (
                 <Button
                   type="button"
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsAnime(!isAnime)}
-                  className="absolute left-0 hover:bg-black/5 sm:static sm:left-auto"
+                  className="absolute -left-11 hover:bg-black/5"
                 >
                   <ArrowLeftRight
                     className={cn(
@@ -241,7 +253,7 @@ export function DetailStoryDialog({
                   alt={`${selectedStory.name} banner`}
                   src={handleImageUrl(selectedStory.anime_banner_img)}
                   className={cn(
-                    'h-full w-full rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-md',
+                    'h-fit w-60 rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-md',
                     isAnimeOnly && isBannerCollapse ? 'max-h-20 object-cover' : 'max-h-xl'
                   )}
                 />
@@ -250,20 +262,17 @@ export function DetailStoryDialog({
                   alt={`${selectedStory.name} banner`}
                   src={handleImageUrl(selectedStory.story_banner_img)}
                   className={cn(
-                    'h-full w-full rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-md',
+                    'h-full w-60 rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-md',
                     isAnimeOnly && isBannerCollapse ? 'max-h-20 object-cover' : 'max-h-xl'
                   )}
                 />
               )}
             </div>
-            <div className="flex w-full flex-col gap-2">
+            <div className="flex w-full flex-col items-center gap-2">
               <Text
                 type="st2"
                 weight="semibold"
-                className={cn(
-                  'text-center text-primary sm:text-left',
-                  isAnime || isAnimeOnly ? 'hidden' : ''
-                )}
+                className={cn('text-center text-primary', isAnime || isAnimeOnly ? 'hidden' : '')}
               >
                 {selectedStory.name}
               </Text>
@@ -273,29 +282,25 @@ export function DetailStoryDialog({
                     to={selectedStory.anime_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex w-full flex-row items-center justify-center gap-1 border-b border-b-transparent transition-colors duration-300 hover:border-b-primary/80 sm:w-fit sm:items-baseline"
+                    className="flex w-fit flex-row items-center justify-center gap-1 border-b border-b-transparent transition-colors duration-300 hover:border-b-primary/80"
                   >
                     <Text
                       type="btn"
                       weight="medium"
                       lineHeight={4}
-                      className="text-center text-primary/80 underline sm:text-left lg:no-underline"
+                      className="text-center text-primary/80 underline lg:no-underline"
                     >
                       {selectedStory.anime_name}
                     </Text>
-                    <ExternalLink className="hidden size-4 text-primary/80 md:block" />
+                    <ExternalLinkIcon className="hidden size-4 text-primary/80 md:block" />
                   </Link>
                 ) : (
-                  <Text
-                    type="p"
-                    weight="medium"
-                    className="text-center text-primary/80 sm:text-left"
-                  >
+                  <Text type="p" weight="medium" className="text-center text-primary/80">
                     {selectedStory.anime_name}
                   </Text>
                 ))}
               {selectedStory.category !== 'ANIME' && (
-                <div className="flex flex-row items-center justify-center gap-1 sm:justify-start">
+                <div className="flex flex-row items-center justify-center gap-1">
                   {selectedStory.story_type !== 'MAIN_STORY' && (
                     <Image
                       alt="Band Icon"
@@ -317,7 +322,8 @@ export function DetailStoryDialog({
                 <Button
                   type="button"
                   variant="ghost"
-                  className="sm:hidden"
+                  size="icon"
+                  className="rounded-full hover:bg-black/5"
                   onClick={() => setIsBannerCollapse(!isBannerCollapse)}
                 >
                   <ChevronDown
@@ -351,85 +357,107 @@ export function DetailStoryDialog({
             </DetailSection>
 
             <DetailSection title="Main Characters">
-              {selectedStory.main_characters.map((character) => {
-                const characterDetail = Characters.find((item) => item.id === character);
-                if (!characterDetail) return;
+              <DetailProfileGrid>
+                {selectedStory.main_characters.map((character) => {
+                  const characterDetail = Characters.find((item) => item.id === character);
+                  if (!characterDetail) return;
 
-                const nickname = Array.isArray(characterDetail.nickname)
-                  ? characterDetail.nickname[0]
-                  : characterDetail.nickname;
-                const profilePicture = Array.isArray(characterDetail.profile_picture)
-                  ? characterDetail.profile_picture[0]
-                  : characterDetail.profile_picture;
+                  const nickname = Array.isArray(characterDetail.nickname)
+                    ? characterDetail.nickname[0]
+                    : characterDetail.nickname;
+                  const profilePicture = Array.isArray(characterDetail.profile_picture)
+                    ? characterDetail.profile_picture[0]
+                    : characterDetail.profile_picture;
 
-                const imageAlterDetail = StoryTrackerCustomCharacter[selectedStory.id]?.[character];
+                  const imageAlterDetail =
+                    StoryTrackerCustomCharacter[selectedStory.id]?.[character];
 
-                return imageAlterDetail ? (
-                  <ProfileImageAlter
-                    key={`main_character_${characterDetail.id}`}
-                    {...imageAlterDetail}
-                    alt={`${nickname} profile picture`}
-                    source={characterDetail.profile_picture}
-                    className="aspect-square w-12 rounded-full"
-                  />
-                ) : (
-                  <Image
-                    key={`main_character_${characterDetail.id}`}
-                    alt={`${nickname} profile picture`}
-                    src={profilePicture}
-                    className="aspect-square w-12 rounded-full"
-                  />
-                );
-              })}
+                  return (
+                    <div
+                      key={`main_character_${characterDetail.id}`}
+                      className="flex w-full items-center justify-center"
+                    >
+                      {imageAlterDetail ? (
+                        <ProfileImageAlter
+                          {...imageAlterDetail}
+                          alt={`${nickname} profile picture`}
+                          source={characterDetail.profile_picture}
+                          className="aspect-square w-12 rounded-full"
+                        />
+                      ) : (
+                        <Image
+                          alt={`${nickname} profile picture`}
+                          src={profilePicture}
+                          className="aspect-square w-12 rounded-full"
+                        />
+                      )}
+                    </div>
+                  );
+                })}
+              </DetailProfileGrid>
             </DetailSection>
 
             <DetailSection title="Side Bands">
-              {selectedStory.side_bands?.map((character) => {
-                const bandDetail = Bands.find((item) => item.id === character);
-                if (!bandDetail) return;
+              <DetailProfileGrid>
+                {selectedStory.side_bands?.map((character) => {
+                  const bandDetail = Bands.find((item) => item.id === character);
+                  if (!bandDetail) return;
 
-                return (
-                  <Image
-                    key={`side_band_${bandDetail.id}`}
-                    alt={`${bandDetail.name} icon`}
-                    src={bandDetail.icon}
-                    className="aspect-square size-8"
-                  />
-                );
-              })}
+                  return (
+                    <div
+                      key={`side_band_${bandDetail.id}`}
+                      className="flex w-full items-center justify-center"
+                    >
+                      <Image
+                        alt={`${bandDetail.name} icon`}
+                        src={bandDetail.icon}
+                        className="aspect-square size-8"
+                      />
+                    </div>
+                  );
+                })}
+              </DetailProfileGrid>
             </DetailSection>
 
             <DetailSection title="Side Characters">
-              {selectedStory.side_characters?.map((character) => {
-                const characterDetail = Characters.find((item) => item.id === character);
-                if (!characterDetail) return;
+              <DetailProfileGrid>
+                {selectedStory.side_characters?.map((character) => {
+                  const characterDetail = Characters.find((item) => item.id === character);
+                  if (!characterDetail) return;
 
-                const nickname = Array.isArray(characterDetail.nickname)
-                  ? characterDetail.nickname[0]
-                  : characterDetail.nickname;
-                const profilePicture = Array.isArray(characterDetail.profile_picture)
-                  ? characterDetail.profile_picture[0]
-                  : characterDetail.profile_picture;
+                  const nickname = Array.isArray(characterDetail.nickname)
+                    ? characterDetail.nickname[0]
+                    : characterDetail.nickname;
+                  const profilePicture = Array.isArray(characterDetail.profile_picture)
+                    ? characterDetail.profile_picture[0]
+                    : characterDetail.profile_picture;
 
-                const imageAlterDetail = StoryTrackerCustomCharacter[selectedStory.id]?.[character];
+                  const imageAlterDetail =
+                    StoryTrackerCustomCharacter[selectedStory.id]?.[character];
 
-                return imageAlterDetail ? (
-                  <ProfileImageAlter
-                    key={`side_character_${characterDetail.id}`}
-                    {...imageAlterDetail}
-                    alt={`${nickname} profile picture`}
-                    source={characterDetail.profile_picture}
-                    className="aspect-square w-12 rounded-full"
-                  />
-                ) : (
-                  <Image
-                    key={`side_character_${characterDetail.id}`}
-                    alt={`${nickname} profile picture`}
-                    src={profilePicture}
-                    className="aspect-square w-12 rounded-full"
-                  />
-                );
-              })}
+                  return (
+                    <div
+                      key={`side_character_${characterDetail.id}`}
+                      className="flex w-full items-center justify-center"
+                    >
+                      {imageAlterDetail ? (
+                        <ProfileImageAlter
+                          {...imageAlterDetail}
+                          alt={`${nickname} profile picture`}
+                          source={characterDetail.profile_picture}
+                          className="aspect-square w-12 rounded-full"
+                        />
+                      ) : (
+                        <Image
+                          alt={`${nickname} profile picture`}
+                          src={profilePicture}
+                          className="aspect-square w-12 rounded-full"
+                        />
+                      )}
+                    </div>
+                  );
+                })}
+              </DetailProfileGrid>
             </DetailSection>
 
             {(selectedStory.category !== 'ANIME' ||

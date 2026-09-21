@@ -34,7 +34,7 @@ function ColorPickerContent({
         </TabsContent>
 
         <TabsContent value="character">
-          <div className="w-full h-70 grid grid-cols-4 gap-2 overflow-scroll scrollbar-none">
+          <div className="w-full h-70 grid grid-cols-4 gap-2 overflow-y-scroll scrollbar-none">
             {
               Characters.map((character) => {
                 const isSelected = (Array.isArray(character.image_color) ? character.image_color[0] : character.image_color) === currentColor;
@@ -55,7 +55,7 @@ function ColorPickerContent({
         </TabsContent>
 
         <TabsContent value="band">
-          <div className="w-full h-70 grid grid-cols-2 gap-2 overflow-scroll scrollbar-none">
+          <div className="w-full h-70 grid grid-cols-2 gap-2 overflow-y-scroll scrollbar-none">
             {
               Bands.filter((band) => band.id !== 99).map((band) => {
                 const isColorSelected = band.color === currentColor;

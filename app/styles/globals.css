@@ -20,7 +20,6 @@ body {
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
-  scroll-behavior: smooth;
 }
 
 @theme inline {
@@ -197,6 +196,10 @@ body {
   * {
     @apply border-border outline-ring/50;
     letter-spacing: 0.5px;
+
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-slate-400) transparent;
   }
   body {
     @apply bg-background text-foreground;

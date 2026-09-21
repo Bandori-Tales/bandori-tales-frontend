@@ -17,7 +17,7 @@ export default function ExpandableImage({ src, alt, className, ...props }: Image
         <DialogTitle>{alt}</DialogTitle>
       </VisuallyHidden.Root>
 
-      <DialogContent className="max-w-5xl border-none bg-transparent p-0 shadow-none">
+      <DialogContent className="w-fit max-w-5xl border-none bg-transparent p-0 shadow-none">
         <Image src={src} alt={alt} className="h-auto max-h-[85vh] w-full object-contain" />
       </DialogContent>
     </Dialog>

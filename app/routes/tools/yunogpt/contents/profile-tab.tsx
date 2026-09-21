@@ -118,7 +118,7 @@ function ProfileMiddleSection({ title, children }: { title: string; children: Re
 
 function MediaList() {
   return (
-    <div className="flex h-fit w-full flex-row items-baseline gap-1 overflow-scroll pb-4">
+    <div className="scrollbar-thin flex h-fit w-full flex-row items-baseline gap-1 overflow-x-scroll pb-4">
       {YUNOGPT_MEDIA_LIST.map((media, index) => (
         <Image
           key={`yuno_media_${index}`}
@@ -179,7 +179,7 @@ export function ChatProfileTab({
         setIsProfileOpen={setIsProfileOpen}
       />
 
-      <div className="flex w-full flex-col overflow-scroll">
+      <div className="scrollbar-thin flex w-full flex-col overflow-y-scroll">
         <ProfileMiddleSection
           title={`${YUNOGPT_WRITE_ASSETS.PROFILE_MEDIA} (${YUNOGPT_MEDIA_LIST.length})`}
         >

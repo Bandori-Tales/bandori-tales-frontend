@@ -91,7 +91,7 @@ export function SidebarImageDialog({
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <div className="grid h-full w-full grid-cols-3 gap-1 overflow-scroll pr-3 sm:grid-cols-4 lg:grid-cols-5">
+        <div className="grid h-full w-full grid-cols-3 gap-1 overflow-y-scroll pr-3 sm:grid-cols-4 lg:grid-cols-5">
           {imageList.map((item) => {
             const isSelected = item.id === selectedImageId;
 
@@ -197,7 +197,7 @@ export function SidebarTextDialog({
           />
         </div>
 
-        <div className="flex h-full w-full flex-col gap-3 overflow-scroll">
+        <div className="flex h-full w-full flex-col gap-3 overflow-y-scroll">
           <div className="flex w-full flex-row items-center gap-3">
             <Text weight="semibold">Font: </Text>
             <DropdownMenu>

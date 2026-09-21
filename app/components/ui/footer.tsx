@@ -115,7 +115,7 @@ function CreditsDialog() {
           <DialogTitle className="font-semibold text-lg">Credits</DialogTitle>
         </DialogHeader>
 
-        <div className="w-full flex flex-col gap-5 h-full overflow-scroll">
+        <div className="w-full flex flex-col gap-5 h-full overflow-y-scroll">
           <CreditsSection title="Youtube Uploader" icon={TvMinimalPlay} items={FooterCredits.youtube_uploader} />
           <CreditsSection title="Inspiration" icon={Lightbulb} items={FooterCredits.inspiration} />
           <CreditsSection title="Assets" icon={FileText} items={FooterCredits.assets} />
@@ -149,7 +149,7 @@ function PrivacyPoliciesDialog() {
           <DialogTitle className="font-semibold text-lg">Privacy & Policies</DialogTitle>
         </DialogHeader>
 
-        <div className="w-full h-full overflow-scroll">
+        <div className="w-full h-full overflow-y-scroll scrollbar-none">
           <ul className="list-inside list-disc py-3">
             {
               FooterPrivacyPolicies.map((item, index) => (

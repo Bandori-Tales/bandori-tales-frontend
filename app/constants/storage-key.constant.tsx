@@ -16,7 +16,7 @@ export const DIALOG_KEY = {
     CLEAR_DATA: 'stamp-clear-data',
   },
   YUNOGPT: {
-    CLEAR_CHAT: 'clear_chat',
+    CLEAR_CHAT: 'clear-chat',
   },
 };
 

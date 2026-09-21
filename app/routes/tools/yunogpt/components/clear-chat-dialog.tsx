@@ -1,5 +1,4 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: _ */
-
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useRevalidator } from 'react-router';
@@ -59,7 +58,7 @@ export default function ClearChatDialog() {
   }
 
   return (
-    <AlertDialog open={!!isOpen.clear_chat} onOpenChange={handleOpenChange}>
+    <AlertDialog open={!!isOpen[DIALOG_KEY.YUNOGPT.CLEAR_CHAT]} onOpenChange={handleOpenChange}>
       <AlertDialogContent className="bg-white">
         <AlertDialogHeader>
           <AlertDialogTitle>Clear Chat</AlertDialogTitle>

@@ -110,9 +110,19 @@ export const StampImages = [
     url: '/images/tools/stamp-generator/chuchu_cn_new_year.webp',
   },
   {
+    id: 'eve_smug',
+    label: 'Eve Smug',
+    url: '/images/tools/stamp-generator/eve_smug.webp',
+  },
+  {
     id: 'eve_whoa',
     label: 'Eve Whoa',
     url: '/images/tools/stamp-generator/eve_whoa.webp',
+  },
+  {
+    id: 'hagumi_aiyo',
+    label: 'Hagumi Aiyo',
+    url: '/images/tools/stamp-generator/hagumi_aiyo.webp',
   },
   {
     id: 'hagumi_hmm',
@@ -128,6 +138,11 @@ export const StampImages = [
     id: 'himari_eekk',
     label: 'Himari Eekk!',
     url: '/images/tools/stamp-generator/himari_eekk.webp',
+  },
+  {
+    id: 'himari_eieio',
+    label: 'Himari (?) Ei Ei O!',
+    url: '/images/tools/stamp-generator/himari_eieio.webp',
   },
   {
     id: 'hina_awawa',
@@ -180,6 +195,11 @@ export const StampImages = [
     url: '/images/tools/stamp-generator/kasumi_wonderland.webp',
   },
   {
+    id: 'kasumi_yahoo',
+    label: 'Kasumi Yahoo',
+    url: '/images/tools/stamp-generator/kasumi_yahoo.webp',
+  },
+  {
     id: 'kokoro_cheer',
     label: 'Kokoro Cheering',
     url: '/images/tools/stamp-generator/kokoro_cheer.webp',
@@ -200,6 +220,11 @@ export const StampImages = [
     url: '/images/tools/stamp-generator/layer_cheer.webp',
   },
   {
+    id: 'layer_welcome_back',
+    label: 'LAYER Welcome Back',
+    url: '/images/tools/stamp-generator/layer_welcome_back.webp',
+  },
+  {
     id: 'lisa_nfo',
     label: 'Lisa NFO',
     url: '/images/tools/stamp-generator/lisa_nfo.webp',
@@ -210,14 +235,39 @@ export const StampImages = [
     url: '/images/tools/stamp-generator/lock_too_good.webp',
   },
   {
+    id: 'lock_pointy',
+    label: 'LOCK Pointy',
+    url: '/images/tools/stamp-generator/lock_pointy.webp',
+  },
+  {
     id: 'mashiro_cheer',
     label: 'Mashiro Cheering',
     url: '/images/tools/stamp-generator/mashiro_cheer.webp',
   },
   {
+    id: 'mashiro_doit',
+    label: 'Mashiro Can Do It!',
+    url: '/images/tools/stamp-generator/mashiro_do_it.webp',
+  },
+  {
     id: 'mashiro_chuuni',
     label: 'Mashiro Vie En Rose!',
     url: '/images/tools/stamp-generator/mashiro_chuuni.webp',
+  },
+  {
+    id: 'masking_so_cute',
+    label: 'MASKING So Cute..',
+    url: '/images/tools/stamp-generator/masking_so_cute.webp',
+  },
+  {
+    id: 'maya_delicious',
+    label: 'Maya Delicious!',
+    url: '/images/tools/stamp-generator/maya_delicious.webp',
+  },
+  {
+    id: 'maya_miss',
+    label: 'Maya Miss',
+    url: '/images/tools/stamp-generator/maya_miss.webp',
   },
   {
     id: 'misaki_feel_the_sun',
@@ -230,14 +280,34 @@ export const StampImages = [
     url: '/images/tools/stamp-generator/moca_bread.webp',
   },
   {
+    id: 'moca_lets_do_it',
+    label: "Moca Let's Do It~",
+    url: '/images/tools/stamp-generator/moca_lets_do_it.webp',
+  },
+  {
     id: 'moca_nom',
     label: 'Moca Wonder Night Land',
     url: '/images/tools/stamp-generator/moca_wonderland.webp',
   },
   {
+    id: 'nanami_oops',
+    label: 'Nanami Oops',
+    url: '/images/tools/stamp-generator/nanami_eh.webp',
+  },
+  {
+    id: 'nanami_like_this',
+    label: 'Nanami Like This Song',
+    url: '/images/tools/stamp-generator/nanami_like_this_song.webp',
+  },
+  {
     id: 'nanami_wonderland',
     label: 'Nanami Wonder Night Land',
     url: '/images/tools/stamp-generator/nanami_wonderland.webp',
+  },
+  {
+    id: 'pareo_podcast',
+    label: 'PAREO Radio',
+    url: '/images/tools/stamp-generator/pareo_radio.webp',
   },
   {
     id: 'ran_cheer',
@@ -253,6 +323,11 @@ export const StampImages = [
     id: 'rimi_bless',
     label: 'Rimi Bless',
     url: '/images/tools/stamp-generator/rimi_bless.webp',
+  },
+  {
+    id: 'rimi_eee',
+    label: 'Rimi Eeeh',
+    url: '/images/tools/stamp-generator/rimi_eee.webp',
   },
   {
     id: 'rimi_guhh',
@@ -280,6 +355,21 @@ export const StampImages = [
     url: '/images/tools/stamp-generator/rinko_wonderland.webp',
   },
   {
+    id: 'rui_witness',
+    label: 'Rui Call The Witness',
+    url: '/images/tools/stamp-generator/rui_witness.webp',
+  },
+  {
+    id: 'saya_question',
+    label: 'Saya Jennifer?',
+    url: '/images/tools/stamp-generator/saya_question.webp',
+  },
+  {
+    id: 'saya_what_happen',
+    label: "Saya What's Happening?",
+    url: '/images/tools/stamp-generator/saya_what_happen.webp',
+  },
+  {
     id: 'sayo_chomp',
     label: 'Sayo Chomp!',
     url: '/images/tools/stamp-generator/sayo_chomp.webp',
@@ -295,6 +385,11 @@ export const StampImages = [
     url: '/images/tools/stamp-generator/tae_cheer.webp',
   },
   {
+    id: 'tae_press',
+    label: 'Tae Press',
+    url: '/images/tools/stamp-generator/tae_press.webp',
+  },
+  {
     id: 'tae_whee',
     label: 'Tae Wheee',
     url: '/images/tools/stamp-generator/tae_whee.webp',
@@ -305,9 +400,29 @@ export const StampImages = [
     url: '/images/tools/stamp-generator/taki_wonderland.webp',
   },
   {
+    id: 'taki_yessir',
+    label: 'Taki Yessir!',
+    url: '/images/tools/stamp-generator/taki_yessir.webp',
+  },
+  {
+    id: 'toko_confidence',
+    label: 'Toko Confidence!',
+    url: '/images/tools/stamp-generator/toko_confidence.webp',
+  },
+  {
     id: 'toko_work',
     label: "Toko It's Working!",
     url: '/images/tools/stamp-generator/toko_its_working.webp',
+  },
+  {
+    id: 'toko_pff',
+    label: 'Toko Pff.. Pff..',
+    url: '/images/tools/stamp-generator/toko_dududu.webp',
+  },
+  {
+    id: 'tomoe_fine',
+    label: "Tomoe It's Fine..",
+    url: '/images/tools/stamp-generator/tomoe_its_fine.webp',
   },
   {
     id: 'tomori_cheer',

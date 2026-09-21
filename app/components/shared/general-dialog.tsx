@@ -75,12 +75,20 @@ export default function GeneralDialog({
 
         <DialogFooter>
           {useCancel && (
-            <DialogClose
-              disabled={isSubmitting}
-              className={cn(cancelClassname, isSubmitting && 'cursor-not-allowed opacity-70')}
-              onClick={handleCancel}
-            >
-              {cancelText}
+            <DialogClose asChild>
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isSubmitting}
+                className={cn(
+                  'text-sm hover:bg-black/5',
+                  cancelClassname,
+                  isSubmitting && 'cursor-not-allowed opacity-70'
+                )}
+                onClick={handleCancel}
+              >
+                {cancelText}
+              </Button>
             </DialogClose>
           )}
 

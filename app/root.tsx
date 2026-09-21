@@ -95,7 +95,33 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: 'preload',
+    href: '/fonts/font-yuruka-std.ttf',
+    as: 'font',
+    type: 'font/ttf',
+    crossOrigin: 'anonymous',
+  },
+  {
+    rel: 'preload',
+    href: '/fonts/angella-regular.otf',
+    as: 'font',
+    type: 'font/otf',
+    crossOrigin: 'anonymous',
+  },
+  {
+    rel: 'preload',
     href: '/images/spin_aya.webp',
+    as: 'image',
+    crossOrigin: 'anonymous',
+  },
+  {
+    rel: 'preload',
+    href: '/images/coming_soon.webp',
+    as: 'image',
+    crossOrigin: 'anonymous',
+  },
+  {
+    rel: 'preload',
+    href: '/images/error.webp',
     as: 'image',
     crossOrigin: 'anonymous',
   },

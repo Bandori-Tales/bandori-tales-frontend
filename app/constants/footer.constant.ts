@@ -43,6 +43,11 @@ export const FooterCredits = {
       url: 'https://www.reddit.com/r/BanGDream/comments/1il4b27/comment/mbrqppw',
       note: 'The story tag was initially inspired from their docs, then it gets remake from me to fit better in most of the stories.',
     },
+    {
+      name: 'PJSK Stickers Maker by Ayaka & More',
+      url: 'https://prsk.erica.moe',
+      note: 'Stamp Generator feature was inspired by this site.',
+    },
   ] satisfies Credit[],
   assets: [
     {

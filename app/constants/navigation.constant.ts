@@ -92,19 +92,18 @@ export const ToolFeatures = {
       profilePicture: '/images/tools/other/bestdori.webp',
     },
     {
+      title: 'Project Yume',
+      description: 'A fan-made website/database for BanG Dream! Our Notes players.',
+      author: 'anonsbelle',
+      href: 'https://bdon.yatta.moe',
+      profilePicture: '/images/tools/other/bdonyatta.webp',
+    },
+    {
       title: 'Bandori Party',
       description: 'The BanG Dream! Girls Band Party Database & Community',
       author: 'bandori.party',
       href: 'https://bandori.party',
       profilePicture: '/images/tools/other/bandoriparty.webp',
-    },
-    {
-      title: 'Hina-is',
-      description:
-        'A fan site for BanG Dream! that shows various content and assets from the game.',
-      author: 'ahmadyasser72',
-      href: 'https://hina-is.notsweet.workers.dev/',
-      profilePicture: '/images/tools/other/hinais.webp',
     },
   ] satisfies SiteFeature[],
 };

@@ -32,9 +32,9 @@ export function BirthdayCard({
       <div className="relative flex h-14 w-14 rounded-full">
         {isBirthday && (
           <Image
-            src="/images/party_hat.webp"
+            src="/images/party_hat_no_outline.webp"
             alt="party hat"
-            className="absolute -top-5 right-0.5 h-fit w-8 rotate-20"
+            className="absolute -top-5 right-0 h-fit w-8 rotate-20"
           />
         )}
         <Image

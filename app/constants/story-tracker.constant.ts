@@ -1,5 +1,130 @@
-import type { BandoriStory, BandoriStoryForm, IStoryTag, ITranslationType } from '@/schemas/models';
+import { CheckCheck, Delete, FastForward, type LucideIcon } from 'lucide-react';
+
+import type { BadgeProps } from '@/components/ui/badge';
+
+import type {
+  BandoriStory,
+  BandoriStoryForm,
+  IStoryTag,
+  ITranslationSource,
+  ITranslationType,
+} from '@/schemas/models';
 import type { CustomImageOverlay } from '@/schemas/types';
+
+export const translationButtonMap: Record<
+  ITranslationSource,
+  {
+    logo: string;
+    background: string;
+  }
+> = {
+  YOUTUBE: {
+    logo: '/images/translation/youtube.webp',
+    background: 'bg-red-500 hover:bg-red-500/85',
+  },
+  GDRIVE: {
+    logo: '/images/translation/google_drive.webp',
+    background: 'bg-emerald-500 hover:bg-emerald-500/85',
+  },
+  TUMBLR: {
+    logo: '/images/translation/tumblr.webp',
+    background: 'bg-sky-500 hover:bg-sky-500/85',
+  },
+  BESTDORI: {
+    logo: '/images/tools/other/bestdori.webp',
+    background: 'bg-blue-500 hover:bg-blue-500/85',
+  },
+  FANDOM: {
+    logo: '/images/tools/other/bandoriwiki.webp',
+    background: 'bg-fuchsia-500 hover:bg-fuchsia-500/85',
+  },
+  YATTA: {
+    logo: '/images/tools/other/bdonyatta.webp',
+    background: 'bg-indigo-500 hover:bg-indigo-500/85',
+  },
+};
+
+export const StoryBadgeColorMap: Record<string, BadgeProps> = {
+  EXPLORATION: {
+    textColor: 'text-cyan-100',
+    background: 'bg-cyan-700',
+    border: 'border-cyan-900',
+  },
+  FILLER: {
+    textColor: 'text-yellow-800',
+    background: 'bg-yellow-300',
+    border: 'border-yellow-900',
+  },
+  RELEVANT: {
+    textColor: 'text-teal-100',
+    background: 'bg-teal-700',
+    border: 'border-teal-900',
+  },
+  MAJOR: {
+    textColor: 'text-red-100',
+    background: 'bg-red-600',
+    border: 'border-red-900',
+  },
+  COLLAB: {
+    textColor: 'text-violet-100',
+    background: 'bg-violet-700',
+    border: 'border-violet-900',
+  },
+  NOTCANON: {
+    textColor: 'text-indigo-100',
+    background: 'bg-indigo-700',
+    border: 'border-indigo-900',
+  },
+  UNCATEGORIZED: {
+    textColor: 'text-slate-100',
+    background: 'bg-slate-700',
+    border: 'border-slate-900',
+  },
+  OFFICIAL: {
+    textColor: 'text-white',
+    background: 'bg-emerald-600',
+    border: 'border-emerald-800',
+  },
+  FAN: {
+    textColor: 'text-white',
+    background: 'bg-sky-600',
+    border: 'border-sky-800',
+  },
+  NONE: {
+    textColor: 'text-white',
+    background: 'bg-slate-600',
+    border: 'border-slate-800',
+  },
+};
+
+export const storyStatusMap: Record<
+  string,
+  {
+    background: string;
+    border: string;
+    text: string;
+    icon: LucideIcon;
+  }
+> = {
+  finish: {
+    background: 'bg-green-600',
+    border: 'border-green-600',
+    text: 'Finish',
+    icon: CheckCheck,
+  },
+  skip: {
+    background: 'bg-purple-600',
+    border: 'border-purple-600',
+    text: 'Skip',
+    icon: FastForward,
+  },
+  unread: {
+    background: 'bg-red-600',
+    border: 'border-red-600',
+    text: 'Unread',
+    icon: Delete,
+  },
+};
 
 export const StoryTrackerDefaultValue = {
   search: '',

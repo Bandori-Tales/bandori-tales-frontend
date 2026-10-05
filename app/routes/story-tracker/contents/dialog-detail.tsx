@@ -31,20 +31,20 @@ import {
   Bands,
   Characters,
   DIALOG_KEY,
+  StoryBadgeColorMap,
   StoryTrackerCustomCharacter,
   StoryTrackerTagDescription,
+  translationButtonMap,
 } from '@/constants';
 import {
   type AvailableTranslation,
   type BandoriStory,
   type IReadingStatus,
-  type ITranslationSource,
   storyTagMap,
   storyTypeMap,
   translationSourceMap,
 } from '@/schemas/models';
 
-import { StoryBadgeColorMaps } from '../components/badges';
 import { UpdateStoryStatusButton } from '../components/story-card';
 
 interface DetailStoryDialogProps {
@@ -55,35 +55,6 @@ interface DetailStoryDialogProps {
   setSelectedStory: (story: (BandoriStory & { status?: IReadingStatus }) | null) => void;
   updateReadingStatus: (id: number, status: IReadingStatus | 'unread') => void;
 }
-
-const translationButtonMap: Record<
-  ITranslationSource,
-  {
-    logo: string;
-    background: string;
-  }
-> = {
-  YOUTUBE: {
-    logo: '/images/translation/youtube.webp',
-    background: 'bg-red-500 hover:bg-red-500/85',
-  },
-  GDRIVE: {
-    logo: '/images/translation/google_drive.webp',
-    background: 'bg-emerald-500 hover:bg-emerald-500/85',
-  },
-  TUMBLR: {
-    logo: '/images/translation/tumblr.webp',
-    background: 'bg-sky-500 hover:bg-sky-500/85',
-  },
-  BESTDORI: {
-    logo: '/images/tools/other/bestdori.webp',
-    background: 'bg-blue-500 hover:bg-blue-500/85',
-  },
-  FANDOM: {
-    logo: '/images/tools/other/bandoriwiki.webp',
-    background: 'bg-fuchsia-500 hover:bg-fuchsia-500/85',
-  },
-};
 
 function DetailSection({
   title,
@@ -347,7 +318,7 @@ export function DetailStoryDialog({
             <DetailSection title="Story Tag">
               <div className="flex w-full flex-col gap-2">
                 <Badge
-                  {...StoryBadgeColorMaps[selectedStory.story_tag]}
+                  {...StoryBadgeColorMap[selectedStory.story_tag]}
                   title={storyTagMap[selectedStory.story_tag]}
                 />
                 <Text type="btn" weight="medium" lineHeight={5} className="text-slate-700">

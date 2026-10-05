@@ -1,6 +1,5 @@
 // biome-ignore-all lint/a11y/noStaticElementInteractions: Div Required to be clickable
 // biome-ignore-all lint/a11y/useKeyWithClickEvents: Element will be iterated
-import { CheckCheck, Delete, FastForward, type LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 import useDialogStore from '@/hooks/store/use-dialog';
@@ -9,7 +8,7 @@ import { cn, handleImageUrl } from '@/lib/utils';
 import Image from '@/components/helper/image';
 import { Text } from '@/components/helper/text';
 
-import { Bands, DIALOG_KEY } from '@/constants';
+import { Bands, DIALOG_KEY, storyStatusMap } from '@/constants';
 import type { BandoriStory, IReadingStatus } from '@/schemas/models';
 
 import { StoryBadge } from './badges';
@@ -34,35 +33,6 @@ interface UpdateStoryStatusButtonProps {
   isMobile: boolean;
   updateReadingStatus: (id: number, status: IReadingStatus | 'unread') => void;
 }
-
-const storyStatusMap: Record<
-  string,
-  {
-    background: string;
-    border: string;
-    text: string;
-    icon: LucideIcon;
-  }
-> = {
-  finish: {
-    background: 'bg-green-600',
-    border: 'border-green-600',
-    text: 'Finish',
-    icon: CheckCheck,
-  },
-  skip: {
-    background: 'bg-purple-600',
-    border: 'border-purple-600',
-    text: 'Skip',
-    icon: FastForward,
-  },
-  unread: {
-    background: 'bg-red-600',
-    border: 'border-red-600',
-    text: 'Unread',
-    icon: Delete,
-  },
-};
 
 function ListLabel({ title, children }: ListLabelProps) {
   return (

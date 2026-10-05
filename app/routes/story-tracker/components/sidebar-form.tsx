@@ -15,6 +15,7 @@ import {
   Bands,
   Characters,
   DIALOG_KEY,
+  StoryBadgeColorMap,
   StoryTrackerTagDescription,
   StoryTrackerTranslationDescription,
 } from '@/constants';
@@ -25,8 +26,6 @@ import {
   TranslationType,
   translationTypeMap,
 } from '@/schemas/models';
-
-import { StoryBadgeColorMaps } from './badges';
 
 export function FilterSettingsSection({
   settings,
@@ -131,7 +130,7 @@ export function FilterStoryTag() {
         return {
           value: tag,
           label: storyTagMap[tag],
-          badge: StoryBadgeColorMaps[tag],
+          badge: StoryBadgeColorMap[tag],
           description: StoryTrackerTagDescription[tag],
         };
       })}
@@ -151,7 +150,7 @@ export function FilterTranslationType() {
         return {
           value: translation,
           label: translationTypeMap[translation],
-          badge: StoryBadgeColorMaps[translation],
+          badge: StoryBadgeColorMap[translation],
           description: StoryTrackerTranslationDescription[translation],
         };
       })}
@@ -208,31 +207,6 @@ export function FilterMainCharacter() {
     <SelectImage
       title="Main Characters"
       desciption="Select the primary characters of the story"
-      name="side_character"
-      items={Characters.map((character) => {
-        const name = Array.isArray(character.nickname) ? character.nickname[0] : character.nickname;
-        const image = Array.isArray(character.profile_picture)
-          ? character.profile_picture[0]
-          : character.profile_picture;
-
-        return {
-          label: name,
-          value: character.id,
-          image: image,
-        };
-      })}
-      arrayMode
-      withOperationSwitch
-      operationFieldName="side_character_operation"
-    />
-  );
-}
-
-export function FilterSideCharacter() {
-  return (
-    <SelectImage
-      title="Side Characters"
-      desciption="Select other characters that appear in the story. Even a brief appearance will count"
       name="main_character"
       items={Characters.map((character) => {
         const name = Array.isArray(character.nickname) ? character.nickname[0] : character.nickname;
@@ -249,6 +223,31 @@ export function FilterSideCharacter() {
       arrayMode
       withOperationSwitch
       operationFieldName="main_character_operation"
+    />
+  );
+}
+
+export function FilterSideCharacter() {
+  return (
+    <SelectImage
+      title="Side Characters"
+      desciption="Select other characters that appear in the story. Even a brief appearance will count"
+      name="side_character"
+      items={Characters.map((character) => {
+        const name = Array.isArray(character.nickname) ? character.nickname[0] : character.nickname;
+        const image = Array.isArray(character.profile_picture)
+          ? character.profile_picture[0]
+          : character.profile_picture;
+
+        return {
+          label: name,
+          value: character.id,
+          image: image,
+        };
+      })}
+      arrayMode
+      withOperationSwitch
+      operationFieldName="side_character_operation"
     />
   );
 }

@@ -1,5 +1,12 @@
 import * as v from 'valibot';
 
+export type YunoThemeClasses = {
+  background_primary: string;
+  background_lighter: string;
+  outline: string;
+  focus_visible: string;
+};
+
 export const UserChatSchema = v.object({
   user_chat: v.pipe(
     v.string(),

@@ -72,6 +72,7 @@ export const translationSourceMap = {
   BESTDORI: 'Bestdori',
   GDRIVE: 'Google Drive',
   FANDOM: 'Bandori Wiki',
+  YATTA: 'BDON Yatta',
 };
 
 export const TranslationSource = {
@@ -80,6 +81,7 @@ export const TranslationSource = {
   BESTDORI: 'BESTDORI',
   GDRIVE: 'GDRIVE',
   FANDOM: 'FANDOM',
+  YATTA: 'YATTA',
 } as const;
 
 export const TranslationSourceSchema = v.enum(TranslationSource);

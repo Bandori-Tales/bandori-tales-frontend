@@ -20,13 +20,13 @@ import {
   YUNO_CHAT_THEMES_ARRAY,
   YUNOGPT_WRITE_ASSETS,
   type YunoChatThemes,
+  YunoThemeMap,
 } from '@/constants';
-import { type UserChat, UserChatSchema } from '@/schemas/models';
+import { type UserChat, UserChatSchema, type YunoThemeClasses } from '@/schemas/models';
 
 import type { Route } from './+types';
 import { ChatBlock, type IChatBlock } from './components/chat-block';
 import ClearChatDialog from './components/clear-chat-dialog';
-import { type YunoThemeClasses, YunoThemeMaps } from './components/theme-selector';
 import { ChatProfileTab } from './contents/profile-tab';
 import { ChatroomNavbar } from './contents/room-navbar';
 
@@ -86,7 +86,7 @@ export async function clientLoader() {
   return {
     used_theme: {
       theme: userChatTheme,
-      ...YunoThemeMaps[userChatTheme as YunoChatThemes],
+      ...YunoThemeMap[userChatTheme as YunoChatThemes],
     },
     room_chats: userChats,
     navbar_status: navbarStatus,
@@ -223,7 +223,7 @@ export default function YunogptToolPage({ loaderData }: Route.ComponentProps) {
     itemStorage.local.set(LOCAL_STORAGE_KEY.YUNOGPT.THEME, theme);
     setUserTheme({
       theme: theme,
-      ...YunoThemeMaps[theme],
+      ...YunoThemeMap[theme],
     });
   }
 

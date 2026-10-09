@@ -181,9 +181,11 @@ export function StoryCard({
         </ListLabel>
         <ListLabel title="Translation">
           {story.available_tl_type && story.available_tl_type.length > 0 ? (
-            story.available_tl_type.map((tlType) => (
-              <StoryBadge key={`${story.id}_${tlType}`} badge={tlType} type="translation" />
-            ))
+            story.available_tl_type
+              .sort()
+              .map((tlType) => (
+                <StoryBadge key={`${story.id}_${tlType}`} badge={tlType} type="translation" />
+              ))
           ) : (
             <StoryBadge badge="NONE" type="translation" />
           )}
@@ -225,7 +227,7 @@ export function StoryCard({
   ) : (
     <div
       className={cn(
-        'group relative flex h-fit min-h-24 w-full flex-row items-center justify-start gap-2 overflow-hidden rounded-xl border bg-white px-3 py-2 drop-shadow-black/50 drop-shadow-md transition-colors duration-300 active:border-amber-400 lg:h-24 lg:hover:cursor-pointer lg:hover:border-amber-400',
+        'group relative flex h-fit min-h-24 w-full flex-row items-center justify-start gap-2 overflow-hidden rounded-xl border-2 border-l-5 bg-white px-3 py-2 drop-shadow-black/50 drop-shadow-md transition-colors duration-300 active:border-amber-400 lg:h-24 lg:hover:cursor-pointer lg:hover:border-amber-400',
         storyStatusMap[readStatus].border
       )}
       onClick={handleOpenDialog}
@@ -285,9 +287,11 @@ export function StoryCard({
           </ListLabel>
           <ListLabel title="Translation">
             {story.available_tl_type && story.available_tl_type.length > 0 ? (
-              story.available_tl_type.map((tlType) => (
-                <StoryBadge key={`${story.id}_${tlType}`} badge={tlType} type="translation" />
-              ))
+              story.available_tl_type
+                .sort()
+                .map((tlType) => (
+                  <StoryBadge key={`${story.id}_${tlType}`} badge={tlType} type="translation" />
+                ))
             ) : (
               <StoryBadge badge="NONE" type="translation" />
             )}

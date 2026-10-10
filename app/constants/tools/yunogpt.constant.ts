@@ -3,7 +3,7 @@ import type { YunoThemeClasses } from '@/schemas/models';
 export const YUNOGPT_WRITE_ASSETS = {
   NICKNAME: 'Yuno GPT',
   FULLNAME: 'Yuno (Sengoku) GPT',
-  CHAT_BIO: "Mugendai MewType's DJ & Manipulator. 100% Human",
+  CHAT_BIO: "Mugendai MewType's DJ & Manipulator. 100% Human. Open for music commission.",
   STATUS_ONLINE: 'Online',
   STATUS_TUTORIAL: 'Click here to open the profile',
   PROFILE_MEDIA: 'Media',

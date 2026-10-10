@@ -112,6 +112,13 @@ export const GameFeatures = {
   internal: [] satisfies SiteFeature[],
   other: [
     {
+      title: 'BDON Heardle',
+      description: 'Fan-made browser games for BanG Dream! Our Notes',
+      author: 'thesuperRL',
+      href: 'https://thesuperrl.github.io/bangdream-ournotes-heardle',
+      profilePicture: '/images/games/other/bdon_heardle.webp',
+    },
+    {
       title: 'Strawberry Chocolate',
       description:
         'A "BanG Dream!" Doujin Game where players will operate Anon and Taki in different game worlds to carry out crazy adventures',

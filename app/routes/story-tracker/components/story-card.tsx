@@ -105,7 +105,7 @@ export function StoryCard({
   return isMobile ? (
     <div
       className={cn(
-        'relative flex h-fit w-full flex-col items-center justify-start overflow-hidden rounded-xl border bg-white p-2 drop-shadow-black/50 drop-shadow-md transition-colors duration-300 hover:cursor-pointer active:border-amber-400',
+        'relative flex h-fit w-full flex-col items-center justify-start overflow-hidden rounded-xl border-2 border-b-5 bg-white p-2 drop-shadow-black/50 drop-shadow-md transition-colors duration-300 hover:cursor-pointer active:border-amber-400',
         storyStatusMap[readStatus].border
       )}
     >

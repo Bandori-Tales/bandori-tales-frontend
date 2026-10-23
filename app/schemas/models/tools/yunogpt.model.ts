@@ -7,6 +7,14 @@ export type YunoThemeClasses = {
   focus_visible: string;
 };
 
+export const ChatBlockSchema = v.object({
+  sender: v.union([v.literal('yuno'), v.literal('user')]),
+  chat: v.string(),
+  isLoading: v.optional(v.boolean()),
+});
+
+export const ChatBlockArraySchema = v.array(ChatBlockSchema);
+
 export const UserChatSchema = v.object({
   user_chat: v.pipe(
     v.string(),
@@ -17,4 +25,5 @@ export const UserChatSchema = v.object({
   ),
 });
 
+export type IChatBlock = v.InferInput<typeof ChatBlockSchema>;
 export type UserChat = v.InferInput<typeof UserChatSchema>;

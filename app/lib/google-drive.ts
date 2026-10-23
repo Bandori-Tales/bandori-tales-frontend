@@ -146,15 +146,18 @@ export const GoogleDriveUtils = {
 
       const userProfileSettingData = validateDataBySchema(
         itemStorage.local.get<ProfileSetting>(LOCAL_STORAGE_KEY.PROFILE.GENERAL_SETTING),
-        ProfileSettingSchema
+        ProfileSettingSchema,
+        { defaultValue: {} }
       );
       const userStoryTrackerData = validateDataBySchema(
         itemStorage.local.get<UserSavedTrack[]>(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK),
-        UserTrackListSchema
+        UserTrackListSchema,
+        { defaultValue: [] }
       );
       const userStoryTrackerSettingData = validateDataBySchema(
         itemStorage.local.get<TrackerSetting>(LOCAL_STORAGE_KEY.STORY_TRACKER.SETTING),
-        TrackerSettingSchema
+        TrackerSettingSchema,
+        { defaultValue: StoryTrackerSettingDefaultValue }
       );
       const userStoryTrackerLastUpdate =
         itemStorage.local.get<string>(LOCAL_STORAGE_KEY.STORY_TRACKER.LAST_UPDATE) ||
@@ -163,10 +166,10 @@ export const GoogleDriveUtils = {
       const currentDate = new Date(Date.now());
 
       const exportData: ProfileDriveData = {
-        user_profile: userProfileSettingData || {},
+        user_profile: userProfileSettingData,
         story_tracker: {
-          track_list: userStoryTrackerData || [],
-          settings: userStoryTrackerSettingData || StoryTrackerSettingDefaultValue,
+          track_list: userStoryTrackerData,
+          settings: userStoryTrackerSettingData,
           last_update: userStoryTrackerLastUpdate,
         },
         global_last_update: String(currentDate),
@@ -227,7 +230,6 @@ export const GoogleDriveUtils = {
       const importData = await GoogleDriveUtils.getDataJsonFile(access_token, fileId);
 
       const validatedImportData = validateDataBySchema(importData, ProfileDriveDataSchema, {
-        useDefaultValue: false,
         defaultValue: null,
         showErrorToast: true,
         errorText: 'Failed to import. Invalid data',

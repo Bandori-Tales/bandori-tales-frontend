@@ -21,13 +21,13 @@ import { BulkActionDialog } from './contents/dialog-bulk-action';
 import { DetailStoryDialog } from './contents/dialog-detail';
 import { StoryTrackerSidebar } from './contents/sidebar';
 import { StoryCollapsible } from './contents/story-collapsible';
-import { getTrackerFilter, getTrackerReadingList, getTrackerSetting } from './hook/get-tracker';
+import { getTrackerFilter, getTrackerReadingList, getTrackerSetting } from './hooks/get-tracker';
 import {
   buildStoryQuery,
   handleBulkUpdateReadingStatus,
   handleSettingUpdate,
   handleUpdateReadingStatus,
-} from './hook/tracker-utils';
+} from './hooks/tracker-utils';
 
 export function meta() {
   return generateMeta({ title: 'Story Tracker' });

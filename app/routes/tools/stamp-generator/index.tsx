@@ -15,14 +15,14 @@ import type { Route } from './+types';
 import { StampGeneratorCanvas } from './contents/canvas';
 import { StampGeneratorDrawer } from './contents/drawer';
 import { StampGeneratorSidebar } from './contents/sidebar';
-import { getStampElements } from './hook/get-stamp';
+import { getStampElements } from './hooks/get-stamp';
 import {
   addElement,
   copyStamp,
   DndDragEnd,
   downloadStamp,
   updateSelected,
-} from './hook/stamp-generator-utils';
+} from './hooks/stamp-generator-utils';
 
 export function meta() {
   return generateMeta({ title: 'Stamp Generator' });

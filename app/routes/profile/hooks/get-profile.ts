@@ -18,12 +18,12 @@ export function getUserLocalData() {
       track_list: validateDataBySchema(
         itemStorage.local.get<UserSavedTrack[]>(LOCAL_STORAGE_KEY.STORY_TRACKER.USER_READING_TRACK),
         UserTrackListSchema,
-        { useDefaultValue: true, defaultValue: [] }
+        { defaultValue: [] }
       ) as UserSavedTrack[],
       settings: validateDataBySchema(
         itemStorage.local.get<TrackerSetting>(LOCAL_STORAGE_KEY.STORY_TRACKER.SETTING),
         TrackerSettingSchema,
-        { useDefaultValue: true, defaultValue: StoryTrackerSettingDefaultValue }
+        { defaultValue: StoryTrackerSettingDefaultValue }
       ) as TrackerSetting,
       last_update: itemStorage.local.get<string>(LOCAL_STORAGE_KEY.STORY_TRACKER.LAST_UPDATE) || '',
     },

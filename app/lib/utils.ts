@@ -107,43 +107,39 @@ export function handleCharacterPick(
 }
 
 export function validateDataBySchema<
-  const TSchema extends BaseSchema<unknown, unknown, BaseIssue<unknown>>,
+  TSchema extends BaseSchema<unknown, unknown, BaseIssue<unknown>>,
+  TDefault extends InferOutput<TSchema> | null = null,
 >(
   data: unknown,
   schema: TSchema,
-  config: (
+  config?:
     | {
-        useDefaultValue: true;
-        defaultValue: InferOutput<TSchema>;
+        defaultValue: TDefault extends null ? InferOutput<TSchema> : TDefault;
+        showErrorToast?: boolean;
+        errorText?: string;
       }
     | {
-        useDefaultValue: false;
-        defaultValue: null;
+        defaultValue?: null;
+        showErrorToast?: boolean;
+        errorText?: string;
       }
-  ) & {
-    showErrorToast?: boolean;
-    errorText?: string;
-  } = {
-    useDefaultValue: false,
+): TDefault extends null ? InferOutput<TSchema> | null : InferOutput<TSchema> {
+  const resolvedConfig = {
     defaultValue: null,
     showErrorToast: false,
     errorText: 'Invalid data format.',
-  }
-) {
-  if (!data)
-    return config.useDefaultValue
-      ? (config.defaultValue as InferOutput<TSchema>)
-      : (config.defaultValue as null);
+    ...config,
+  };
+
+  if (!data) return resolvedConfig.defaultValue;
 
   const parseResult = safeParse(schema, data);
 
   if (!parseResult.success) {
-    if (config.showErrorToast) {
-      toast.error(config.errorText);
+    if (resolvedConfig.showErrorToast) {
+      toast.warning(resolvedConfig.errorText);
     }
-    return config.useDefaultValue
-      ? (config.defaultValue as InferOutput<TSchema>)
-      : (config.defaultValue as null);
+    return resolvedConfig.defaultValue;
   }
 
   return parseResult.output;

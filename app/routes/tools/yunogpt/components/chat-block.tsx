@@ -5,11 +5,7 @@ import { cn } from '@/lib/utils';
 
 import { Text } from '@/components/helper/text';
 
-export type IChatBlock = {
-  sender: 'yuno' | 'user';
-  chat: string;
-  isLoading?: boolean;
-};
+import type { IChatBlock } from '@/schemas/models';
 
 const blockedElements = [
   'h1',

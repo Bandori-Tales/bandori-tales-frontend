@@ -1,6 +1,7 @@
 import { safeParse } from 'valibot';
 
 import { itemStorage } from '@/lib/storage';
+import { validateDataBySchema } from '@/lib/utils';
 
 import { toast } from '@/components/ui/toast';
 
@@ -15,18 +16,18 @@ import {
 } from '@/schemas/models';
 
 export function getTrackerSetting() {
-  const trackerSettings = itemStorage.local.get<TrackerSetting>(
-    LOCAL_STORAGE_KEY.STORY_TRACKER.SETTING
+  const trackerSettings = validateDataBySchema(
+    itemStorage.local.get<TrackerSetting>(LOCAL_STORAGE_KEY.STORY_TRACKER.SETTING),
+    TrackerSettingSchema
   );
 
-  const parsed = safeParse(TrackerSettingSchema, trackerSettings);
-  if (!parsed.success) {
+  if (!trackerSettings) {
     itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.SETTING, StoryTrackerSettingDefaultValue);
 
     return StoryTrackerSettingDefaultValue;
   }
 
-  return parsed.output;
+  return trackerSettings;
 }
 
 export function getTrackerReadingList() {
@@ -46,15 +47,12 @@ export function getTrackerReadingList() {
 }
 
 export function getTrackerFilter() {
-  const userTrackFilterRaw = itemStorage.local.get<BandoriStoryForm>(
-    LOCAL_STORAGE_KEY.STORY_TRACKER.FILTER
+  const userTrackFilterRaw = validateDataBySchema(
+    itemStorage.local.get<BandoriStoryForm>(LOCAL_STORAGE_KEY.STORY_TRACKER.FILTER),
+    BandoriStoryFormSchema
   );
 
-  const parsed = safeParse(BandoriStoryFormSchema, userTrackFilterRaw);
-  if (!parsed.success) {
-    itemStorage.local.remove(LOCAL_STORAGE_KEY.STORY_TRACKER.FILTER);
-    return null;
-  }
+  if (!userTrackFilterRaw) itemStorage.local.remove(LOCAL_STORAGE_KEY.STORY_TRACKER.FILTER);
 
-  return parsed.output;
+  return userTrackFilterRaw;
 }

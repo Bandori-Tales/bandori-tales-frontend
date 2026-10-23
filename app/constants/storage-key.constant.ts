@@ -23,6 +23,7 @@ export const DIALOG_KEY = {
     SET_USERNAME: 'set-username',
     EXPORT_DATA: 'export-data-drive',
     IMPORT_DATA: 'import-data-drive',
+    HELPER_DRIVE: 'helper-drive',
   },
 } as const;
 

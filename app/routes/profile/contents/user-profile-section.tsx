@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 
 import { DIALOG_KEY } from '@/constants';
 
+import { GoogleDriveHelpButton } from '../components/help-buttons';
 import { SelectProfilePictureDialog } from '../components/profile-picture-dialog';
 
 export function UserProfileSection({
@@ -81,7 +82,7 @@ export function UserProfileSection({
         </button>
 
         <div className="flex w-full flex-col items-start justify-start gap-4">
-          <div className="flex flex-col gap-2">
+          <div className="flex w-full flex-col gap-2">
             <Text type="p" weight="semibold" className="text-primary">
               Username
             </Text>
@@ -100,8 +101,12 @@ export function UserProfileSection({
             </div>
           </div>
           <div className="flex w-full flex-col gap-2">
-            <Text type="p" weight="semibold" className="text-primary">
-              Google Drive Email
+            <Text
+              type="p"
+              weight="semibold"
+              className="flex flex-row items-center gap-2 text-primary"
+            >
+              Google Drive Email <GoogleDriveHelpButton />
             </Text>
             <div className="flex w-full flex-col items-start justify-start gap-2 sm:w-fit sm:flex-row sm:items-center">
               {user_email && user_email !== '' ? (

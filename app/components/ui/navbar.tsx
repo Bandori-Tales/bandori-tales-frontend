@@ -172,9 +172,11 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
 }
 
 function ProfileButton({
-  profile_picture_url
+  profile_picture_url,
+  handleCloseSidebar
 }: {
   profile_picture_url?: string;
+  handleCloseSidebar?: () => void;
 }) {
   return (
     <div className="flex items-center justify-end h-fit w-25 max-lg:w-full max-lg:px-3">
@@ -183,6 +185,7 @@ function ProfileButton({
         size='icon'
         asChild
         className="ring-2 ring-transparent hover:ring-amber-400 max-lg:p-2 max-lg:w-full overflow-clip rounded-full bg-none max-lg:bg-white max-lg:rounded-md transition-all duration-300"
+        onClick={() => handleCloseSidebar?.()}
       >
         <Link to='/profile' className="flex items-center justify-center">
           {
@@ -294,7 +297,7 @@ export default function Navbar({
 
         <div className="w-full h-fit flex flex-col gap-y-2 py-3">
           <Separator className="bg-amber-400" />
-          <ProfileButton profile_picture_url={profilePictureUrl} />
+          <ProfileButton profile_picture_url={profilePictureUrl} handleCloseSidebar={handleHideSidebar} />
         </div>
       </nav>
     </>

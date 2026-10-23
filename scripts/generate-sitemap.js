@@ -8,8 +8,9 @@ const SITE_URL = process.env.VITE_SITE_URL || 'http://localhost:3000';
 
 const routes = [
   { path: '/', changefreq: 'daily', priority: 1.0 },
-  { path: '/tools', changefreq: 'weekly', priority: 0.9 },
-  { path: '/games', changefreq: 'weekly', priority: 0.8 },
+  { path: '/story-tracker', changefreq: 'weekly', priority: 0.9 },
+  { path: '/tools', changefreq: 'weekly', priority: 0.8 },
+  { path: '/games', changefreq: 'weekly', priority: 0.7 },
 ];
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

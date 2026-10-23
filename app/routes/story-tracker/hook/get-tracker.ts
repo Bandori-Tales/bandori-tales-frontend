@@ -4,7 +4,7 @@ import { itemStorage } from '@/lib/storage';
 
 import { toast } from '@/components/ui/toast';
 
-import { LOCAL_STORAGE_KEY } from '@/constants';
+import { LOCAL_STORAGE_KEY, StoryTrackerSettingDefaultValue } from '@/constants';
 import {
   type BandoriStoryForm,
   BandoriStoryFormSchema,
@@ -21,16 +21,9 @@ export function getTrackerSetting() {
 
   const parsed = safeParse(TrackerSettingSchema, trackerSettings);
   if (!parsed.success) {
-    const defaultValue: TrackerSetting = {
-      isListSplitted: true,
-      showUnread: true,
-      showSkipped: true,
-      showFinished: true,
-    };
+    itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.SETTING, StoryTrackerSettingDefaultValue);
 
-    itemStorage.local.set(LOCAL_STORAGE_KEY.STORY_TRACKER.SETTING, defaultValue);
-
-    return defaultValue;
+    return StoryTrackerSettingDefaultValue;
   }
 
   return parsed.output;

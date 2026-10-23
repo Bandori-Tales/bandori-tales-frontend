@@ -27,6 +27,8 @@ export type GeneralDialogProps = {
   confirmClassName?: string;
   cancelClassname?: string;
   disabledConfirm?: boolean;
+  hideConfirm?: boolean;
+  preventConfirmClose?: boolean;
   children?: React.ReactNode;
 };
 
@@ -42,6 +44,7 @@ export default function GeneralAlertDialog({
   confirmClassName = '',
   cancelClassname = '',
   disabledConfirm = false,
+  hideConfirm = false,
   children,
 }: GeneralDialogProps) {
   const { isOpen, close } = useDialogStore();
@@ -101,14 +104,16 @@ export default function GeneralAlertDialog({
               {cancelText}
             </AlertDialogCancel>
           )}
-          <AlertDialogAction
-            type="submit"
-            disabled={isSubmitting || disabledConfirm}
-            className={cn(confirmClassName, isSubmitting && 'cursor-not-allowed opacity-70')}
-            onClick={handleConfirm}
-          >
-            {isSubmitting ? 'Processing' : confirmText}
-          </AlertDialogAction>
+          {!hideConfirm && (
+            <AlertDialogAction
+              type="submit"
+              disabled={isSubmitting || disabledConfirm}
+              className={cn(confirmClassName, isSubmitting && 'cursor-not-allowed opacity-70')}
+              onClick={handleConfirm}
+            >
+              {isSubmitting ? 'Processing' : confirmText}
+            </AlertDialogAction>
+          )}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

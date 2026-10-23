@@ -28,6 +28,8 @@ export default function GeneralDialog({
   confirmClassName = '',
   cancelClassname = '',
   disabledConfirm = false,
+  hideConfirm = false,
+  preventConfirmClose = false,
   children,
 }: GeneralDialogProps) {
   const { isOpen, close } = useDialogStore();
@@ -38,7 +40,9 @@ export default function GeneralDialog({
     try {
       setIsSubmitting(true);
       await onConfirm();
-      close(dialogKey);
+      if (!preventConfirmClose) {
+        close(dialogKey);
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -92,18 +96,20 @@ export default function GeneralDialog({
             </DialogClose>
           )}
 
-          <Button
-            type="submit"
-            disabled={isSubmitting || disabledConfirm}
-            className={cn(
-              'text-sm',
-              confirmClassName,
-              isSubmitting && 'cursor-not-allowed opacity-70'
-            )}
-            onClick={handleConfirm}
-          >
-            {confirmText}
-          </Button>
+          {!hideConfirm && (
+            <Button
+              type="submit"
+              disabled={isSubmitting || disabledConfirm}
+              className={cn(
+                'text-sm',
+                confirmClassName,
+                isSubmitting && 'cursor-not-allowed opacity-70'
+              )}
+              onClick={handleConfirm}
+            >
+              {confirmText}
+            </Button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

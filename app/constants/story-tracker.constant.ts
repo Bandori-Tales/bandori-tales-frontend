@@ -8,6 +8,7 @@ import type {
   IStoryTag,
   ITranslationSource,
   ITranslationType,
+  TrackerSetting,
 } from '@/schemas/models';
 import type { CustomImageOverlay } from '@/schemas/types';
 
@@ -156,6 +157,13 @@ export const StoryTrackerDefaultValue = {
   order_by: 'chronology',
   order_type: 'desc',
 } as BandoriStoryForm;
+
+export const StoryTrackerSettingDefaultValue = {
+  isListSplitted: true,
+  showUnread: true,
+  showSkipped: true,
+  showFinished: true,
+} as TrackerSetting;
 
 export const StoryTrackerCheckboxList: Record<string, { name: string; label: string }[]> = {
   category: [

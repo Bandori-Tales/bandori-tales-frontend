@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, handleCharacterPick } from "@/lib/utils";
 import { useState } from "react";
 import WebNameLogo from "../helper/logo";
 import { Button } from "./button";
@@ -9,6 +9,8 @@ import { Text } from "../helper/text";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./dropdown-menu";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./collapsible";
 import { Separator } from "./separator";
+import type { ProfileSetting } from "@/schemas/models";
+import Image from "../helper/image";
 
 interface NavbarButtonProps {
   isActive?: boolean;
@@ -169,21 +171,43 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
   )
 }
 
-function ProfileButton() {
+function ProfileButton({
+  profile_picture_url
+}: {
+  profile_picture_url?: string;
+}) {
   return (
-    <div className="flex items-center justify-end h-fit w-25">
+    <div className="flex items-center justify-end h-fit w-25 max-lg:w-full max-lg:px-3">
       <Button
         variant='ghost'
         size='icon'
+        asChild
+        className="ring-2 ring-transparent hover:ring-amber-400 max-lg:p-2 max-lg:w-full overflow-clip rounded-full bg-none max-lg:bg-white max-lg:rounded-md transition-all duration-300"
       >
-        <UserRound className="stroke-3 text-white" />
+        <Link to='/profile' className="flex items-center justify-center">
+          {
+            profile_picture_url ? (
+              <Image alt="User Profile" src={profile_picture_url} className="rounded-full object-cover max-lg:size-8" />
+            ) : (
+              <UserRound className="stroke-3 text-pimary" />
+            )
+          }
+          <div className="hidden max-lg:block">
+            <Text type='p' weight='semibold' className="text-primary">Profile</Text>
+          </div>
+        </Link>
       </Button>
     </div>
   )
 }
 
-export default function Navbar() {
+export default function Navbar({
+  userProfile
+}: {
+  userProfile: ProfileSetting
+}) {
   const [isExpand, setIsExpand] = useState(false);
+  const profilePictureUrl = userProfile.profile_picture_character_id ? handleCharacterPick('profile_picture_url', userProfile.profile_picture_character_id, userProfile.profile_picture_array_index) : undefined;
 
   function handleHideSidebar() {
     setIsExpand(false);
@@ -202,7 +226,7 @@ export default function Navbar() {
     <>
       {/* Desktop */}
       <nav className={cn(
-        'fixed top-0 z-30 w-full h-fit flex flex-row items-center justify-between transition-all duration-300 px-6 py-1 bg-primary border-b border-b-primary-foreground  max-lg:hidden'
+        'fixed top-0 z-30 w-full h-fit flex flex-row items-center justify-between transition-all duration-300 px-6 py-1 bg-primary border-b border-b-primary-foreground max-lg:hidden'
       )}>
         <WebNameLogo size='regular' wrapText />
         <div className="flex flex-row gap-0">
@@ -218,7 +242,7 @@ export default function Navbar() {
             ))
           }
         </div>
-        <ProfileButton />
+        <ProfileButton profile_picture_url={profilePictureUrl} />
       </nav>
       {/* Mobile Trigger */}
       <Button
@@ -266,6 +290,11 @@ export default function Navbar() {
               ))
             }
           </div>
+        </div>
+
+        <div className="w-full h-fit flex flex-col gap-y-2 py-3">
+          <Separator className="bg-amber-400" />
+          <ProfileButton profile_picture_url={profilePictureUrl} />
         </div>
       </nav>
     </>

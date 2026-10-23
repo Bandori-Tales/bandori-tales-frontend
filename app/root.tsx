@@ -12,11 +12,13 @@ import type { Route } from './+types/root';
 import 'react-photo-view/dist/react-photo-view.css';
 import './styles/globals.css';
 
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useEffect, useState } from 'react';
 
 import ErrorBoundaryComponent from './components/error/error-boundary-component';
 import Loading from './components/helper/loading';
 import { Toaster } from './components/ui/sonner';
+import { GOOGLE_CLIENT_ID } from './lib/google-drive';
 import { cn } from './lib/utils';
 
 function LoadingBar() {
@@ -139,7 +141,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <LoadingBar />
-        {children}
+        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>{children}</GoogleOAuthProvider>
         <ScrollRestoration />
         <Scripts />
         <Toaster position="top-center" visibleToasts={1} />

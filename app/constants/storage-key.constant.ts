@@ -18,7 +18,13 @@ export const DIALOG_KEY = {
   YUNOGPT: {
     CLEAR_CHAT: 'clear-chat',
   },
-};
+  PROFILE: {
+    SET_PICTURE: 'set-profile-picture',
+    SET_USERNAME: 'set-username',
+    EXPORT_DATA: 'export-data-drive',
+    IMPORT_DATA: 'import-data-drive',
+  },
+} as const;
 
 export const LOCAL_STORAGE_KEY = {
   STORY_TRACKER: {
@@ -33,10 +39,19 @@ export const LOCAL_STORAGE_KEY = {
   YUNOGPT: {
     THEME: 'yuno-gpt-theme',
   },
-};
+  PROFILE: {
+    GENERAL_SETTING: 'settings/general',
+  },
+} as const;
 
 export const SESSION_STORAGE_KEY = {
   YUNOGPT: {
     CHAT_HISTORY: 'yuno-gpt-chats',
+  },
+} as const;
+
+export const COOKIE_KEY = {
+  PROFILE: {
+    GOOGLE_ACCESS_TOKEN: 'google-access-token',
   },
 };

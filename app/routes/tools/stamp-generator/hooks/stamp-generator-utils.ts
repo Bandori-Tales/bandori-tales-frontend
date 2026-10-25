@@ -1,12 +1,13 @@
 import type { DragEndEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
-import { toCanvas } from 'html-to-image';
 import type { Dispatch, SetStateAction } from 'react';
 
 import { toast } from '@/components/ui/toast';
 
-import { STAMP_GENERATOR_CONST, StampFonts } from '@/constants';
+import { STAMP_GENERATOR_CONST } from '@/constants';
 import type { CanvasElement, ICanvasElementType } from '@/schemas/models';
+
+import { renderAllElements } from './stamp-canvas-renderer';
 
 export const addElement =
   (
@@ -32,6 +33,7 @@ export const addElement =
       ...(type === 'TEXT' && {
         fontFamilyId: fontFamilyId,
         spacing: 1.5,
+        letterSpacing: 0,
         color: '#000000',
         outlineColor: '#FFFFFF',
         outlineWidth: 12,
@@ -130,39 +132,29 @@ export const cropCanvas = (canvas: HTMLCanvasElement): HTMLCanvasElement => {
   }
 };
 
-const generateStampBlob = async (
-  canvasNode: HTMLElement,
+export const createStampCanvas = (
   elements: CanvasElement[],
-  cropResult: boolean
-): Promise<Blob> => {
-  let fontEmbedCSS = '';
-  for (const font of StampFonts.filter((fontItem) =>
-    elements.some((element) => element.type === 'TEXT' && element.fontFamilyId === fontItem.id)
-  )) {
-    try {
-      const res = await fetch(font.url);
-      const blob = await res.blob();
-      const base64 = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.readAsDataURL(blob);
-      });
-      fontEmbedCSS += `@font-face { font-family: "${font.fontFamily}"; src: url(${base64}) format("${font.format}"); font-weight: ${font.weight}; font-style: normal; }\n`;
-    } catch (e) {
-      console.error(`Failed to load font ${font.fontFamily}`, e);
-    }
+  canvasSize: number = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE,
+  cropResult = false
+): HTMLCanvasElement => {
+  const canvas = document.createElement('canvas');
+  canvas.width = canvasSize;
+  canvas.height = canvasSize;
+
+  const ctx = canvas.getContext('2d');
+  if (ctx) {
+    renderAllElements(ctx, elements, canvasSize, null);
   }
 
-  const canvas = await toCanvas(canvasNode, {
-    quality: 1,
-    pixelRatio: 1,
-    fontEmbedCSS,
-    style: {
-      transform: 'none',
-    },
-  });
+  return cropResult ? cropCanvas(canvas) : canvas;
+};
 
-  const finalCanvas = cropResult ? cropCanvas(canvas) : canvas;
+export const generateStampBlob = async (
+  elements: CanvasElement[],
+  canvasSize: number = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE,
+  cropResult = false
+): Promise<Blob> => {
+  const finalCanvas = createStampCanvas(elements, canvasSize, cropResult);
 
   const blob = await new Promise<Blob | null>((resolve) => {
     finalCanvas.toBlob((b) => resolve(b), 'image/png');
@@ -172,52 +164,43 @@ const generateStampBlob = async (
   return blob;
 };
 
-export const downloadStamp = async (elements: CanvasElement[], cropResult = false) => {
-  return new Promise<void>((resolve) => {
-    setTimeout(async () => {
-      const canvasNode = document.getElementById('canvas-export');
-      if (!canvasNode) {
-        resolve();
-        return;
-      }
+export const downloadStamp = async (
+  elements: CanvasElement[],
+  canvasSize: number = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE,
+  cropResult = false
+) => {
+  try {
+    const blob = await generateStampBlob(elements, canvasSize, cropResult);
 
-      try {
-        const blob = await generateStampBlob(canvasNode, elements, cropResult);
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = 'stamp.png';
+    link.href = url;
 
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.download = 'stamp.png';
-        link.href = url;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 100);
 
-        setTimeout(() => URL.revokeObjectURL(url), 100);
-
-        toast.success('Stamp downloaded');
-      } catch (error) {
-        console.error(error);
-        toast.error('Stamp download failed');
-      } finally {
-        resolve();
-      }
-    }, 100);
-  });
+    toast.success('Stamp downloaded');
+  } catch (error) {
+    console.error(error);
+    toast.error('Stamp download failed');
+  }
 };
 
-export const copyStamp = async (elements: CanvasElement[], cropResult = false) => {
-  const canvasNode = document.getElementById('canvas-export');
-  if (!canvasNode) return;
-
+export const copyStamp = async (
+  elements: CanvasElement[],
+  canvasSize: number = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE,
+  cropResult = false
+) => {
   try {
-    const makeBlob = async () => {
-      return generateStampBlob(canvasNode, elements, cropResult);
-    };
+    const blob = await generateStampBlob(elements, canvasSize, cropResult);
 
     await navigator.clipboard.write([
       new ClipboardItem({
-        'image/png': makeBlob(),
+        'image/png': blob,
       }),
     ]);
 

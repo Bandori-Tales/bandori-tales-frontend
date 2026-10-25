@@ -87,6 +87,16 @@ export function StampGeneratorDrawer({
                         handleUpdateComponent({ spacing: value })
                       }
                     />
+                    <DrawerSlider
+                      label="Letter"
+                      step={1}
+                      minValue={-20}
+                      maxValue={100}
+                      value={selectedElement.letterSpacing ?? 0}
+                      handleValueChange={(value: number) =>
+                        handleUpdateComponent({ letterSpacing: value })
+                      }
+                    />
                   </div>
                   <div className="col-span-1 flex h-full w-full flex-col justify-center gap-3 lg:justify-start">
                     <DrawerColorPicker

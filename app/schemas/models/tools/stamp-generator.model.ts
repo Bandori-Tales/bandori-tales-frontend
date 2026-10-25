@@ -26,6 +26,7 @@ const CanvasElementSchema = v.object({
   fontFamilyId: v.optional(v.string()),
   color: v.optional(v.string()),
   spacing: v.optional(v.pipe(v.number(), v.minValue(0), v.maxValue(20))),
+  letterSpacing: v.optional(v.pipe(v.number(), v.minValue(-20), v.maxValue(100))),
   outlineColor: v.optional(v.string()),
   outlineWidth: v.optional(v.pipe(v.number(), v.minValue(1), v.maxValue(20), v.integer())),
   arcBend: v.optional(v.pipe(v.number(), v.minValue(-200), v.maxValue(200), v.integer())),

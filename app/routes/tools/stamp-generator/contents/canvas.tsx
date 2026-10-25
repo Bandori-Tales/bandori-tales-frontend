@@ -1,37 +1,83 @@
+import { useEffect, useRef } from 'react';
+
 import { STAMP_GENERATOR_CONST } from '@/constants';
 import type { CanvasElement } from '@/schemas/models';
 
-import { CanvasElementItem } from '../components/canvas-element';
+import {
+  ensureFontsLoaded,
+  hitTestElements,
+  renderAllElements,
+} from '../hooks/stamp-canvas-renderer';
 
-// This is not HTML canvas, idk any better name to use..
 export function StampGeneratorCanvas({
-  canvasScale,
   elements,
   selectedElementId,
   canvasSize = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE,
+  onSelectElement,
 }: {
-  canvasScale: number;
+  canvasScale?: number;
   elements: CanvasElement[];
   selectedElementId: string | null;
   canvasSize?: number;
+  onSelectElement?: (id: string | null) => void;
 }) {
-  return (
-    <div
-      id="canvas-export"
-      className="absolute top-0 left-0 origin-top-left bg-transparent"
-      style={{
-        width: `${canvasSize}px`,
-        height: `${canvasSize}px`,
-        transform: `scale(${canvasScale})`,
-      }}
-    >
-      {elements.map((element, index) => {
-        const isSelected = element.id === selectedElementId;
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-        return (
-          <CanvasElementItem key={element.id} isSelected={isSelected} zIndex={index} {...element} />
-        );
-      })}
-    </div>
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animId: number;
+    const render = () => {
+      renderAllElements(ctx, elements, canvasSize, selectedElementId, () => {
+        cancelAnimationFrame(animId);
+        animId = requestAnimationFrame(render);
+      });
+    };
+
+    render();
+
+    ensureFontsLoaded(render);
+
+    if (typeof document !== 'undefined' && document.fonts) {
+      document.fonts.ready.then(render);
+      document.fonts.addEventListener?.('loadingdone', render);
+      return () => {
+        cancelAnimationFrame(animId);
+        document.fonts.removeEventListener?.('loadingdone', render);
+      };
+    }
+
+    return () => cancelAnimationFrame(animId);
+  }, [elements, canvasSize, selectedElementId]);
+
+  const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!onSelectElement) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+
+    const clickX = (event.clientX - rect.left) * (canvasSize / rect.width);
+    const clickY = (event.clientY - rect.top) * (canvasSize / rect.height);
+
+    const hitId = hitTestElements(elements, clickX, clickY);
+    onSelectElement(hitId);
+  };
+
+  return (
+    <canvas
+      ref={canvasRef}
+      id="canvas-export"
+      width={canvasSize}
+      height={canvasSize}
+      onClick={handleCanvasClick}
+      className="block h-full w-full cursor-pointer bg-transparent"
+    />
   );
 }

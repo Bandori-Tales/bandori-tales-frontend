@@ -18,7 +18,6 @@ import {
   Image,
   Layers,
   LoaderCircle,
-  Save,
   Trash2,
   Type,
   X,
@@ -86,30 +85,21 @@ export function StampGeneratorSidebar({
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
-  function handleSaveProgress() {
-    itemStorage.local.set(LOCAL_STORAGE_KEY.STAMP_GENERATOR.DATA, elements);
-    itemStorage.local.set(LOCAL_STORAGE_KEY.STAMP_GENERATOR.SETTINGS, {
-      canvas_size: canvasSize,
-      crop_result: cropResult,
-    });
-    toast.success('Progress saved!');
-  }
-
   function handleCanvasSizeChange(size: number) {
     if (size === canvasSize) return;
 
     const ratio = size / canvasSize;
     setCanvasSize(size);
 
-    setElements(
-      elements.map((el) => ({
-        ...el,
-        x: Math.round(el.x * ratio),
-        y: Math.round(el.y * ratio),
-        scale: Number((el.scale * ratio).toFixed(2)),
-      }))
-    );
+    const updatedElements = elements.map((el) => ({
+      ...el,
+      x: Math.round(el.x * ratio),
+      y: Math.round(el.y * ratio),
+      scale: Number((el.scale * ratio).toFixed(2)),
+    }));
+    setElements(updatedElements);
 
+    itemStorage.local.set(LOCAL_STORAGE_KEY.STAMP_GENERATOR.DATA, updatedElements);
     itemStorage.local.set(LOCAL_STORAGE_KEY.STAMP_GENERATOR.SETTINGS, {
       canvas_size: size,
       crop_result: cropResult,
@@ -288,7 +278,7 @@ export function StampGeneratorSidebar({
                 )}
               </div>
 
-              <div className="scrollbar-none flex h-full w-full flex-col gap-2 overflow-y-scroll pt-3">
+              <div className="scrollbar-none flex h-full w-full flex-col gap-2 overflow-y-auto pt-3">
                 <DndContext
                   sensors={sensors}
                   collisionDetection={closestCenter}
@@ -324,18 +314,7 @@ export function StampGeneratorSidebar({
             </div>
           </div>
 
-          <div className="flex h-fit w-full shrink-0 flex-col items-center justify-center gap-2 px-2">
-            <Button
-              type="button"
-              variant="default"
-              size="sm"
-              className="w-full bg-emerald-600 hover:bg-emerald-600/90"
-              leftIcon={<Save />}
-              onClick={handleSaveProgress}
-            >
-              Save Progress
-            </Button>
-
+          <div className="flex h-fit w-full shrink-0 flex-col items-center justify-center gap-2 border-t border-t-primary px-2">
             <div className="flex w-full flex-col gap-y-3 py-2">
               <div className="flex flex-row items-center justify-between gap-x-1">
                 <Text type="btn" weight="semibold">

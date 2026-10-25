@@ -3,11 +3,13 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 
 import { generateMeta } from '@/lib/generate-meta';
+import { itemStorage } from '@/lib/storage';
 import { cn } from '@/lib/utils';
 
 import { Text } from '@/components/helper/text';
 import { Button } from '@/components/ui/button';
 
+import { LOCAL_STORAGE_KEY } from '@/constants';
 import type { CanvasElement } from '@/schemas/models';
 
 import type { Route } from './+types';
@@ -43,8 +45,7 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
   const [canvasSize, setCanvasSize] = useState(loaderData.generatorSettings.canvas_size);
   const [selectedElementId, setSelectedElementId] = useState<string | null>(null);
 
-  const [canvasScale, setCanvasScale] = useState(1);
-  const canvasContainerRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
   const selectedElement = elements.find((element) => element.id === selectedElementId);
 
@@ -54,33 +55,28 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
 
   const handleStampDownload = async () => {
     setSelectedElementId(null);
-    await downloadStamp(elements, cropResult);
+    await downloadStamp(elements, canvasSize, cropResult);
   };
 
   const handleStampCopy = async () => {
     setSelectedElementId(null);
-    await copyStamp(elements, cropResult);
+    await copyStamp(elements, canvasSize, cropResult);
   };
 
   useEffect(() => {
-    const updateScale = (containerWidth: number) => {
-      const scale = containerWidth / canvasSize;
-      setCanvasScale(scale);
-    };
-
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        updateScale(entry.contentRect.width);
-      }
-    });
-
-    if (canvasContainerRef.current) {
-      observer.observe(canvasContainerRef.current);
-      updateScale(canvasContainerRef.current.clientWidth);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
     }
+    itemStorage.local.set(LOCAL_STORAGE_KEY.STAMP_GENERATOR.DATA, elements);
+  }, [elements]);
 
-    return () => observer.disconnect();
-  }, [canvasSize]);
+  useEffect(() => {
+    itemStorage.local.set(LOCAL_STORAGE_KEY.STAMP_GENERATOR.SETTINGS, {
+      canvas_size: canvasSize,
+      crop_result: cropResult,
+    });
+  }, [canvasSize, cropResult]);
 
   return (
     <main className="flex h-screen flex-col items-center justify-center bg-mauve-300">
@@ -109,19 +105,16 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
         </div>
 
         <Text type="c" weight="regular" className="text-center italic">
-          Note: Your progress aren't saved automatically
+          Progress is saved automatically
         </Text>
       </div>
 
-      <div
-        ref={canvasContainerRef}
-        className="relative aspect-square w-full max-w-87.5 overflow-hidden rounded-sm bg-slate-600 shadow-md"
-      >
+      <div className="relative aspect-square w-full max-w-87.5 overflow-hidden rounded-sm bg-slate-600 shadow-md">
         <StampGeneratorCanvas
           canvasSize={canvasSize}
-          canvasScale={canvasScale}
           elements={elements}
           selectedElementId={selectedElementId}
+          onSelectElement={setSelectedElementId}
         />
       </div>
 

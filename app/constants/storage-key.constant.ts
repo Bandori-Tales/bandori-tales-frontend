@@ -35,6 +35,7 @@ export const LOCAL_STORAGE_KEY = {
     LAST_UPDATE: 'user-track/last-update',
   },
   STAMP_GENERATOR: {
+    SETTINGS: 'stamp-generator-settings',
     DATA: 'stamp-generator-data',
   },
   YUNOGPT: {

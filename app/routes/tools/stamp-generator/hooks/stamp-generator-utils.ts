@@ -1,6 +1,6 @@
 import type { DragEndEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
-import { toBlob } from 'html-to-image';
+import { toCanvas } from 'html-to-image';
 import type { Dispatch, SetStateAction } from 'react';
 
 import { toast } from '@/components/ui/toast';
@@ -12,7 +12,8 @@ export const addElement =
   (
     elements: CanvasElement[],
     setElements: (element: CanvasElement[]) => void,
-    setSelectedElementId: (id: string) => void
+    setSelectedElementId: (id: string) => void,
+    canvasSize: number = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE
   ) =>
   (type: ICanvasElementType, name: string, content: string, fontFamilyId?: string) => {
     if (elements.length >= STAMP_GENERATOR_CONST.MAX_ELEMENTS) return;
@@ -22,8 +23,8 @@ export const addElement =
       type,
       name,
       content,
-      x: STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE / 2,
-      y: STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE / 2,
+      x: Math.round(canvasSize / 2),
+      y: Math.round(canvasSize / 2),
       scale: 1,
       flipX: false,
       flipY: false,
@@ -69,7 +70,109 @@ export const DndDragEnd =
       });
   };
 
-export const downloadStamp = async (elements: CanvasElement[]) => {
+export const cropCanvas = (canvas: HTMLCanvasElement): HTMLCanvasElement => {
+  try {
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return canvas;
+
+    const width = canvas.width;
+    const height = canvas.height;
+    const imageData = ctx.getImageData(0, 0, width, height);
+    const data = imageData.data;
+
+    let minX = width;
+    let minY = height;
+    let maxX = -1;
+    let maxY = -1;
+
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const alpha = data[(y * width + x) * 4 + 3];
+        if (alpha > 0) {
+          if (x < minX) minX = x;
+          if (x > maxX) maxX = x;
+          if (y < minY) minY = y;
+          if (y > maxY) maxY = y;
+        }
+      }
+    }
+
+    if (maxX < minX || maxY < minY) {
+      return canvas;
+    }
+
+    const croppedWidth = maxX - minX + 1;
+    const croppedHeight = maxY - minY + 1;
+
+    const croppedCanvas = document.createElement('canvas');
+    croppedCanvas.width = croppedWidth;
+    croppedCanvas.height = croppedHeight;
+
+    const croppedCtx = croppedCanvas.getContext('2d');
+    if (!croppedCtx) return canvas;
+
+    croppedCtx.drawImage(
+      canvas,
+      minX,
+      minY,
+      croppedWidth,
+      croppedHeight,
+      0,
+      0,
+      croppedWidth,
+      croppedHeight
+    );
+
+    return croppedCanvas;
+  } catch (error) {
+    console.error('Failed to crop canvas, falling back to original', error);
+    return canvas;
+  }
+};
+
+const generateStampBlob = async (
+  canvasNode: HTMLElement,
+  elements: CanvasElement[],
+  cropResult: boolean
+): Promise<Blob> => {
+  let fontEmbedCSS = '';
+  for (const font of StampFonts.filter((fontItem) =>
+    elements.some((element) => element.type === 'TEXT' && element.fontFamilyId === fontItem.id)
+  )) {
+    try {
+      const res = await fetch(font.url);
+      const blob = await res.blob();
+      const base64 = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
+      });
+      fontEmbedCSS += `@font-face { font-family: "${font.fontFamily}"; src: url(${base64}) format("${font.format}"); font-weight: ${font.weight}; font-style: normal; }\n`;
+    } catch (e) {
+      console.error(`Failed to load font ${font.fontFamily}`, e);
+    }
+  }
+
+  const canvas = await toCanvas(canvasNode, {
+    quality: 1,
+    pixelRatio: 1,
+    fontEmbedCSS,
+    style: {
+      transform: 'none',
+    },
+  });
+
+  const finalCanvas = cropResult ? cropCanvas(canvas) : canvas;
+
+  const blob = await new Promise<Blob | null>((resolve) => {
+    finalCanvas.toBlob((b) => resolve(b), 'image/png');
+  });
+
+  if (!blob) throw new Error('Failed to create image blob');
+  return blob;
+};
+
+export const downloadStamp = async (elements: CanvasElement[], cropResult = false) => {
   return new Promise<void>((resolve) => {
     setTimeout(async () => {
       const canvasNode = document.getElementById('canvas-export');
@@ -79,35 +182,7 @@ export const downloadStamp = async (elements: CanvasElement[]) => {
       }
 
       try {
-        // Manually fetch fonts to guarantee they are embedded since html-to-image sometimes fails
-        let fontEmbedCSS = '';
-        for (const font of StampFonts.filter((fontItem) =>
-          elements.some(
-            (element) => element.type === 'TEXT' && element.fontFamilyId === fontItem.id
-          )
-        )) {
-          try {
-            const res = await fetch(font.url);
-            const blob = await res.blob();
-            const base64 = await new Promise((resolve) => {
-              const reader = new FileReader();
-              reader.onload = () => resolve(reader.result);
-              reader.readAsDataURL(blob);
-            });
-            fontEmbedCSS += `@font-face { font-family: "${font.fontFamily}"; src: url(${base64}) format("${font.format}"); font-weight: ${font.weight}; font-style: normal; }\n`;
-          } catch (e) {
-            console.error(`Failed to load font ${font.fontFamily}`, e);
-          }
-        }
-
-        // Use blob instead png base64 string since Safari can't handle the massive string
-        const blob = await toBlob(canvasNode, {
-          quality: 1,
-          pixelRatio: 1,
-          fontEmbedCSS,
-        });
-
-        if (!blob) throw new Error('Failed to create image blob');
+        const blob = await generateStampBlob(canvasNode, elements, cropResult);
 
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -127,42 +202,17 @@ export const downloadStamp = async (elements: CanvasElement[]) => {
       } finally {
         resolve();
       }
-    });
+    }, 100);
   });
 };
 
-export const copyStamp = async (elements: CanvasElement[]) => {
+export const copyStamp = async (elements: CanvasElement[], cropResult = false) => {
   const canvasNode = document.getElementById('canvas-export');
   if (!canvasNode) return;
 
   try {
     const makeBlob = async () => {
-      let fontEmbedCSS = '';
-      for (const font of StampFonts.filter((fontItem) =>
-        elements.some((element) => element.type === 'TEXT' && element.fontFamilyId === fontItem.id)
-      )) {
-        try {
-          const res = await fetch(font.url);
-          const blob = await res.blob();
-          const base64 = await new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.readAsDataURL(blob);
-          });
-          fontEmbedCSS += `@font-face { font-family: "${font.fontFamily}"; src: url(${base64}) format("${font.format}"); font-weight: ${font.weight}; font-style: normal; }\n`;
-        } catch (e) {
-          console.error(`Failed to load font ${font.fontFamily}`, e);
-        }
-      }
-
-      const blob = await toBlob(canvasNode, {
-        quality: 1,
-        pixelRatio: 1,
-        fontEmbedCSS,
-      });
-
-      if (!blob) throw new Error('Failed to create image blob');
-      return blob;
+      return generateStampBlob(canvasNode, elements, cropResult);
     };
 
     await navigator.clipboard.write([

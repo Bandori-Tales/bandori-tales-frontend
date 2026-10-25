@@ -8,14 +8,13 @@ import { cn } from '@/lib/utils';
 import { Text } from '@/components/helper/text';
 import { Button } from '@/components/ui/button';
 
-import { STAMP_GENERATOR_CONST } from '@/constants';
 import type { CanvasElement } from '@/schemas/models';
 
 import type { Route } from './+types';
 import { StampGeneratorCanvas } from './contents/canvas';
 import { StampGeneratorDrawer } from './contents/drawer';
 import { StampGeneratorSidebar } from './contents/sidebar';
-import { getStampElements } from './hooks/get-stamp';
+import { getGeneratorSettings, getStampElements } from './hooks/get-stamp';
 import {
   addElement,
   copyStamp,
@@ -30,14 +29,18 @@ export function meta() {
 
 export function clientLoader() {
   const savedElements = getStampElements();
+  const generatorSettings = getGeneratorSettings();
 
   return {
+    generatorSettings,
     savedElements,
   };
 }
 
 export default function StampGeneratorPage({ loaderData }: Route.ComponentProps) {
   const [elements, setElements] = useState<CanvasElement[]>(loaderData.savedElements);
+  const [cropResult, setCropResult] = useState(loaderData.generatorSettings.crop_result);
+  const [canvasSize, setCanvasSize] = useState(loaderData.generatorSettings.canvas_size);
   const [selectedElementId, setSelectedElementId] = useState<string | null>(null);
 
   const [canvasScale, setCanvasScale] = useState(1);
@@ -46,35 +49,38 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
   const selectedElement = elements.find((element) => element.id === selectedElementId);
 
   const handleDndDragEnd = DndDragEnd(setElements);
-  const handleAddElement = addElement(elements, setElements, setSelectedElementId);
+  const handleAddElement = addElement(elements, setElements, setSelectedElementId, canvasSize);
   const handleUpdateSelectedElement = updateSelected(elements, setElements, selectedElementId);
 
   const handleStampDownload = async () => {
     setSelectedElementId(null);
-    await downloadStamp(elements);
+    await downloadStamp(elements, cropResult);
   };
 
   const handleStampCopy = async () => {
     setSelectedElementId(null);
-    await copyStamp(elements);
+    await copyStamp(elements, cropResult);
   };
 
   useEffect(() => {
+    const updateScale = (containerWidth: number) => {
+      const scale = containerWidth / canvasSize;
+      setCanvasScale(scale);
+    };
+
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
-        const containerWidth = entry.contentRect.width;
-        const scale = containerWidth / STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE;
-
-        setCanvasScale(scale);
+        updateScale(entry.contentRect.width);
       }
     });
 
     if (canvasContainerRef.current) {
       observer.observe(canvasContainerRef.current);
+      updateScale(canvasContainerRef.current.clientWidth);
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [canvasSize]);
 
   return (
     <main className="flex h-screen flex-col items-center justify-center bg-mauve-300">
@@ -95,8 +101,7 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
       <div className="fixed top-12 flex flex-col justify-center gap-2 pt-3 sm:top-1">
         <div className="flex flex-row justify-center gap-5">
           <Text type="c" weight="regular">
-            Canvas Size: {STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE}px ×{' '}
-            {STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE}px
+            Canvas Size: {canvasSize}px × {canvasSize}px
           </Text>
           <Text type="c" weight="regular">
             Save Result: .png
@@ -113,6 +118,7 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
         className="relative aspect-square w-full max-w-87.5 overflow-hidden rounded-sm bg-slate-600 shadow-md"
       >
         <StampGeneratorCanvas
+          canvasSize={canvasSize}
           canvasScale={canvasScale}
           elements={elements}
           selectedElementId={selectedElementId}
@@ -122,6 +128,7 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
       <StampGeneratorDrawer
         selectedElement={selectedElement}
         handleUpdateComponent={handleUpdateSelectedElement}
+        canvasSize={canvasSize}
       />
 
       <StampGeneratorSidebar
@@ -133,6 +140,10 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
         setSelectedId={setSelectedElementId}
         handleDownload={handleStampDownload}
         handleCopy={handleStampCopy}
+        cropResult={cropResult}
+        setCropResult={setCropResult}
+        canvasSize={canvasSize}
+        setCanvasSize={setCanvasSize}
       />
     </main>
   );

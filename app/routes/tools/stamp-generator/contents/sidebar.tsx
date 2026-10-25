@@ -32,6 +32,14 @@ import { cn } from '@/lib/utils';
 import { Text } from '@/components/helper/text';
 import GeneralAlertDialog from '@/components/shared/general-alert-dialog';
 import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { toast } from '@/components/ui/toast';
 
 import { DIALOG_KEY, LOCAL_STORAGE_KEY, STAMP_GENERATOR_CONST } from '@/constants';
@@ -49,6 +57,10 @@ export function StampGeneratorSidebar({
   setSelectedId,
   handleDownload,
   handleCopy,
+  cropResult,
+  setCropResult,
+  canvasSize,
+  setCanvasSize,
 }: {
   elements: CanvasElement[];
   setElements: (items: CanvasElement[]) => void;
@@ -58,6 +70,10 @@ export function StampGeneratorSidebar({
   setSelectedId: (id: string | null) => void;
   handleDownload: () => Promise<void>;
   handleCopy: () => Promise<void>;
+  cropResult: boolean;
+  setCropResult: (crop: boolean) => void;
+  canvasSize: number;
+  setCanvasSize: (size: number) => void;
 }) {
   const [isLoadingDownload, setIsLoadingDownload] = useState(false);
   const [isLoadingCopy, setIsLoadingCopy] = useState(false);
@@ -72,7 +88,40 @@ export function StampGeneratorSidebar({
 
   function handleSaveProgress() {
     itemStorage.local.set(LOCAL_STORAGE_KEY.STAMP_GENERATOR.DATA, elements);
+    itemStorage.local.set(LOCAL_STORAGE_KEY.STAMP_GENERATOR.SETTINGS, {
+      canvas_size: canvasSize,
+      crop_result: cropResult,
+    });
     toast.success('Progress saved!');
+  }
+
+  function handleCanvasSizeChange(size: number) {
+    if (size === canvasSize) return;
+
+    const ratio = size / canvasSize;
+    setCanvasSize(size);
+
+    setElements(
+      elements.map((el) => ({
+        ...el,
+        x: Math.round(el.x * ratio),
+        y: Math.round(el.y * ratio),
+        scale: Number((el.scale * ratio).toFixed(2)),
+      }))
+    );
+
+    itemStorage.local.set(LOCAL_STORAGE_KEY.STAMP_GENERATOR.SETTINGS, {
+      canvas_size: size,
+      crop_result: cropResult,
+    });
+  }
+
+  function handleCropResultChange(crop: boolean) {
+    setCropResult(crop);
+    itemStorage.local.set(LOCAL_STORAGE_KEY.STAMP_GENERATOR.SETTINGS, {
+      canvas_size: canvasSize,
+      crop_result: crop,
+    });
   }
 
   function handleClearProgress() {
@@ -286,6 +335,41 @@ export function StampGeneratorSidebar({
             >
               Save Progress
             </Button>
+
+            <div className="flex w-full flex-col gap-y-3 py-2">
+              <div className="flex flex-row items-center justify-between gap-x-1">
+                <Text type="btn" weight="semibold">
+                  Canvas Size
+                </Text>
+                <Select
+                  value={String(canvasSize)}
+                  onValueChange={(val) => handleCanvasSizeChange(Number(val))}
+                >
+                  <SelectTrigger size="sm" className="bg-primary">
+                    <SelectValue placeholder={String(canvasSize)}>
+                      <Text type="c" weight="medium" className="text-white">
+                        {canvasSize}
+                      </Text>
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {[128, 256, 350, 512].map((size) => (
+                      <SelectItem key={`size_${size}`} value={String(size)}>
+                        <Text type="c" weight="medium" className="text-primary">
+                          {size}
+                        </Text>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-row items-center justify-between gap-x-1">
+                <Text type="btn" weight="semibold" className="flex flex-row items-center">
+                  Crop Result
+                </Text>
+                <Switch checked={cropResult} onCheckedChange={handleCropResultChange} />
+              </div>
+            </div>
 
             <div className="flex w-full flex-row items-center justify-between gap-3">
               <Button

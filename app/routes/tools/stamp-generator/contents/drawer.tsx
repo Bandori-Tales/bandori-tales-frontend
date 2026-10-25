@@ -15,9 +15,11 @@ import { DrawerColorPicker, DrawerSlider, DrawerSwitch } from '../components/dra
 export function StampGeneratorDrawer({
   selectedElement,
   handleUpdateComponent,
+  canvasSize = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE,
 }: {
   selectedElement?: CanvasElement;
   handleUpdateComponent: (updatedElement: Partial<CanvasElement>) => void;
+  canvasSize?: number;
 }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -106,7 +108,7 @@ export function StampGeneratorDrawer({
                   label="X"
                   step={1}
                   minValue={0}
-                  maxValue={STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE}
+                  maxValue={canvasSize}
                   value={selectedElement.x}
                   handleValueChange={(value: number) => handleUpdateComponent({ x: value })}
                 />
@@ -114,7 +116,7 @@ export function StampGeneratorDrawer({
                   label="Y"
                   step={1}
                   minValue={0}
-                  maxValue={STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE}
+                  maxValue={canvasSize}
                   value={selectedElement.y}
                   handleValueChange={(value: number) => handleUpdateComponent({ y: value })}
                 />
@@ -132,7 +134,7 @@ export function StampGeneratorDrawer({
                   label="Scale"
                   step={0.05}
                   minValue={0.1}
-                  maxValue={3}
+                  maxValue={10}
                   value={selectedElement.scale}
                   handleValueChange={(value: number) => handleUpdateComponent({ scale: value })}
                 />

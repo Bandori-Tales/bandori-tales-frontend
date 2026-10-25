@@ -8,18 +8,20 @@ export function StampGeneratorCanvas({
   canvasScale,
   elements,
   selectedElementId,
+  canvasSize = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE,
 }: {
   canvasScale: number;
   elements: CanvasElement[];
   selectedElementId: string | null;
+  canvasSize?: number;
 }) {
   return (
     <div
       id="canvas-export"
       className="absolute top-0 left-0 origin-top-left bg-transparent"
       style={{
-        width: `${STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE}px`,
-        height: `${STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE}px`,
+        width: `${canvasSize}px`,
+        height: `${canvasSize}px`,
         transform: `scale(${canvasScale})`,
       }}
     >

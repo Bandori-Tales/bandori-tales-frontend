@@ -3,25 +3,28 @@ import { useEffect, useRef } from 'react';
 import { STAMP_GENERATOR_CONST } from '@/constants';
 import type { CanvasElement } from '@/schemas/models';
 
-import {
-  ensureFontsLoaded,
-  hitTestElements,
-  renderAllElements,
-} from '../hooks/stamp-canvas-renderer';
+import type { ElementBounds } from '../hooks/stamp-canvas-renderer';
+import { ensureFontsLoaded, renderAllElements } from '../hooks/stamp-canvas-renderer';
+import { useCanvasInteraction } from '../hooks/use-canvas-interaction';
+
+const DISPLAY_SIZE = STAMP_GENERATOR_CONST.DEFAULT_CANVAS_SIZE;
 
 export function StampGeneratorCanvas({
   elements,
   selectedElementId,
-  canvasSize = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE,
+  canvasSize = STAMP_GENERATOR_CONST.DEFAULT_CANVAS_SIZE,
   onSelectElement,
+  onUpdateElement,
 }: {
   canvasScale?: number;
   elements: CanvasElement[];
   selectedElementId: string | null;
   canvasSize?: number;
   onSelectElement?: (id: string | null) => void;
+  onUpdateElement?: (id: string, patch: Partial<CanvasElement>) => void;
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const boundsMapRef = useRef<Map<string, ElementBounds>>(new Map());
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -32,14 +35,22 @@ export function StampGeneratorCanvas({
 
     let animId: number;
     const render = () => {
-      renderAllElements(ctx, elements, canvasSize, selectedElementId, () => {
-        cancelAnimationFrame(animId);
-        animId = requestAnimationFrame(render);
-      });
+      boundsMapRef.current.clear();
+      renderAllElements(
+        ctx,
+        elements,
+        canvasSize,
+        selectedElementId,
+        () => {
+          cancelAnimationFrame(animId);
+          animId = requestAnimationFrame(render);
+        },
+        DISPLAY_SIZE,
+        boundsMapRef.current
+      );
     };
 
     render();
-
     ensureFontsLoaded(render);
 
     if (typeof document !== 'undefined' && document.fonts) {
@@ -54,30 +65,23 @@ export function StampGeneratorCanvas({
     return () => cancelAnimationFrame(animId);
   }, [elements, canvasSize, selectedElementId]);
 
-  const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!onSelectElement) return;
-
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const rect = canvas.getBoundingClientRect();
-    if (rect.width === 0 || rect.height === 0) return;
-
-    const clickX = (event.clientX - rect.left) * (canvasSize / rect.width);
-    const clickY = (event.clientY - rect.top) * (canvasSize / rect.height);
-
-    const hitId = hitTestElements(elements, clickX, clickY);
-    onSelectElement(hitId);
-  };
+  useCanvasInteraction({
+    canvasRef,
+    elements,
+    selectedElementId,
+    canvasSize,
+    boundsMapRef,
+    onSelectElement: onSelectElement ?? (() => {}),
+    onUpdateElement: onUpdateElement ?? (() => {}),
+  });
 
   return (
     <canvas
       ref={canvasRef}
       id="canvas-export"
-      width={canvasSize}
-      height={canvasSize}
-      onClick={handleCanvasClick}
-      className="block h-full w-full cursor-pointer bg-transparent"
+      width={DISPLAY_SIZE}
+      height={DISPLAY_SIZE}
+      className="block h-full w-full cursor-pointer touch-none bg-transparent"
     />
   );
 }

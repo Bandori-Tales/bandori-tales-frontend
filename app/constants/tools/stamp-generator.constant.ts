@@ -1,3 +1,5 @@
+import type { GeneratorSettings } from '@/schemas/models';
+
 export interface StampImageItem {
   id: string;
   label: string;
@@ -14,8 +16,13 @@ export interface StampFontItem {
 }
 
 export const STAMP_GENERATOR_CONST = {
-  LOGICAL_CANVAS_SIZE: 350,
-  MAX_ELEMENTS: 10,
+  DEFAULT_CANVAS_SIZE: 350,
+  MAX_ELEMENTS: 20,
+};
+
+export const StampGeneratorDefaultSettings: GeneratorSettings = {
+  canvas_size: 350,
+  crop_result: true,
 };
 
 export const StampImages = [

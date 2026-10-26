@@ -18,7 +18,7 @@ const CanvasElementSchema = v.object({
   name: v.string(),
   x: v.pipe(v.number(), v.minValue(0), v.maxValue(512), v.integer()),
   y: v.pipe(v.number(), v.minValue(0), v.maxValue(512), v.integer()),
-  scale: v.pipe(v.number(), v.minValue(0.05), v.maxValue(10)),
+  scale: v.pipe(v.number(), v.minValue(0.1), v.maxValue(5)),
   rotation: v.pipe(v.number(), v.minValue(0), v.maxValue(360), v.integer()),
   flipX: v.boolean(),
   flipY: v.boolean(),

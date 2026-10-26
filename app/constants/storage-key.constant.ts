@@ -14,6 +14,7 @@ export const DIALOG_KEY = {
     EDIT_IMAGE: 'stamp-edit-image',
     EDIT_TEXT: 'stamp-edit-text',
     CLEAR_DATA: 'stamp-clear-data',
+    HELPER_CROP: 'helper-crop',
   },
   YUNOGPT: {
     CLEAR_CHAT: 'clear-chat',

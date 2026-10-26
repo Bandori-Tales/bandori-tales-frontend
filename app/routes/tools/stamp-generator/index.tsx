@@ -53,6 +53,10 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
   const handleAddElement = addElement(elements, setElements, setSelectedElementId, canvasSize);
   const handleUpdateSelectedElement = updateSelected(elements, setElements, selectedElementId);
 
+  const handleUpdateElementById = (id: string, patch: Partial<(typeof elements)[0]>) => {
+    setElements(elements.map((el) => (el.id === id ? { ...el, ...patch } : el)));
+  };
+
   const handleStampDownload = async () => {
     setSelectedElementId(null);
     await downloadStamp(elements, canvasSize, cropResult);
@@ -115,6 +119,7 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
           elements={elements}
           selectedElementId={selectedElementId}
           onSelectElement={setSelectedElementId}
+          onUpdateElement={handleUpdateElementById}
         />
       </div>
 

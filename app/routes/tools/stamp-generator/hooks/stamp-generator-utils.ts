@@ -14,7 +14,7 @@ export const addElement =
     elements: CanvasElement[],
     setElements: (element: CanvasElement[]) => void,
     setSelectedElementId: (id: string) => void,
-    canvasSize: number = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE
+    canvasSize: number = STAMP_GENERATOR_CONST.DEFAULT_CANVAS_SIZE
   ) =>
   (type: ICanvasElementType, name: string, content: string, fontFamilyId?: string) => {
     if (elements.length >= STAMP_GENERATOR_CONST.MAX_ELEMENTS) return;
@@ -134,7 +134,7 @@ export const cropCanvas = (canvas: HTMLCanvasElement): HTMLCanvasElement => {
 
 export const createStampCanvas = (
   elements: CanvasElement[],
-  canvasSize: number = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE,
+  canvasSize: number = STAMP_GENERATOR_CONST.DEFAULT_CANVAS_SIZE,
   cropResult = false
 ): HTMLCanvasElement => {
   const canvas = document.createElement('canvas');
@@ -151,7 +151,7 @@ export const createStampCanvas = (
 
 export const generateStampBlob = async (
   elements: CanvasElement[],
-  canvasSize: number = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE,
+  canvasSize: number = STAMP_GENERATOR_CONST.DEFAULT_CANVAS_SIZE,
   cropResult = false
 ): Promise<Blob> => {
   const finalCanvas = createStampCanvas(elements, canvasSize, cropResult);
@@ -166,7 +166,7 @@ export const generateStampBlob = async (
 
 export const downloadStamp = async (
   elements: CanvasElement[],
-  canvasSize: number = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE,
+  canvasSize: number = STAMP_GENERATOR_CONST.DEFAULT_CANVAS_SIZE,
   cropResult = false
 ) => {
   try {
@@ -192,7 +192,7 @@ export const downloadStamp = async (
 
 export const copyStamp = async (
   elements: CanvasElement[],
-  canvasSize: number = STAMP_GENERATOR_CONST.LOGICAL_CANVAS_SIZE,
+  canvasSize: number = STAMP_GENERATOR_CONST.DEFAULT_CANVAS_SIZE,
   cropResult = false
 ) => {
   try {

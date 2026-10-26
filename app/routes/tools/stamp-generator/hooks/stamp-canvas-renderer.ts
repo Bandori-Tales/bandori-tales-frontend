@@ -1,6 +1,19 @@
 import { StampFonts, StampImages } from '@/constants';
 import type { CanvasElement } from '@/schemas/models';
 
+export interface ElementBounds {
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
+  width: number;
+  height: number;
+}
+
+export const ROTATE_HANDLE_RADIUS = 8;
+export const ROTATE_HANDLE_OFFSET = 20;
+export const SCALE_HANDLE_HALF = 5;
+
 const imageCache = new Map<string, HTMLImageElement>();
 
 export function getCachedImage(url: string, onLoaded?: () => void): HTMLImageElement | null {
@@ -33,13 +46,101 @@ export function ensureFontsLoaded(onLoaded?: () => void) {
     .catch(() => onLoaded?.());
 }
 
-export interface ElementBounds {
-  minX: number;
-  minY: number;
-  maxX: number;
-  maxY: number;
-  width: number;
-  height: number;
+function drawHandles(
+  ctx: CanvasRenderingContext2D,
+  vMinX: number,
+  vMinY: number,
+  vMaxX: number,
+  vMaxY: number
+) {
+  const midX = (vMinX + vMaxX) / 2;
+
+  const rhX = midX;
+  const rhY = vMinY - ROTATE_HANDLE_OFFSET;
+
+  ctx.save();
+  ctx.strokeStyle = 'rgba(0,184,219,0.8)';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([]);
+  ctx.beginPath();
+  ctx.moveTo(midX, vMinY - 1);
+  ctx.lineTo(rhX, rhY);
+  ctx.stroke();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.strokeStyle = '#00b8db';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(rhX, rhY, ROTATE_HANDLE_RADIUS, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.strokeStyle = '#00b8db';
+  ctx.lineWidth = 1.5;
+  ctx.lineCap = 'round';
+  const r = ROTATE_HANDLE_RADIUS * 0.5;
+  ctx.beginPath();
+  ctx.arc(rhX, rhY, r, -Math.PI * 1.1, Math.PI * 0.5);
+  ctx.stroke();
+  const ax = rhX + r * Math.cos(Math.PI * 0.75);
+  const ay = rhY + r * Math.sin(Math.PI * 0.75);
+  const arrowSize = r * 0.55;
+  ctx.beginPath();
+  ctx.moveTo(ax, ay);
+  ctx.lineTo(ax - arrowSize, ay - arrowSize * 0.5);
+  ctx.moveTo(ax, ay);
+  ctx.lineTo(ax + arrowSize * 0.5, ay - arrowSize);
+  ctx.stroke();
+  ctx.restore();
+
+  const corners: [number, number][] = [
+    [vMinX, vMinY],
+    [vMaxX, vMinY],
+    [vMaxX, vMaxY],
+    [vMinX, vMaxY],
+  ];
+  const hs = SCALE_HANDLE_HALF;
+  for (const [hx, hy] of corners) {
+    ctx.save();
+    ctx.fillStyle = '#ffffff';
+    ctx.strokeStyle = '#00b8db';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([]);
+    ctx.strokeRect(hx - hs, hy - hs, hs * 2, hs * 2);
+    ctx.fillRect(hx - hs, hy - hs, hs * 2, hs * 2);
+    ctx.restore();
+  }
+}
+
+function selectElement(
+  ctx: CanvasRenderingContext2D,
+  element: CanvasElement,
+  bounds: ElementBounds,
+  scaleX: number,
+  scaleY: number,
+  w?: number,
+  h?: number
+) {
+  ctx.save();
+  const absScale = Math.max(Math.abs(element.scale), 0.1);
+  ctx.strokeStyle = '#00b8db';
+  ctx.lineWidth = 2 / absScale;
+  ctx.setLineDash([6 / absScale, 4 / absScale]);
+
+  if (element.type === 'IMAGE' && w !== undefined && h !== undefined)
+    ctx.strokeRect(-w / 2 - 2, -h / 2 - 2, w + 4, h + 4);
+  else ctx.strokeRect(bounds.minX, bounds.minY, bounds.width, bounds.height);
+
+  ctx.restore();
+
+  ctx.save();
+  ctx.scale(1 / scaleX, 1 / scaleY);
+  const vMinX = Math.min(bounds.minX * scaleX, bounds.maxX * scaleX);
+  const vMinY = Math.min(bounds.minY * scaleY, bounds.maxY * scaleY);
+  const vMaxX = Math.max(bounds.minX * scaleX, bounds.maxX * scaleX);
+  const vMaxY = Math.max(bounds.minY * scaleY, bounds.maxY * scaleY);
+  drawHandles(ctx, vMinX, vMinY, vMaxX, vMaxY);
+  ctx.restore();
 }
 
 export function renderCanvasElement(
@@ -76,15 +177,7 @@ export function renderCanvasElement(
           height: h,
         };
 
-        if (isSelected) {
-          ctx.save();
-          const absScale = Math.max(Math.abs(element.scale), 0.1);
-          ctx.strokeStyle = '#00b8db';
-          ctx.lineWidth = 2 / absScale;
-          ctx.setLineDash([6 / absScale, 4 / absScale]);
-          ctx.strokeRect(-w / 2 - 2, -h / 2 - 2, w + 4, h + 4);
-          ctx.restore();
-        }
+        if (isSelected) selectElement(ctx, element, bounds, scaleX, scaleY, w, h);
       }
     }
   } else if (element.type === 'TEXT') {
@@ -168,15 +261,7 @@ export function renderCanvasElement(
         height: maxY - minY + pad * 2,
       };
 
-      if (isSelected) {
-        ctx.save();
-        const absScale = Math.max(Math.abs(element.scale), 0.1);
-        ctx.strokeStyle = '#e11d48';
-        ctx.lineWidth = 2 / absScale;
-        ctx.setLineDash([6 / absScale, 4 / absScale]);
-        ctx.strokeRect(bounds.minX, bounds.minY, bounds.width, bounds.height);
-        ctx.restore();
-      }
+      if (isSelected) selectElement(ctx, element, bounds, scaleX, scaleY);
     }
   }
 
@@ -189,14 +274,29 @@ export function renderAllElements(
   elements: CanvasElement[],
   canvasSize: number,
   selectedElementId: string | null = null,
-  onAssetLoaded?: () => void
+  onAssetLoaded?: () => void,
+  displaySize?: number,
+  boundsMap?: Map<string, ElementBounds>
 ) {
-  ctx.clearRect(0, 0, canvasSize, canvasSize);
+  const renderSize = displaySize ?? canvasSize;
+  ctx.clearRect(0, 0, renderSize, renderSize);
+
+  const scale = displaySize != null ? displaySize / canvasSize : 1;
+
+  ctx.save();
+  if (scale !== 1) {
+    ctx.scale(scale, scale);
+  }
 
   for (const element of elements) {
     const isSelected = element.id === selectedElementId;
-    renderCanvasElement(ctx, element, isSelected, onAssetLoaded);
+    const bounds = renderCanvasElement(ctx, element, isSelected, onAssetLoaded);
+    if (bounds && boundsMap) {
+      boundsMap.set(element.id, bounds);
+    }
   }
+
+  ctx.restore();
 }
 
 export function hitTestElements(

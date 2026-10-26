@@ -44,6 +44,7 @@ import { toast } from '@/components/ui/toast';
 import { DIALOG_KEY, LOCAL_STORAGE_KEY, STAMP_GENERATOR_CONST } from '@/constants';
 import type { CanvasElement, ICanvasElementType } from '@/schemas/models';
 
+import { CropResultHelpButton } from '../components/help-buttons';
 import { SidebarImageDialog, SidebarTextDialog } from '../components/sidebar-dialog';
 import { SidebarSortableItem } from '../components/sidebar-sortable-item';
 
@@ -343,8 +344,8 @@ export function StampGeneratorSidebar({
                 </Select>
               </div>
               <div className="flex flex-row items-center justify-between gap-x-1">
-                <Text type="btn" weight="semibold" className="flex flex-row items-center">
-                  Crop Result
+                <Text type="btn" weight="semibold" className="flex flex-row items-center gap-1">
+                  Crop Result <CropResultHelpButton />
                 </Text>
                 <Switch checked={cropResult} onCheckedChange={handleCropResultChange} />
               </div>

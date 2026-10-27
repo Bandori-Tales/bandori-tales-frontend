@@ -67,7 +67,7 @@ export default function GeneralDialog({
         className="max-w-sm bg-white sm:max-w-xl lg:max-w-2xl dark:bg-mauve-900"
         showCloseButton={false}
       >
-        <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none hover:bg-black/5 dark:hover:bg-white/5">
+        <DialogClose className="absolute top-4 right-4 rounded-full border-none bg-transparent p-1 shadow-none transition-colors hover:bg-black/5 dark:hover:bg-white/5">
           <X size={18} className="text-foreground" />
         </DialogClose>
 

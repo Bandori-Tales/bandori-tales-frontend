@@ -38,7 +38,7 @@ function SelectOrderButton({ name, items, orderDirectionName, classname }: Selet
               if (orderDirectionValue === 'asc') field.onChange('desc');
               else field.onChange('asc');
             }}
-            className="flex h-full items-center justify-center rounded-sm px-2 py-2 hover:bg-white/20 dark:hover:bg-white/5"
+            className="flex h-full items-center justify-center rounded-sm bg-transparent px-2 py-2 transition-colors hover:bg-white/20 dark:hover:bg-white/5"
           >
             <ArrowDownWideNarrow
               className={cn(
@@ -60,7 +60,7 @@ function SelectOrderButton({ name, items, orderDirectionName, classname }: Selet
             <Select onValueChange={(value) => field.onChange(value)} value={field.value}>
               <SelectTrigger
                 size="sm"
-                className="flex h-full w-full cursor-pointer flex-row items-center justify-between rounded-sm border-none text-white hover:bg-white/20 dark:hover:bg-white/5"
+                className="flex h-full w-full cursor-pointer flex-row items-center justify-between rounded-sm border-none bg-transparent text-white transition-colors hover:bg-white/20 dark:hover:bg-white/5"
               >
                 <SelectValue className="text-white" />
               </SelectTrigger>

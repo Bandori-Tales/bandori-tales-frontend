@@ -219,7 +219,7 @@ export function SidebarTextDialog({
                 {StampFonts.map((item) => (
                   <DropdownMenuItem
                     key={item.id}
-                    className="hover:bg-secondary"
+                    className="bg-transparent transition-colors hover:bg-secondary"
                     onClick={() => setSelectedFont(item)}
                   >
                     <Text

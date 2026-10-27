@@ -26,7 +26,7 @@ function FooterButton({
     <Button
       asChild
       variant='ghost'
-      className="px-3 m-0 flex text-primary-foreground hover:bg-transparent hover:text-amber-400"
+      className="px-3 m-0 flex text-primary-foreground transition-colors hover:bg-transparent hover:text-secondary"
       leftIcon={leftIcon}
       onClick={handleClick}
     >
@@ -107,7 +107,7 @@ function CreditsDialog() {
         className='h-160 max-w-sm bg-white sm:h-200 sm:max-w-xl lg:h-150 lg:max-w-4xl dark:bg-mauve-900'
         showCloseButton={false}
       >
-        <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none hover:bg-black/5 dark:hover:bg-white/5">
+        <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none bg-transparent transition-colors hover:bg-black/5 dark:hover:bg-white/5">
           <X size={18} className='text-foreground' />
         </DialogClose>
 
@@ -141,7 +141,7 @@ function PrivacyPoliciesDialog() {
         className='h-100 max-w-sm bg-white sm:max-w-xl dark:bg-mauve-900'
         showCloseButton={false}
       >
-        <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none hover:bg-black/5 dark:hover:bg-white/5">
+        <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none bg-transparent transition-colors hover:bg-black/5 dark:hover:bg-white/5">
           <X size={18} className='text-foreground' />
         </DialogClose>
 

@@ -192,7 +192,7 @@ function ProfileButton({
             profile_picture_url ? (
               <Image alt="User Profile" src={profile_picture_url} className="rounded-full object-cover max-lg:size-8" />
             ) : (
-              <UserRound className="stroke-3 text-pimary" />
+              <UserRound className="stroke-3 text-primary-foreground max-lg:text-primary" />
             )
           }
           <div className="hidden max-lg:block">

@@ -26,11 +26,11 @@ import {
 } from '@/schemas/models';
 
 import type { Route } from './+types';
-import { ChatBlock } from './components/chat-block';
+import { ChatBlock, type ShowPhotoProps } from './components/chat-block';
 import ClearChatDialog from './components/clear-chat-dialog';
 import { ChatProfileTab } from './contents/profile-tab';
 import { ChatroomNavbar } from './contents/room-navbar';
-import { getUserChats, getUserTheme } from './hooks/get-yunogpt';
+import { getUserChats, getUserShowPhoto, getUserTheme } from './hooks/get-yunogpt';
 import { sendUserChat } from './hooks/yunogpt-utils';
 
 export function meta() {
@@ -40,6 +40,7 @@ export function meta() {
 export async function clientLoader() {
   const userTheme = getUserTheme();
   const userChats = getUserChats();
+  const userShowPhotoConfig = getUserShowPhoto();
 
   const navbarStatus =
     userChats.length > 0
@@ -50,6 +51,7 @@ export async function clientLoader() {
     usedTheme: userTheme,
     roomChats: userChats,
     navbarStatus: navbarStatus,
+    showPhotoConfig: userShowPhotoConfig,
   };
 }
 
@@ -63,10 +65,12 @@ function ChatContents({
   chats,
   bgPrimary,
   isProfileOpen,
+  showPhotoProps,
 }: {
   chats: IChatBlock[];
   bgPrimary: string;
   isProfileOpen: boolean;
+  showPhotoProps: ShowPhotoProps;
 }) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -90,6 +94,7 @@ function ChatContents({
           chatItem={chat}
           isProfileOpen={isProfileOpen}
           bgPrimary={bgPrimary}
+          showPhotoProps={showPhotoProps}
         />
       ))}
       <div className="block h-19.5 w-full shrink-0 md:h-24" ref={messagesEndRef} />
@@ -100,6 +105,7 @@ function ChatContents({
 export default function YunogptToolPage({ loaderData }: Route.ComponentProps) {
   const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
   const [navbarStatus, setNavbarStatus] = useState<string>(loaderData.navbarStatus);
+  const [showPhotoProps, setShowPhotoProps] = useState<ShowPhotoProps>(loaderData.showPhotoConfig);
   const [userTheme, setUserTheme] = useState<{ theme: string } & YunoThemeClasses>(
     loaderData.usedTheme
   );
@@ -177,6 +183,7 @@ export default function YunogptToolPage({ loaderData }: Route.ComponentProps) {
         chats={roomChats}
         bgPrimary={userTheme.background_primary}
         isProfileOpen={isProfileOpen}
+        showPhotoProps={showPhotoProps}
       />
 
       <ChatProfileTab
@@ -187,6 +194,10 @@ export default function YunogptToolPage({ loaderData }: Route.ComponentProps) {
         setIsProfileOpen={setIsProfileOpen}
         setUserTheme={changeUserTheme}
         openDialog={openDialog}
+        settingsProps={{
+          showPhotoSettings: showPhotoProps,
+          setShowPhotoSettings: setShowPhotoProps,
+        }}
       />
 
       <RemixFormProvider {...methods}>

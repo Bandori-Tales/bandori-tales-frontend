@@ -41,6 +41,7 @@ export const LOCAL_STORAGE_KEY = {
   },
   YUNOGPT: {
     THEME: 'yuno-gpt-theme',
+    SHOW_PHOTO: 'yuno-gpt-show-photo',
   },
   PROFILE: {
     GENERAL_SETTING: 'settings/general',

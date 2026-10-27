@@ -1,8 +1,10 @@
+import { UserCircle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkBreaks from 'remark-breaks';
 
 import { cn } from '@/lib/utils';
 
+import Image from '@/components/helper/image';
 import { Text } from '@/components/helper/text';
 
 import type { IChatBlock } from '@/schemas/models';
@@ -23,25 +25,50 @@ const blockedElements = [
   'td',
 ];
 
+export interface ShowPhotoProps {
+  showPhoto: boolean;
+  photoSource: string;
+  photoType: 'icon' | 'image';
+}
+
 export function ChatBlock({
   chatItem,
   isProfileOpen,
   bgPrimary,
+  showPhotoProps,
 }: {
   chatItem: IChatBlock;
   isProfileOpen: boolean;
   bgPrimary: string;
+  showPhotoProps: ShowPhotoProps;
 }) {
   return (
     <div
       className={cn(
-        'flex w-full flex-row items-baseline',
-        chatItem.sender === 'user' ? 'justify-end' : 'justify-start'
+        'flex w-full items-baseline justify-start gap-x-4',
+        chatItem.sender === 'user' ? 'flex-row-reverse' : 'flex-row'
       )}
     >
+      {showPhotoProps.showPhoto && (
+        <div className="flex size-10 items-center justify-center rounded-full bg-background drop-shadow-black/20 drop-shadow-md">
+          {showPhotoProps.photoType === 'image' || chatItem.sender === 'yuno' ? (
+            <Image
+              alt={`${chatItem.sender} photo`}
+              src={
+                chatItem.sender === 'yuno'
+                  ? '/images/tools/yunogpt/yunogpt_icon.webp'
+                  : showPhotoProps.photoSource
+              }
+              className="size-10 rounded-full object-contain"
+            />
+          ) : (
+            <UserCircle className="size-10 stroke-2 text-writing-dark dark:text-writing-light" />
+          )}
+        </div>
+      )}
       <hgroup
         className={cn(
-          'bubbletext relative h-fit w-fit rounded-lg px-4 py-2 shadow-black/50 drop-shadow-xl',
+          'bubbletext relative h-fit w-fit rounded-lg px-4 py-2 drop-shadow-black/30 drop-shadow-lg',
           'before:absolute before:top-0 before:h-4 before:w-3 before:bg-inherit',
           chatItem.sender === 'user'
             ? `${bgPrimary} rounded-tr-none text-white before:-right-3 before:[clip-path:polygon(0_0,100%_0,0_100%)]`

@@ -325,7 +325,7 @@ export function StampGeneratorSidebar({
                   value={String(canvasSize)}
                   onValueChange={(val) => handleCanvasSizeChange(Number(val))}
                 >
-                  <SelectTrigger size="sm" className="bg-foreground-lighter">
+                  <SelectTrigger size="sm" className="bg-foreground-lighter transition-all">
                     <SelectValue placeholder={String(canvasSize)}>
                       <Text type="c" weight="medium" className="text-white">
                         {canvasSize}

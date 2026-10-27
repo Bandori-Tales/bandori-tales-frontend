@@ -17,6 +17,7 @@ import {
   type YunoChatThemes,
 } from '@/constants';
 
+import { type YunoGptSettingsProps, YunogptSettings } from '../components/settings-section';
 import { ChatThemeSelector } from '../components/theme-selector';
 
 function YunoProfile({
@@ -159,6 +160,7 @@ export function ChatProfileTab({
   setIsProfileOpen,
   setUserTheme,
   openDialog,
+  settingsProps: { showPhotoSettings, setShowPhotoSettings },
 }: {
   theme_primary: string;
   theme_lighter: string;
@@ -167,6 +169,7 @@ export function ChatProfileTab({
   setIsProfileOpen: (value: boolean) => void;
   setUserTheme: (theme: YunoChatThemes) => void;
   openDialog: (value: string) => void;
+  settingsProps: YunoGptSettingsProps;
 }) {
   return (
     <aside
@@ -188,6 +191,13 @@ export function ChatProfileTab({
           title={`${YUNOGPT_WRITE_ASSETS.PROFILE_MEDIA} (${YUNOGPT_MEDIA_LIST.length})`}
         >
           <MediaList />
+        </ProfileMiddleSection>
+
+        <ProfileMiddleSection title={YUNOGPT_WRITE_ASSETS.PROFILE_SETTINGS}>
+          <YunogptSettings
+            showPhotoSettings={showPhotoSettings}
+            setShowPhotoSettings={setShowPhotoSettings}
+          />
         </ProfileMiddleSection>
 
         <ProfileMiddleSection title={YUNOGPT_WRITE_ASSETS.PROFILE_SELECT_THEME}>

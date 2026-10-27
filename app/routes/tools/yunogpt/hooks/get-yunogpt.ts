@@ -1,5 +1,6 @@
+import { getUserProfileSettings } from '@/lib/profile';
 import { itemStorage } from '@/lib/storage';
-import { validateDataBySchema } from '@/lib/utils';
+import { handleCharacterPick, validateDataBySchema } from '@/lib/utils';
 
 import {
   LOCAL_STORAGE_KEY,
@@ -45,5 +46,33 @@ export function getUserTheme() {
   return {
     theme: userChatTheme,
     ...YunoThemeMap[userChatTheme as YunoChatThemes],
+  };
+}
+
+export function getUserShowPhoto() {
+  const showPhoto = itemStorage.local.get<boolean>(LOCAL_STORAGE_KEY.YUNOGPT.SHOW_PHOTO);
+
+  const userProfile = getUserProfileSettings();
+  const profileImageSource =
+    !userProfile.profile_picture_character_id || userProfile.profile_picture_character_id === 0
+      ? ''
+      : handleCharacterPick(
+          'profile_picture_url',
+          userProfile.profile_picture_character_id,
+          userProfile.profile_picture_array_index
+        );
+  const profileImageType =
+    !userProfile.profile_picture_character_id || userProfile.profile_picture_character_id === 0
+      ? 'icon'
+      : 'image';
+
+  if (typeof showPhoto !== 'boolean') {
+    itemStorage.local.set(LOCAL_STORAGE_KEY.YUNOGPT.SHOW_PHOTO, String(false));
+  }
+
+  return {
+    showPhoto: showPhoto === true,
+    photoSource: profileImageSource,
+    photoType: profileImageType as 'icon' | 'image',
   };
 }

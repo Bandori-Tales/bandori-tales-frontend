@@ -45,7 +45,7 @@ export function ChatBlock({
           'before:absolute before:top-0 before:h-4 before:w-3 before:bg-inherit',
           chatItem.sender === 'user'
             ? `${bgPrimary} rounded-tr-none text-white before:-right-3 before:[clip-path:polygon(0_0,100%_0,0_100%)]`
-            : 'rounded-tl-none bg-white text-mauve-700 before:-left-3 before:[clip-path:polygon(0_0,100%_0,100%_100%)]',
+            : 'rounded-tl-none bg-white text-mauve-700 before:-left-3 dark:bg-mauve-800 dark:text-mauve-100 before:[clip-path:polygon(0_0,100%_0,100%_100%)]',
           isProfileOpen ? 'max-w-[80%] lg:max-w-[60%]' : 'max-w-[80%] md:max-w-[45%]'
         )}
       >

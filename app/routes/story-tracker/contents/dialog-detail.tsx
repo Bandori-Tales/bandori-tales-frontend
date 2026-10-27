@@ -67,13 +67,15 @@ function DetailSection({
 }) {
   return (
     <div className="flex h-fit w-full flex-col gap-1 py-2">
-      <Text type="p" weight="bold" lineHeight={6} className="text-left text-primary">
+      <Text type="p" weight="bold" lineHeight={6} className="text-left text-foreground-lighter">
         {title}
       </Text>
       <div
         className={cn(
           'flex min-h-10 w-full flex-row flex-wrap gap-2.5 rounded-md',
-          withBackground ? 'bg-slate-100 p-2 shadow-black/50 shadow-inner' : 'bg-transparent'
+          withBackground
+            ? 'bg-slate-100 p-2 shadow-black/50 shadow-inner dark:bg-mauve-800'
+            : 'bg-transparent'
         )}
       >
         {children}
@@ -96,7 +98,7 @@ function TranslationButton({ name, source, type, url }: AvailableTranslation) {
       asChild
       variant="ghost"
       className={cn(
-        'min-h-10 rounded-md drop-shadow-black/30 drop-shadow-md transition-all duration-300',
+        'min-h-10 rounded-md drop-shadow-black/30 drop-shadow-md transition-all',
         translationButtonMap[source].background
       )}
     >
@@ -189,7 +191,7 @@ export function DetailStoryDialog({
       {selectedStory ? (
         <DialogContent
           className={cn(
-            'h-160 max-h-[95vh] max-w-sm bg-white sm:h-200 sm:max-w-xl lg:h-150 lg:max-w-4xl'
+            'h-160 max-h-[95vh] max-w-sm bg-white sm:h-200 sm:max-w-xl lg:h-150 lg:max-w-4xl dark:bg-mauve-900'
           )}
           showCloseButton={false}
         >
@@ -213,7 +215,7 @@ export function DetailStoryDialog({
                 >
                   <ArrowLeftRight
                     className={cn(
-                      'stroke-2 text-primary transition-all duration-300',
+                      'stroke-2 text-foreground-lighter transition-all',
                       isAnime ? 'scale-x-100' : 'scale-x-[-1]'
                     )}
                   />
@@ -243,7 +245,10 @@ export function DetailStoryDialog({
               <Text
                 type="st2"
                 weight="semibold"
-                className={cn('text-center text-primary', isAnime || isAnimeOnly ? 'hidden' : '')}
+                className={cn(
+                  'text-center text-foreground-lighter',
+                  isAnime || isAnimeOnly ? 'hidden' : ''
+                )}
               >
                 {selectedStory.name}
               </Text>
@@ -253,20 +258,20 @@ export function DetailStoryDialog({
                     to={selectedStory.anime_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex w-fit flex-row items-center justify-center gap-1 border-b border-b-transparent transition-colors duration-300 hover:border-b-primary/80"
+                    className="flex w-fit flex-row items-center justify-center gap-1 border-b border-b-transparent transition-colors hover:border-b-foreground-lighter/80"
                   >
                     <Text
                       type="btn"
                       weight="medium"
                       lineHeight={4}
-                      className="text-center text-primary/80 underline lg:no-underline"
+                      className="text-center text-foreground-lighter/80 underline lg:no-underline"
                     >
                       {selectedStory.anime_name}
                     </Text>
-                    <ExternalLinkIcon className="hidden size-4 text-primary/80 md:block" />
+                    <ExternalLinkIcon className="hidden size-4 text-foreground-lighter/80 md:block" />
                   </Link>
                 ) : (
-                  <Text type="p" weight="medium" className="text-center text-primary/80">
+                  <Text type="p" weight="medium" className="text-center text-foreground-lighter/80">
                     {selectedStory.anime_name}
                   </Text>
                 ))}
@@ -283,7 +288,9 @@ export function DetailStoryDialog({
                     type="btn"
                     lineHeight={6}
                     weight="semibold"
-                    style={{ color: `${storyBand?.colorDark || 'black'}` }}
+                    style={{
+                      color: `${storyBand?.id === 99 ? storyBand.color : storyBand?.colorDark || 'black'}`,
+                    }}
                   >
                     {detailText}
                   </Text>
@@ -299,7 +306,7 @@ export function DetailStoryDialog({
                 >
                   <ChevronDown
                     className={cn(
-                      'stroke-3 transition-all duration-300',
+                      'stroke-3 transition-all',
                       isBannerCollapse ? 'rotate-0' : 'rotate-180'
                     )}
                   />
@@ -310,7 +317,12 @@ export function DetailStoryDialog({
 
           <div className="h-full w-full overflow-y-scroll px-3">
             <DetailSection title="Synopsis">
-              <Text type="btn" lineHeight={5} weight="medium" className="text-slate-700">
+              <Text
+                type="btn"
+                lineHeight={5}
+                weight="medium"
+                className="text-slate-700 dark:text-mauve-200/90"
+              >
                 {selectedStory.synopsis}
               </Text>
             </DetailSection>
@@ -321,7 +333,12 @@ export function DetailStoryDialog({
                   {...StoryBadgeColorMap[selectedStory.story_tag]}
                   title={storyTagMap[selectedStory.story_tag]}
                 />
-                <Text type="btn" weight="medium" lineHeight={5} className="text-slate-700">
+                <Text
+                  type="btn"
+                  weight="medium"
+                  lineHeight={5}
+                  className="text-slate-700 dark:text-mauve-200/90"
+                >
                   {StoryTrackerTagDescription[selectedStory.story_tag]}
                 </Text>
               </div>
@@ -476,7 +493,12 @@ export function DetailStoryDialog({
             )}
 
             <DetailSection title="Notes">
-              <Text type="btn" lineHeight={5} weight="medium" className="text-slate-700">
+              <Text
+                type="btn"
+                lineHeight={5}
+                weight="medium"
+                className="text-slate-700 dark:text-mauve-200/90"
+              >
                 {selectedStory.notes}
               </Text>
             </DetailSection>
@@ -505,8 +527,8 @@ export function DetailStoryDialog({
           showCloseButton={false}
         >
           <div className="flex h-full w-full items-center justify-center">
-            <Text type="btn" weight="semibold" className="text-primary">
-              Loading Data.. <Loader2 className="animate-spin text-primary" />{' '}
+            <Text type="btn" weight="semibold" className="text-foreground-lighter">
+              Loading Data.. <Loader2 className="animate-spin text-foreground-lighter" />{' '}
             </Text>
           </div>
         </DialogContent>

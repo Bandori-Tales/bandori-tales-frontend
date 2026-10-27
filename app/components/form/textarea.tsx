@@ -80,7 +80,7 @@ export default function TextareaForm({
             <FormDescription
               className={cn(
                 'text-xs md:text-sm',
-                hasError && 'text-destructive-400',
+                hasError && 'text-destructive',
                 isDisabled && 'text-slate-500'
               )}
             >

@@ -16,7 +16,7 @@ export default function ToolsPage() {
   return (
     <div
       className={cn(
-        'min-h-screen w-full bg-linear-to-t from-rose-100 to-background pb-6',
+        'min-h-screen w-full bg-linear-to-t from-rose-100 to-background pb-6 dark:from-[#1E0009]',
         isMobile ? 'px-4 pt-0' : 'px-6 pt-16'
       )}
     >

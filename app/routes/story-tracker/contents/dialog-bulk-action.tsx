@@ -69,23 +69,29 @@ function TargetStoryDropdown<T>({
   targetMap: Record<string, dropdownItemMap>;
 }) {
   return (
-    <div className="w-48 border-b border-b-primary">
+    <div className="w-48 border-b border-b-foreground-lighter">
       <DropdownMenu>
         <DropdownMenuTrigger className="flex w-full flex-row items-center justify-between">
           <Text
             weight="medium"
-            className={cn(targetStory ? targetMap[targetStory as string].color : 'text-primary')}
+            className={cn(
+              'flex w-full justify-center sm:justify-start',
+              targetStory ? targetMap[targetStory as string].color : 'text-foreground-lighter'
+            )}
           >
             {targetStory ? targetMap[targetStory as string].label : ''}
           </Text>
           <ChevronDown
-            className={cn(targetStory ? targetMap[targetStory as string].color : 'text-primary')}
+            className={cn(
+              'shrink-0',
+              targetStory ? targetMap[targetStory as string].color : 'text-foreground-lighter'
+            )}
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="flex flex-col gap-1">
           {dropdownList.map((item) => (
             <Button key={`target_${item}`} asChild onClick={() => setTargetStory(item)}>
-              <DropdownMenuItem className="bg-transparent hover:bg-black/5">
+              <DropdownMenuItem className="bg-transparent hover:bg-black/5 dark:hover:bg-white/5">
                 <Text weight="medium" className={cn(targetMap[item as string].color)}>
                   {targetMap[item as string].label}
                 </Text>
@@ -137,7 +143,7 @@ export function BulkActionDialog({
       onCancel={handleCloseDialog}
     >
       <div className="flex w-full flex-col items-start justify-center gap-3">
-        <div className="flex w-full items-center justify-start gap-3">
+        <div className="flex w-full flex-col items-center justify-start gap-3 sm:flex-row">
           <Text type="p" weight="bold">
             Set
           </Text>
@@ -159,7 +165,11 @@ export function BulkActionDialog({
         </div>
 
         {targetStory && (
-          <Text type="c" weight="medium" className="text-start text-primary">
+          <Text
+            type="c"
+            weight="medium"
+            className="w-full justify-center text-center text-foreground-lighter sm:justify-start sm:text-start"
+          >
             {targetStory === 'all'
               ? stories.length
               : stories.filter((story) => {

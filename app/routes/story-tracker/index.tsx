@@ -122,7 +122,7 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
   return (
     <div
       className={cn(
-        'flex min-h-screen w-full flex-col gap-3 bg-linear-to-t from-rose-50 to-background',
+        'flex min-h-screen w-full flex-col gap-3 bg-linear-to-t from-rose-50 to-background dark:from-[#1E0009]',
         isMobile ? 'px-3 py-6' : 'px-3 py-6 lg:px-12 lg:py-16'
       )}
       ref={edgeRef}
@@ -137,7 +137,7 @@ export default function StoryTrackerPage({ loaderData }: Route.ComponentProps) {
         updateReadingStatus={updateReadingStatus}
       />
       <ScrollNavigation edgeRef={edgeRef} unreadRef={unreadRef} finishedRef={finishedRef} />
-      <Text type="btn" weight="regular" className="text-rose-500 italic">
+      <Text type="btn" weight="regular" className="text-foreground-lighter italic">
         This feature is still in beta version. For spreadsheet version,{' '}
         {
           <Link

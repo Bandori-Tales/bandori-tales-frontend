@@ -80,7 +80,7 @@ function ChatContents({
     <div
       className={cn(
         isProfileOpen ? 'w-full md:w-[calc(100vw-300px)]' : 'w-full',
-        'flex h-full max-h-screen flex-col gap-4 overflow-y-scroll px-4 transition-all duration-300 md:px-9'
+        'flex h-full max-h-screen flex-col gap-4 overflow-y-scroll px-4 transition-all md:px-9'
       )}
     >
       <div className="block h-20 w-full shrink-0" />
@@ -163,7 +163,7 @@ export default function YunogptToolPage({ loaderData }: Route.ComponentProps) {
   }, [navigation.state, reset]);
 
   return (
-    <main className="h-screen w-full bg-mauve-300">
+    <main className="h-screen w-full bg-mauve-300 dark:bg-mauve-950">
       <ClearChatDialog />
       <ChatroomNavbar
         online_status={navbarStatus}
@@ -195,7 +195,7 @@ export default function YunogptToolPage({ loaderData }: Route.ComponentProps) {
           onSubmit={handleSubmit}
           className={cn(
             isProfileOpen ? 'w-full md:w-[calc(100vw-300px)]' : 'w-full',
-            'fixed bottom-0 z-30 flex h-fit flex-row items-end gap-2 px-3 pb-3 transition-all duration-300 sm:gap-4 sm:px-9'
+            'fixed bottom-0 z-30 flex h-fit flex-row items-end gap-2 px-3 pb-3 transition-all sm:gap-4 sm:px-9'
           )}
         >
           <TextareaForm

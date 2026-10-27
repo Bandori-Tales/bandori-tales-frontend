@@ -1,9 +1,8 @@
-import { safeParse } from 'valibot';
-
 import { LOCAL_STORAGE_KEY } from '@/constants';
 import { type ProfileSetting, ProfileSettingSchema } from '@/schemas/models';
 
 import { itemStorage } from './storage';
+import { validateDataBySchema } from './utils';
 
 const defaultValue: ProfileSetting = {
   profile_picture_character_id: 0,
@@ -15,15 +14,13 @@ const defaultValue: ProfileSetting = {
 };
 
 export function getUserProfileSettings() {
-  const profileSetting = itemStorage.local.get<ProfileSetting>(
-    LOCAL_STORAGE_KEY.PROFILE.GENERAL_SETTING
+  const profileSetting = validateDataBySchema(
+    itemStorage.local.get<ProfileSetting>(LOCAL_STORAGE_KEY.PROFILE.GENERAL_SETTING),
+    ProfileSettingSchema,
+    {
+      defaultValue: defaultValue,
+    }
   );
 
-  const parsed = safeParse(ProfileSettingSchema, profileSetting);
-  if (!parsed.success) {
-    itemStorage.local.set(LOCAL_STORAGE_KEY.PROFILE.GENERAL_SETTING, defaultValue);
-    return defaultValue;
-  }
-
-  return parsed.output;
+  return profileSetting;
 }

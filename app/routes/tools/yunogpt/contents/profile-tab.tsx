@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 
 import { cn } from '@/lib/utils';
 
-import Image from '@/components/helper/image';
+import ExpandableImage from '@/components/helper/expandable-image';
 import { Text } from '@/components/helper/text';
 import { Button } from '@/components/ui/button';
 
@@ -38,14 +38,14 @@ function YunoProfile({
       <div className="flex w-full flex-row items-start justify-between">
         <Button
           variant="ghost"
-          className="rounded-full p-6 text-white hover:bg-black/10 [&_svg]:size-6"
+          className="rounded-full p-6 text-writing-light hover:bg-black/10 [&_svg]:size-6"
           size="icon"
           onClick={() => setIsProfileOpen(false)}
         >
           <X className="stroke-3" />
         </Button>
 
-        <Image
+        <ExpandableImage
           src="/images/tools/yunogpt/yunogpt_icon.webp"
           alt="YunoGPT"
           className="aspect-square h-fit w-24 rounded-full"
@@ -55,7 +55,7 @@ function YunoProfile({
       </div>
 
       <div className="flex w-full flex-col items-start justify-center gap-1.5">
-        <Text type="st2" weight="bold" className="w-full text-center text-white">
+        <Text type="st2" weight="bold" className="w-full text-center text-writing-light">
           {YUNOGPT_WRITE_ASSETS.FULLNAME}
         </Text>
         <Text
@@ -73,7 +73,7 @@ function YunoProfile({
           asChild
           variant="default"
           className={cn(
-            'rounded-full p-6 text-white duration-300 hover:bg-white/10 [&_svg]:size-6',
+            'rounded-full p-6 text-writing-light transition-all hover:bg-white/10 [&_svg]:size-6',
             theme_lighter
           )}
           size="icon"
@@ -90,7 +90,7 @@ function YunoProfile({
           asChild
           variant="default"
           className={cn(
-            'rounded-full p-6 text-white duration-300 hover:bg-white/10 [&_svg]:size-6',
+            'rounded-full p-6 text-writing-light transition-all hover:bg-white/10 [&_svg]:size-6',
             theme_lighter
           )}
           size="icon"
@@ -107,7 +107,11 @@ function YunoProfile({
 function ProfileMiddleSection({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="flex h-fit w-full flex-col gap-2.5 border border-b-mauve-300 px-3 py-2.5">
-      <Text type="st2" weight="semibold" className="text-start text-mauve-700">
+      <Text
+        type="st2"
+        weight="semibold"
+        className="text-start text-writing-dark dark:text-writing-light"
+      >
         {title}
       </Text>
 
@@ -120,7 +124,7 @@ function MediaList() {
   return (
     <div className="scrollbar-thin flex h-fit w-full flex-row items-baseline gap-1 overflow-x-scroll pb-4">
       {YUNOGPT_MEDIA_LIST.map((media, index) => (
-        <Image
+        <ExpandableImage
           key={`yuno_media_${index}`}
           src={media}
           alt={`yuno_media_${index}`}
@@ -167,7 +171,7 @@ export function ChatProfileTab({
   return (
     <aside
       className={cn(
-        'fixed top-0 right-0 z-50 flex h-screen flex-col items-center justify-start bg-mauve-50 pb-4 transition-all duration-300',
+        'fixed top-0 right-0 z-50 flex h-screen flex-col items-center justify-start bg-mauve-50 pb-4 transition-all dark:bg-mauve-900',
         isProfileOpen
           ? 'w-full md:w-75 md:shadow-[-4px_0px_4px_-4px_rgba(0,0,0,0.25)]'
           : 'w-0 overflow-hidden'
@@ -179,7 +183,7 @@ export function ChatProfileTab({
         setIsProfileOpen={setIsProfileOpen}
       />
 
-      <div className="scrollbar-thin flex w-full flex-col overflow-y-scroll">
+      <div className="scrollbar-thin flex h-full w-full flex-col overflow-y-scroll">
         <ProfileMiddleSection
           title={`${YUNOGPT_WRITE_ASSETS.PROFILE_MEDIA} (${YUNOGPT_MEDIA_LIST.length})`}
         >

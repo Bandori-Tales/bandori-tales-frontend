@@ -30,9 +30,9 @@ function MoveButton({ direction, targetSection, handleClick }: MoveButtonProps) 
     >
       <Icon
         className={cn(
-          'stroke-3 transition-all duration-300 [&_svg]:size-6 lg:[&_svg]:size-5',
+          'stroke-3 transition-all [&_svg]:size-6 lg:[&_svg]:size-5',
           direction === 'up' ? 'rotate-180' : 'rotate-0',
-          targetSection === 'finished' ? 'text-green-600' : 'text-primary'
+          targetSection === 'finished' ? 'text-green-600' : 'text-red-600'
         )}
       />
     </Button>

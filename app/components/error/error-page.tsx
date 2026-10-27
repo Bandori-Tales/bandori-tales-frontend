@@ -30,7 +30,7 @@ export function BackToHomeButton() {
 
 export default function ErrorPage({ descTitle, descSub, statusCode }: ErrorPageProps) {
   return (
-    <main className="relative h-screen w-full overflow-hidden bg-rose-100 px-8 py-8">
+    <main className="relative h-screen w-full overflow-hidden bg-background px-8 py-8">
       <div className="flex h-full w-full flex-col items-center justify-center gap-4">
         <Text type="h2" weight="extrabold" className="animate-pulse text-center text-destructive">
           ERROR {statusCode}

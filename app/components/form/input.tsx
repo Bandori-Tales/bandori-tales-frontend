@@ -61,7 +61,7 @@ export default function InputForm({
             disabled={isDisabled}
             className={cn(
               classNames?.content,
-              hasError && 'border-destructive-500 focus-visible:ring-destructive-500',
+              hasError && 'border-destructive focus-visible:ring-destructive',
               className
             )}
             {...field}
@@ -86,7 +86,7 @@ export default function InputForm({
             }}
             className={cn(
               classNames?.content,
-              hasError && 'border-destructive-500 focus-visible:ring-destructive-500',
+              hasError && 'border-destructive focus-visible:ring-destructive',
               className
             )}
             {...field}
@@ -103,7 +103,7 @@ export default function InputForm({
             disabled={isDisabled}
             className={cn(
               classNames?.content,
-              hasError && 'border-destructive-500 focus-visible:ring-destructive-500',
+              hasError && 'border-destructive focus-visible:ring-destructive',
               className
             )}
             {...field}
@@ -138,7 +138,7 @@ export default function InputForm({
             <FormDescription
               className={cn(
                 'text-xs md:text-sm',
-                hasError && 'text-destructive-400',
+                hasError && 'text-destructive',
                 isDisabled && 'text-slate-500'
               )}
             >

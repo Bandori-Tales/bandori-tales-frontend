@@ -41,7 +41,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
               className="flex w-full flex-col"
             >
               <CollapsibleTrigger className={cn(
-                    'flex w-full h-fit items-center justify-between cursor-pointer gap-2 bg-transparent transition-colors duration-300 text-primary-foreground hover:text-amber-400'
+                    'flex w-full h-fit items-center justify-between cursor-pointer gap-2 bg-transparent transition-colors text-primary-foreground hover:text-secondary'
                   )}>
                   <div className="flex flex-row w-full items-center justify-start gap-2">
                     {Icon && (
@@ -51,7 +51,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                       {title}
                     </Text>
                   </div>
-                  <ChevronDown className={cn("stroke-3 size-7 transition-transform duration-300", isCollapsibleOpen ? 'rotate-180' : 'rotate-0')} />
+                  <ChevronDown className={cn("stroke-3 size-7 transition-transform", isCollapsibleOpen ? 'rotate-180' : 'rotate-0')} />
               </CollapsibleTrigger>
               <CollapsibleContent className={cn(
                 "flex flex-col gap-1 pl-3 ml-2 mt-2 border-l-2 border-primary-foreground",
@@ -77,7 +77,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                           </Text>
                         </button>
                       ) : (
-                        <Link to={item.href} key={id} className={cn("focus:bg-amber-400 transition-colors duration-300 py-1 px-2 rounded-md", isSubActive ? 'bg-amber-400' : 'bg-transparent')}>
+                        <Link to={item.href} key={id} className={cn("focus:bg-amber-400 transition-colors py-1 px-2 rounded-md", isSubActive ? 'bg-amber-400' : 'bg-transparent')}>
                           <button
                             className="flex w-full items-center gap-2 bg-transparent text-primary-foreground"
                             onClick={handleClose}
@@ -100,7 +100,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
           ) : (
             <DropdownMenu open={isDropdownOpen} onOpenChange={(open) => setIsDropdownOpen(open)}>
               <DropdownMenuTrigger className={cn(
-                    'flex w-36 h-fit items-center justify-center cursor-pointer gap-2 bg-transparent transition-colors duration-300 text-primary-foreground hover:text-amber-400'
+                    'flex w-36 h-fit items-center justify-center cursor-pointer gap-2 bg-transparent transition-colors text-primary-foreground hover:text-secondary'
                   )}>
                   {Icon && (
                     <Icon className="stroke-3 size-5" />
@@ -110,7 +110,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                   </Text>
                   <ChevronDown className="stroke-3 size-6" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-primary outline-1 outline-primary-foreground text-white">
+              <DropdownMenuContent className="bg-primary border border-primary-foreground text-primary-foreground">
                 <DropdownMenuGroup>
                   <DropdownMenuLabel>
                     <Text type='p' weight='semibold'>
@@ -123,7 +123,7 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
                       const isSubActive = pathname.includes(item.href);
 
                       return (
-                        <DropdownMenuItem key={id} disabled={item.isDisabled} className={cn("mb-1 focus:bg-amber-400 transition-colors duration-300", isSubActive ? 'bg-amber-400' : 'bg-transparent')}>
+                        <DropdownMenuItem key={id} disabled={item.isDisabled} className={cn("mb-1 focus:bg-secondary transition-colors", isSubActive ? 'bg-secondary' : 'bg-transparent')}>
                           <Link to={item.href}>
                             <button
                               className="flex w-full items-center gap-2 bg-transparent text-primary-foreground"
@@ -153,8 +153,8 @@ function NavigationButton({ title, icon: Icon, href, subNav, isActive: propIsAct
         <button
           type="button"
           className={cn(
-            'flex h-fit cursor-pointer gap-2 bg-transparent transition-colors duration-300 hover:text-amber-400',
-            isActive ? 'text-amber-400' : 'text-primary-foreground',
+            'flex h-fit cursor-pointer gap-2 bg-transparent transition-colors hover:text-secondary',
+            isActive ? 'text-secondary' : 'text-primary-foreground',
             isNavExpand ? 'w-full items-center justify-start' : 'w-36 items-center justify-center'
           )}
           onClick={handleClose}
@@ -184,7 +184,7 @@ function ProfileButton({
         variant='ghost'
         size='icon'
         asChild
-        className="ring-2 ring-transparent hover:ring-amber-400 max-lg:p-2 max-lg:w-full overflow-clip rounded-full bg-none max-lg:bg-white max-lg:rounded-md transition-all duration-300"
+        className="ring-2 ring-transparent hover:ring-amber-400 max-lg:p-2 max-lg:w-full overflow-clip rounded-full bg-none max-lg:bg-white max-lg:rounded-md transition-all"
         onClick={() => handleCloseSidebar?.()}
       >
         <Link to='/profile' className="flex items-center justify-center">
@@ -229,7 +229,7 @@ export default function Navbar({
     <>
       {/* Desktop */}
       <nav className={cn(
-        'fixed top-0 z-30 w-full h-fit flex flex-row items-center justify-between transition-all duration-300 px-6 py-1 bg-primary border-b border-b-primary-foreground max-lg:hidden'
+        'fixed top-0 z-30 w-full h-fit flex flex-row items-center justify-between transition-all px-6 py-1 bg-primary border-b border-b-primary-foreground max-lg:hidden'
       )}>
         <WebNameLogo size='regular' wrapText />
         <div className="flex flex-row gap-0">
@@ -259,7 +259,7 @@ export default function Navbar({
       </Button>
       {/* Mobile */}
       <nav className={cn(
-        'fixed flex min-h-full w-64 flex-col justify-between items-center bg-primary px-1 transition-all border-l border-l-primary-foreground duration-300',
+        'fixed flex min-h-full w-64 flex-col justify-between items-center bg-primary px-1 transition-all border-l border-l-primary-foreground',
         isExpand ? 'right-0 z-50 opacity-100' : '-right-80 z-0 opacity-0'
       )}>
         <div className="flex flex-col w-full pt-6 gap-3">

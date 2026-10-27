@@ -44,10 +44,10 @@ export function PreferenceSettingComponent(props: PreferenceSettingComponentProp
 
       return (
         <Select>
-          <SelectTrigger className="w-48 bg-primary transition-colors duration-300 hover:bg-primary/80">
+          <SelectTrigger className="w-48 bg-primary transition-colors hover:bg-primary/80">
             <div className="flex flex-row items-center justify-start gap-2">
-              {CurrentIcon && <CurrentIcon className="size-5 stroke-3 text-white" />}
-              <Text type="btn" weight="semibold" className="text-white">
+              {CurrentIcon && <CurrentIcon className="size-5 stroke-3 text-primary-foreground" />}
+              <Text type="btn" weight="semibold" className="text-primary-foreground">
                 {currentLabel}
               </Text>
             </div>
@@ -60,16 +60,16 @@ export function PreferenceSettingComponent(props: PreferenceSettingComponentProp
                 <SelectItem
                   key={item.value}
                   value={item.value}
-                  className="group flex w-full flex-row items-center justify-start transition-colors duration-300 hover:bg-amber-400"
+                  className="group flex w-full flex-row items-center justify-start transition-colors hover:bg-secondary"
                   onClick={() => props.onClick(item.value)}
                 >
                   {Icon && (
-                    <Icon className="size-5 stroke-2 text-foreground transition-colors duration-300 group-hover:text-white" />
+                    <Icon className="size-5 stroke-2 text-foreground-lighter transition-colors group-hover:text-white" />
                   )}
                   <Text
                     type="btn"
                     weight="semibold"
-                    className="text-foreground transition-colors duration-300 group-hover:text-white"
+                    className="text-foreground-lighter transition-colors group-hover:text-white"
                   >
                     {item.label}
                   </Text>

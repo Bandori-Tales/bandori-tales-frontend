@@ -54,7 +54,7 @@ function Toast(props: ToastProps) {
         </Text>
       </div>
       <button type="button" className="border-l p-1 pl-5" onClick={() => sonnerToast.dismiss(id)}>
-        <X className="size-4 text-primary" />
+        <X className="size-4 text-foreground-lighter" />
       </button>
       <div
         className={cn(

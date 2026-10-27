@@ -16,7 +16,7 @@ interface CardComponentProps {
 
 function AuthorBadge({ author }: { author: string }) {
   return (
-    <div className="flex h-fit w-fit rounded-4xl border border-mauve-50 bg-mauve-400 px-3 py-0.5">
+    <div className="flex h-fit w-fit rounded-4xl border border-mauve-50 bg-mauve-500 px-3 py-0.5">
       <Text type="c" weight="semibold" className="text-mauve-50">
         {author}
       </Text>
@@ -37,8 +37,10 @@ export function CardPageComponent({
   return isMobile ? (
     <div
       className={cn(
-        'relative flex h-64 w-full flex-col items-center justify-start gap-2 rounded-xl border border-primary-foreground bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors duration-300',
-        isDisabled ? undefined : 'group active:border-amber-400 active:from-rose-600'
+        'relative flex h-64 w-full flex-col items-center justify-start gap-2 rounded-xl border border-writing-light bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors dark:from-rose-950 dark:to-rose-900',
+        isDisabled
+          ? undefined
+          : 'group active:border-secondary active:from-rose-600 dark:active:from-rose-900'
       )}
     >
       <div
@@ -47,7 +49,7 @@ export function CardPageComponent({
         )}
       />
       <div className="flex h-fit w-full flex-row items-center gap-2.5">
-        <div className="relative flex h-fit w-fit items-center justify-center overflow-hidden rounded-xl border border-white bg-white/50 transition-colors duration-300 group-active:border-amber-400">
+        <div className="relative flex h-fit w-fit items-center justify-center overflow-hidden rounded-xl border border-writing-light bg-white/50 transition-colors group-active:border-secondary">
           <Image
             src={profilePicture || '/images/dummy.png'}
             alt={title}
@@ -63,20 +65,20 @@ export function CardPageComponent({
         <Text
           type="st1"
           weight="bold"
-          className="w-fit text-wrap text-left text-primary-foreground transition-colors duration-300 group-active:text-amber-400"
+          className="w-fit text-wrap text-left text-writing-light transition-colors group-active:text-secondary"
         >
           {title}
         </Text>
       </div>
 
       <div className="flex h-full w-full flex-col items-center justify-between gap-1.5">
-        <div className="flex h-full w-full flex-col items-baseline justify-start gap-1.5 border-b border-b-primary-foreground transition-colors duration-300 group-active:border-b-amber-400">
+        <div className="flex h-full w-full flex-col items-baseline justify-start gap-1.5 border-b border-b-primary-foreground transition-colors group-active:border-b-secondary">
           {author && <AuthorBadge author={author} />}
           <Text
             type="btn"
             weight="medium"
             lineHeight={5}
-            className="wrap-break-word h-fit w-full text-primary-foreground"
+            className="wrap-break-word h-fit w-full text-writing-light"
           >
             {description}
           </Text>
@@ -106,10 +108,10 @@ export function CardPageComponent({
   ) : (
     <div
       className={cn(
-        'relative flex h-94.5 w-full flex-col items-center justify-start gap-2.5 rounded-xl border border-primary-foreground bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors duration-300',
+        'relative flex h-94.5 w-full flex-col items-center justify-start gap-2.5 rounded-xl border border-writing-light bg-linear-to-t from-rose-700 to-rose-600 p-2.5 shadow-black shadow-xl/50 transition-colors dark:from-rose-950 dark:to-rose-900',
         isDisabled
           ? undefined
-          : 'group hover:cursor-default hover:border-amber-400 hover:from-rose-600'
+          : 'group hover:cursor-default hover:border-secondary hover:from-rose-600 dark:hover:from-rose-900'
       )}
     >
       <div
@@ -117,7 +119,7 @@ export function CardPageComponent({
           isDisabled ? 'absolute top-0 z-12 h-full w-full rounded-xl bg-white/40' : 'hidden'
         )}
       />
-      <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-white bg-white/50 transition-colors duration-300 group-hover:border-amber-400">
+      <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-xl border border-writing-light bg-white/50 transition-colors group-hover:border-secondary">
         <Image
           src={profilePicture || '/images/dummy.png'}
           alt={title}
@@ -131,11 +133,11 @@ export function CardPageComponent({
       </div>
 
       <div className="flex h-full w-full flex-col items-center justify-between gap-1.5">
-        <div className="flex h-full w-full flex-col items-center justify-start gap-4 border-b border-b-primary-foreground transition-colors duration-300 group-hover:border-b-amber-400">
+        <div className="flex h-full w-full flex-col items-center justify-start gap-4 border-b border-b-primary-foreground transition-colors group-hover:border-b-secondary">
           <Text
             type="st2"
             weight="semibold"
-            className="w-full text-center text-primary-foreground transition-colors duration-300 group-hover:text-amber-400"
+            className="w-full text-center text-writing-light transition-colors group-hover:text-secondary"
           >
             {title}
           </Text>
@@ -145,7 +147,7 @@ export function CardPageComponent({
               type="btn"
               weight="medium"
               lineHeight={5}
-              className="wrap-break-word h-fit w-full text-primary-foreground"
+              className="wrap-break-word h-fit w-full text-writing-light"
             >
               {description}
             </Text>

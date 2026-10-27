@@ -1,3 +1,4 @@
+/* biome-ignore-all lint/complexity/noImportantStyles: need to override shadcn animation */
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -36,6 +37,7 @@ body {
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-foreground-lighter: var(--foreground-lighter);
 
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
@@ -44,6 +46,9 @@ body {
   --color-accent-foreground: var(--accent-foreground);
 
   --color-destructive: var(--destructive);
+
+  --color-writing-light: var(--writing-light);
+  --color-writing-dark: var(--writing-dark);
 
   --color-border: var(--border);
   --color-input: var(--input);
@@ -104,15 +109,17 @@ body {
 }
 
 :root {
+  --anim-duration: 300ms;
   --radius: 0.625rem;
 
   --background: var(--color-mauve-200);
-  --foreground: var(--color-rose-900);
+  --foreground: var(--color-rose-800);
+  --foreground-lighter: var(--color-rose-600);
 
   --primary: var(--color-rose-600);
   --primary-foreground: var(--color-white);
 
-  --secondary: var(--color-amber-500);
+  --secondary: var(--color-amber-400);
   --secondary-foreground: var(--color-white);
 
   --muted: var(--color-rose-50);
@@ -123,7 +130,10 @@ body {
 
   --destructive: var(--color-red-600);
 
-  --border: oklch(0.922 0 0);
+  --writing-light: var(--color-white);
+  --writing-dark: var(--color-mauve-700);
+
+  --border: oklch(0 0 0 / 30%);
   --input: var(--color-foreground);
   --ring: oklch(0.708 0 0);
 
@@ -151,12 +161,13 @@ body {
 
 .dark {
   --background: var(--color-mauve-950);
-  --foreground: var(--color-rose-50);
+  --foreground: var(--color-rose-600);
+  --foreground-lighter: var(--color-mauve-200);
 
   --primary: var(--color-rose-900);
-  --primary-foreground: var(--color-white);
+  --primary-foreground: var(--color-mauve-200);
 
-  --secondary: var(--color-amber-700);
+  --secondary: var(--color-amber-500);
   --secondary-foreground: var(--color-white);
 
   --muted: var(--color-rose-950);
@@ -167,7 +178,10 @@ body {
 
   --destructive: var(--color-red-600);
 
-  --border: oklch(1 0 0 / 10%);
+  --writing-light: var(--color-mauve-200);
+  --writing-dark: var(--color-mauve-900);
+
+  --border: oklch(1 0 0 / 45%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
 
@@ -305,6 +319,30 @@ body {
   src: url("/fonts/angella-regular.otf") format("opentype");
   font-style: normal;
   font-display: swap;
+}
+
+html[data-animation-speed="OFF"] {
+  --anim-duration: 0ms;
+}
+html[data-animation-speed="FAST"] {
+  --anim-duration: 100ms;
+}
+html[data-animation-speed="NORMAL"] {
+  --anim-duration: 300ms;
+}
+html[data-animation-speed="SLOW"] {
+  --anim-duration: 500ms;
+}
+
+*,
+::before,
+::after {
+  --tw-duration: var(--anim-duration) !important;
+}
+
+[class*="transition"],
+[class*="duration-"] {
+  transition-duration: var(--anim-duration) !important;
 }
 
 ::selection {

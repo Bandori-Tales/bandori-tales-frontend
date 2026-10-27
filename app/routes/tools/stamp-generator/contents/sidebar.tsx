@@ -153,7 +153,7 @@ export function StampGeneratorSidebar({
         variant="secondary"
         size="icon"
         className={cn(
-          'fixed top-3 right-3 z-20 rounded-full border-2 border-primary bg-white drop-shadow-black/20 drop-shadow-sm [&_svg]:size-6 lg:[&_svg]:size-5'
+          'fixed top-3 right-3 z-20 rounded-full border-2 border-primary drop-shadow-black/20 drop-shadow-sm [&_svg]:size-6 lg:[&_svg]:size-5'
         )}
         onClick={handleShowSidebar}
       >
@@ -209,16 +209,16 @@ export function StampGeneratorSidebar({
 
       <aside
         className={cn(
-          'fixed top-0 flex h-full w-75 flex-col items-center justify-start border-l border-l-primary bg-white pt-5 pb-2 transition-all duration-300',
+          'fixed top-0 flex h-full w-75 flex-col items-center justify-start border-l-2 border-l-primary bg-white pt-5 pb-2 transition-all dark:bg-mauve-900',
           isExpand ? 'right-0 z-50 opacity-100 lg:z-25' : '-right-80 z-0 opacity-0'
         )}
       >
-        <div className="relative flex h-full w-full flex-col justify-between gap-3">
+        <div className="relative flex h-full w-full flex-col items-center justify-between gap-3">
           <Button
             type="button"
             variant="secondary"
             size="icon"
-            className="absolute -top-2 -left-5 rounded-full border-2 border-primary drop-shadow-black/20 transition-colors duration-300 hover:bg-slate-100 [&_svg]:size-6 lg:[&_svg]:size-5"
+            className="absolute -top-2 -left-5.25 rounded-full border-2 border-primary drop-shadow-black/20 [&_svg]:size-6 lg:[&_svg]:size-5"
             onClick={handleHideSidebar}
           >
             <X className="stroke-3 text-primary" />
@@ -227,12 +227,12 @@ export function StampGeneratorSidebar({
           <Text
             type="st1"
             weight="bold"
-            className="w-full border-b border-b-primary px-1 pb-4 text-center text-primary"
+            className="w-full border-b-2 border-b-primary px-1 pb-4 text-center text-foreground-lighter"
           >
             Stamp Layers
           </Text>
 
-          <div className="flex h-full w-full flex-col justify-start gap-5 px-3">
+          <div className="flex h-full w-full flex-col justify-start gap-5 px-2">
             <div className="grid w-full grid-cols-2 gap-1">
               <Button
                 type="button"
@@ -263,7 +263,7 @@ export function StampGeneratorSidebar({
                   elements.length > 0 ? 'justify-between' : 'justify-start'
                 )}
               >
-                <Text type="p" weight="semibold" lineHeight={8}>
+                <Text type="p" weight="semibold" lineHeight={8} className="text-foreground-lighter">
                   Layers ({elements.length} / {STAMP_GENERATOR_CONST.MAX_ELEMENTS})
                 </Text>
                 {elements.length > 0 && (
@@ -271,7 +271,7 @@ export function StampGeneratorSidebar({
                     type="button"
                     size="sm"
                     variant="outline"
-                    className="hover:bg-black/5"
+                    className="hover:bg-black/5 dark:hover:bg-white/5"
                     onClick={() => setSelectedId(null)}
                   >
                     Deselect All
@@ -315,17 +315,17 @@ export function StampGeneratorSidebar({
             </div>
           </div>
 
-          <div className="flex h-fit w-full shrink-0 flex-col items-center justify-center gap-2 border-t border-t-primary px-2">
+          <div className="flex h-fit w-full shrink-0 flex-col items-center justify-center gap-2 border-t-2 border-t-primary px-2">
             <div className="flex w-full flex-col gap-y-3 py-2">
               <div className="flex flex-row items-center justify-between gap-x-1">
-                <Text type="btn" weight="semibold">
+                <Text type="btn" weight="semibold" className="text-foreground-lighter">
                   Canvas Size
                 </Text>
                 <Select
                   value={String(canvasSize)}
                   onValueChange={(val) => handleCanvasSizeChange(Number(val))}
                 >
-                  <SelectTrigger size="sm" className="bg-primary">
+                  <SelectTrigger size="sm" className="bg-foreground-lighter">
                     <SelectValue placeholder={String(canvasSize)}>
                       <Text type="c" weight="medium" className="text-white">
                         {canvasSize}
@@ -335,7 +335,7 @@ export function StampGeneratorSidebar({
                   <SelectContent>
                     {[128, 256, 350, 512].map((size) => (
                       <SelectItem key={`size_${size}`} value={String(size)}>
-                        <Text type="c" weight="medium" className="text-primary">
+                        <Text type="c" weight="medium" className="text-foreground-lighter">
                           {size}
                         </Text>
                       </SelectItem>
@@ -344,7 +344,11 @@ export function StampGeneratorSidebar({
                 </Select>
               </div>
               <div className="flex flex-row items-center justify-between gap-x-1">
-                <Text type="btn" weight="semibold" className="flex flex-row items-center gap-1">
+                <Text
+                  type="btn"
+                  weight="semibold"
+                  className="flex flex-row items-center gap-1 text-foreground-lighter"
+                >
                   Crop Result <CropResultHelpButton />
                 </Text>
                 <Switch checked={cropResult} onCheckedChange={handleCropResultChange} />

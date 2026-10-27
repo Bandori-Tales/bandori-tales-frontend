@@ -43,7 +43,10 @@ export function DrawerSlider({
         type="btn"
         weight="semibold"
         lineHeight={5}
-        className={cn('w-16 shrink-0 text-nowrap text-left', labelClassname)}
+        className={cn(
+          'w-16 shrink-0 text-nowrap text-left text-foreground-lighter',
+          labelClassname
+        )}
       >
         {label}
       </Text>
@@ -70,7 +73,12 @@ export function DrawerSlider({
 export function DrawerSwitch({ label, value, handleValueChange }: DrawerSwitchProps) {
   return (
     <div className="flex w-full flex-row items-center justify-between gap-3 lg:justify-start">
-      <Text type="btn" weight="semibold" lineHeight={5} className="w-30 text-nowrap text-left">
+      <Text
+        type="btn"
+        weight="semibold"
+        lineHeight={5}
+        className="w-30 text-nowrap text-left text-foreground-lighter"
+      >
         {label}
       </Text>
       <Switch checked={value} onClick={() => handleValueChange(!value)} />
@@ -81,7 +89,12 @@ export function DrawerSwitch({ label, value, handleValueChange }: DrawerSwitchPr
 export function DrawerColorPicker({ label, value, handleValueChange }: DrawerColorPickerProps) {
   return (
     <div className="flex w-full flex-row items-center justify-between gap-3 lg:justify-start">
-      <Text type="btn" weight="semibold" lineHeight={5} className="w-30 text-nowrap text-left">
+      <Text
+        type="btn"
+        weight="semibold"
+        lineHeight={5}
+        className="w-30 text-nowrap text-left text-foreground-lighter"
+      >
         {label}
       </Text>
       <ColorPicker type="popover" currentColor={value} onChange={handleValueChange} />

@@ -46,7 +46,7 @@ export function StoryCollapsible({
   return (
     <Collapsible
       ref={ref}
-      className="scroll-mt-6 pb-6 transition-all duration-300 md:scroll-mt-15"
+      className="scroll-mt-6 pb-6 transition-all md:scroll-mt-15"
       open={isCollapsibleOpen}
       onOpenChange={inverseCollapsibleState}
     >
@@ -55,9 +55,9 @@ export function StoryCollapsible({
           type="t"
           weight="semibold"
           className={cn(
-            'text-nowrap transition-all duration-300',
+            'text-nowrap transition-all',
             isUnread
-              ? 'text-primary group-hover:text-primary/80'
+              ? 'text-red-600 group-hover:text-red-600/80'
               : 'text-green-600 group-hover:text-green-600/80'
           )}
         >
@@ -66,18 +66,18 @@ export function StoryCollapsible({
         </Text>
         <div
           className={cn(
-            'flex h-fit w-full border-t-3 transition-all duration-300',
+            'flex h-fit w-full border-t-3 transition-all',
             isUnread
-              ? 'border-t-primary group-hover:border-t-primary/80'
+              ? 'border-t-red-600 group-hover:border-t-red-600/80'
               : 'border-t-green-600 group-hover:border-t-green-600/80'
           )}
         />
         <ChevronsDown
           className={cn(
-            'size-5 shrink-0 stroke-3 transition-all duration-300',
+            'size-5 shrink-0 stroke-3 transition-all',
             isCollapsibleOpen ? 'rotate-180' : 'rotate-0',
             isUnread
-              ? 'text-primary group-hover:text-primary/80'
+              ? 'text-red-600 group-hover:text-red-600/80'
               : 'text-green-600 group-hover:text-green-600/80'
           )}
         />
@@ -85,7 +85,7 @@ export function StoryCollapsible({
 
       <CollapsibleContent
         className={cn(
-          'flex h-fit w-full flex-col gap-3 transition-all duration-300',
+          'flex h-fit w-full flex-col gap-3 transition-all',
           'data-[state=closed]:slide-out-to-top-10 data-[state=closed]:fade-out-0 data-[state=open]:slide-in-from-top-10 data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=open]:animate-in'
         )}
       >

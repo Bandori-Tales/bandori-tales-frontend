@@ -68,7 +68,7 @@ function OperationSwitch({
             </Text>
             <Switch
               checked={operation === 'AND'}
-              className="data-[state=checked]:bg-green-300 data-[state=unchecked]:bg-blue-300"
+              className="data-[state=checked]:bg-green-300 data-[state=unchecked]:bg-blue-300 dark:data-[state=checked]:bg-green-500 dark:data-[state=unchecked]:bg-blue-500"
               onClick={() => {
                 if (operation === 'OR') {
                   field.onChange('AND');
@@ -166,17 +166,19 @@ function SelectImage({
         }}
       >
         <DialogContent
-          className="h-125 max-w-sm bg-white sm:max-w-xl lg:max-w-2xl"
+          className="h-125 max-w-sm bg-white sm:max-w-xl lg:max-w-2xl dark:bg-mauve-900"
           showCloseButton={false}
         >
-          <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none">
-            <X size={18} />
+          <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none hover:bg-black/5 dark:hover:bg-white/5">
+            <X size={18} className="text-foreground" />
           </DialogClose>
 
           <DialogHeader className="space-y-2">
-            <DialogTitle className="font-semibold text-lg text-primary">{title}</DialogTitle>
+            <DialogTitle className="font-semibold text-foreground text-lg">{title}</DialogTitle>
             {desciption && (
-              <DialogDescription className="text-gray-500 text-sm">{desciption}</DialogDescription>
+              <DialogDescription className="text-gray-500 text-sm dark:text-gray-200">
+                {desciption}
+              </DialogDescription>
             )}
           </DialogHeader>
 
@@ -201,7 +203,7 @@ function SelectImage({
                       <div
                         key={`${name}_${item.value}`}
                         className={cn(
-                          'group flex w-full items-center rounded-md transition-colors duration-300 hover:bg-black/5',
+                          'group flex w-full items-center rounded-md transition-colors hover:bg-black/5 dark:hover:bg-white/5',
                           isBadge ? 'h-fit justify-start py-1' : 'h-full justify-center'
                         )}
                       >
@@ -224,7 +226,7 @@ function SelectImage({
                                     type="c"
                                     weight="medium"
                                     lineHeight={5}
-                                    className="text-left text-slate-500"
+                                    className="text-left text-slate-500 dark:text-slate-200"
                                   >
                                     {item.description}
                                   </Text>
@@ -235,23 +237,23 @@ function SelectImage({
                           {item.image && (
                             <div
                               className={cn(
-                                'flex size-8 items-center justify-center overflow-clip rounded-full transition-colors duration-300 group-hover:ring-2 group-hover:ring-amber-400',
+                                'flex size-8 items-center justify-center overflow-clip rounded-full ring-2 ring-transparent transition-all group-hover:ring-secondary',
                                 roundedImage ? 'p-0' : 'p-1',
-                                isSelected ? 'ring-2 ring-amber-500' : 'ring-0'
+                                isSelected ? 'ring-secondary' : 'ring-transparent'
                               )}
                             >
                               <Image
                                 alt={item.label}
                                 src={item.image}
-                                className={cn(roundedImage ? 'size-8' : 'size-7')}
+                                className={cn(roundedImage ? 'size-8' : 'size-6')}
                               />
                             </div>
                           )}
                           {Icon && (
                             <Icon
                               className={cn(
-                                'size-8 stroke-3 transition-colors duration-300 group-hover:text-amber-500',
-                                isSelected ? 'text-amber-500' : 'text-primary'
+                                'size-8 stroke-3 transition-colors group-hover:text-secondary',
+                                isSelected ? 'text-secondary' : 'text-foreground-lighter'
                               )}
                             />
                           )}
@@ -261,9 +263,9 @@ function SelectImage({
                               weight="medium"
                               lineHeight={4}
                               className={cn(
-                                'flex flex-col items-center justify-start text-center transition-colors duration-300 group-hover:text-amber-400',
+                                'flex flex-col items-center justify-start text-center transition-colors group-hover:text-secondary',
                                 isTextHigh ? 'h-12' : 'h-fit',
-                                isSelected ? 'text-amber-400' : 'text-primary'
+                                isSelected ? 'text-secondary' : 'text-foreground-lighter'
                               )}
                             >
                               {item.label}
@@ -278,7 +280,7 @@ function SelectImage({
                   <DialogFooter className="flex h-full w-full items-end justify-center">
                     <div
                       className={cn(
-                        'flex h-fit w-full flex-col items-end border-t border-t-primary pt-2 sm:flex-row sm:items-center',
+                        'flex h-fit w-full flex-col items-end border-t border-t-primary-lighter pt-2 sm:flex-row sm:items-center',
                         withOperationSwitch ? 'justify-end gap-3 sm:justify-between' : 'justify-end'
                       )}
                     >
@@ -351,11 +353,11 @@ function SelectImage({
                     <Image
                       alt={item.label}
                       src={item.image}
-                      className={cn(roundedImage ? 'size-6' : 'size-5')}
+                      className={cn('shrink-0', roundedImage ? 'size-6' : 'size-4')}
                     />
                   </div>
                 )}
-                {Icon && <Icon className="size-5 stroke-3 text-primary" />}
+                {Icon && <Icon className="size-5 stroke-3 text-foreground-lighter" />}
               </div>
             );
           })}

@@ -12,7 +12,7 @@ const buttonVariants = cva(
       variant: {
         default: 'shadow-sm',
         outline: 'border bg-transparent shadow-sm',
-        secondary: 'bg-mauve-50 text-foreground shadow-xs hover:bg-mauve-50/80',
+        secondary: 'bg-writing-light text-foreground shadow-xs hover:bg-writing-light/90',
         ghost: 'hover:bg-mauve-50',
         link: 'underline-offset-4 hover:underline',
       },
@@ -57,7 +57,7 @@ const buttonVariants = cva(
       {
         variant: 'outline',
         colors: 'default',
-        className: 'border-primary text-primary hover:bg-primary-foreground/20',
+        className: 'border-foreground-lighter text-foreground-lighter hover:bg-black/5 dark:hover:bg-white/5',
       },
       {
         variant: 'outline',

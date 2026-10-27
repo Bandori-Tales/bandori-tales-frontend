@@ -22,7 +22,7 @@ export function CropResultHelpButton() {
       title="Crop Result"
       dialogKey={DIALOG_KEY.STAMP_GENERATOR.HELPER_CROP}
       items={helpItems}
-      classname="size-5 text-foreground"
+      classname="size-5 text-foreground-lighter"
     />
   );
 }

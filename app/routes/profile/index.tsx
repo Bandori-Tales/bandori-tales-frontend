@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import type { ReactNode } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { useRevalidator } from 'react-router';
 
 import useDialogStore from '@/hooks/store/use-dialog';
@@ -7,6 +7,7 @@ import { useGoogleDriveAuth } from '@/hooks/use-google';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { generateMeta } from '@/lib/generate-meta';
 import { GoogleDriveUtils } from '@/lib/google-drive';
+import { useTheme } from '@/lib/theme';
 import { cn } from '@/lib/utils';
 
 import { Text } from '@/components/helper/text';
@@ -63,14 +64,18 @@ function SectionFrame({ title, children }: SectionFrameProps) {
         {title}
       </Text>
 
-      <div className="flex h-fit w-full rounded-md bg-white p-3">{children}</div>
+      <div className="flex h-fit w-full rounded-md border border-primary-foreground bg-white p-3 dark:bg-mauve-900">
+        {children}
+      </div>
     </div>
   );
 }
 
 export default function ProfilePage({ loaderData }: Route.ComponentProps) {
   const { userAccessToken, userLocalData, userEmail, userDriveData } = loaderData;
+
   const isMobile = useIsMobile({ isTablet: true });
+  const { setSelected: setSelectedTheme } = useTheme();
   const { close: closeDialog } = useDialogStore();
   const { revalidate } = useRevalidator();
   const { login, logout } = useGoogleDriveAuth(revalidate);
@@ -100,10 +105,19 @@ export default function ProfilePage({ loaderData }: Route.ComponentProps) {
     revalidate();
   }
 
+  useEffect(() => {
+    setSelectedTheme(
+      (loaderData.userLocalData.user_profile.site_theme?.toLowerCase() as
+        | 'system'
+        | 'light'
+        | 'dark') || 'system'
+    );
+  }, [loaderData, setSelectedTheme]);
+
   return (
     <div
       className={cn(
-        'min-h-screen w-full bg-linear-to-t from-rose-100 to-background pb-6',
+        'min-h-screen w-full bg-linear-to-t from-rose-100 to-background pb-6 dark:from-[#1E0009]',
         isMobile ? 'px-4 pt-0' : 'px-6 pt-20'
       )}
     >

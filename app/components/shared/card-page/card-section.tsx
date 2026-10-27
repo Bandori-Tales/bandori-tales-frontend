@@ -28,7 +28,7 @@ export default function CardPageSection({
   };
   return (
     <Collapsible
-      className="mb-4 pt-4 pb-6 transition-all duration-300"
+      className="mb-4 pt-4 pb-6 transition-all"
       open={isCollapsibleOpen}
       onOpenChange={inverseCollapsibleState}
     >
@@ -36,14 +36,14 @@ export default function CardPageSection({
         <Text
           type="t"
           weight="semibold"
-          className="text-nowrap text-primary transition-all duration-300 group-hover:text-primary/80"
+          className="text-nowrap text-foreground transition-all group-hover:text-foreground/80"
         >
           {sectionName}
         </Text>
-        <div className="flex h-fit w-full border-t-3 border-t-primary transition-all duration-300 group-hover:border-t-primary/80" />
+        <div className="flex h-fit w-full border-t-3 border-t-foreground transition-all group-hover:border-t-foreground/80" />
         <ChevronDown
           className={cn(
-            'size-5 shrink-0 stroke-3 text-primary transition-all duration-300 group-hover:text-primary/80',
+            'size-5 shrink-0 stroke-3 text-foreground transition-all group-hover:text-foreground/80',
             isCollapsibleOpen ? 'rotate-180' : 'rotate-0'
           )}
         />
@@ -51,14 +51,14 @@ export default function CardPageSection({
 
       <CollapsibleContent
         className={cn(
-          'grid h-fit w-full gap-6 transition-all duration-300',
+          'grid h-fit w-full gap-6 transition-all',
           'data-[state=closed]:slide-out-to-top-10 data-[state=closed]:fade-out-0 data-[state=open]:slide-in-from-top-10 data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=open]:animate-in',
           isMobile ? 'grid-cols-1' : 'grid-cols-4 lg:grid-cols-5'
         )}
       >
         {items.length === 0 ? (
           <div className={cn('h-fit w-full', isMobile ? 'col-span-1' : 'col-span-5')}>
-            <Text type="t" weight="bold" className="text-center">
+            <Text type="t" weight="bold" className="text-center text-foreground-lighter">
               No Content Available..
             </Text>
           </div>

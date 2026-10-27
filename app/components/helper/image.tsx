@@ -59,7 +59,7 @@ export default function Image({
     return (
       <div
         className={cn(
-          'flex items-center justify-center gap-x-2 bg-mauve-300 p-2 text-rose-900 text-sm sm:text-base',
+          'flex items-center justify-center gap-x-2 bg-background p-2 text-foreground text-sm sm:text-base',
           fallbackClassName,
           className
         )}
@@ -75,7 +75,7 @@ export default function Image({
     <img
       src={src}
       alt={alt}
-      className={cn('transition-all duration-200', !loaded && 'opacity-80 blur-xs', className)}
+      className={cn('transition-all', !loaded && 'opacity-80 blur-xs', className)}
       style={style}
       onLoad={handleLoad}
       onError={handleError}

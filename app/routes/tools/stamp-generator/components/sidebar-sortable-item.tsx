@@ -46,7 +46,7 @@ export function SidebarSortableItem({
       )}
     >
       <div {...attributes} {...listeners} className="cursor-grab p-1 active:cursor-grabbing">
-        <GripVertical className="size-6 text-slate-400" />
+        <GripVertical className="size-6 text-slate-400 dark:text-slate-100" />
       </div>
 
       <div className="flex w-full flex-row items-center justify-between">
@@ -58,9 +58,14 @@ export function SidebarSortableItem({
               className="size-6 object-cover"
             />
           ) : (
-            <Type className="size-6 text-foreground" />
+            <Type className="size-6 text-foreground-lighter" />
           )}
-          <Text type="btn" weight="medium" lineHeight={4} className="truncate text-primary">
+          <Text
+            type="btn"
+            weight="medium"
+            lineHeight={4}
+            className="truncate text-foreground-lighter"
+          >
             {ce.name}
           </Text>
         </div>
@@ -69,7 +74,7 @@ export function SidebarSortableItem({
           <Button
             variant="secondary"
             size="icon"
-            className="size-7 rounded-full hover:bg-black/5"
+            className="size-7 rounded-full"
             onClick={(e) => {
               e.stopPropagation();
               onEdit();

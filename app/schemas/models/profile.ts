@@ -38,14 +38,14 @@ export const transitionSpeedLabelMap = {
   NORMAL: 'Normal',
   SLOW: 'Slow',
   OFF: 'Off',
-};
+} as const;
 
 export const transitionSpeedValueMap = {
   FAST: 'duration-100',
   NORMAL: 'duration-300',
   SLOW: 'duration-500',
-  OFF: 'transition-none',
-};
+  OFF: 'duration-0',
+} as const;
 
 export const TransitionSpeedSchema = v.enum(TransitionSpeed);
 

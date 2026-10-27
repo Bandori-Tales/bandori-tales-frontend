@@ -31,7 +31,7 @@ export function StampGeneratorDrawer({
           variant="secondary"
           size="lg"
           className={cn(
-            'fixed bottom-0 w-30 rounded-b-none drop-shadow-none transition-opacity duration-300',
+            'fixed bottom-0 w-30 rounded-b-none drop-shadow-none transition-opacity',
             isDrawerOpen ? 'opacity-0' : 'opacity-100'
           )}
         >
@@ -46,10 +46,12 @@ export function StampGeneratorDrawer({
             e.preventDefault();
           }
         }}
-        className="w-full bg-white data-[vaul-drawer-direction=bottom]:max-h-[50vh]"
+        className="w-full bg-white data-[vaul-drawer-direction=bottom]:max-h-[50vh] dark:bg-mauve-900"
       >
         <div className="scrollbar-none flex h-full w-full flex-col items-center justify-start gap-3 overflow-y-scroll px-5 pt-4 pb-8">
-          <Text className="pb-3">{selectedElement ? 'Edit Layer' : 'Select a layer first'}</Text>
+          <Text className="pb-3 text-foreground-lighter">
+            {selectedElement ? 'Edit Layer' : 'Select a layer first'}
+          </Text>
           {selectedElement && (
             <div className="grid w-full grid-cols-1 gap-4 px-1 sm:grid-cols-2 sm:px-5 lg:grid-cols-3 lg:px-10">
               {selectedElement.type === 'TEXT' && (

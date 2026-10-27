@@ -46,19 +46,24 @@ export default function HelpDialog({
                 )}
               >
                 {item.title && (
-                  <Text type="st1" weight="semibold" className="text-black">
+                  <Text type="st1" weight="semibold" className="text-black dark:text-white">
                     {item.title}
                   </Text>
                 )}
                 {item.type === 'image' ? (
                   <Image alt={`Media ${item.id}`} src={item.content} className="h-auto w-[90%]" />
                 ) : (
-                  <Text type="p" weight="medium" lineHeight={5} className="text-slate-900">
+                  <Text
+                    type="p"
+                    weight="medium"
+                    lineHeight={5}
+                    className="text-writing-dark dark:text-writing-light"
+                  >
                     {item.content}
                   </Text>
                 )}
                 {item.caption && (
-                  <Text type="c" weight="regular" className="text-slate-600">
+                  <Text type="c" weight="regular" className="text-slate-600 dark:text-slate-300">
                     {item.caption}
                   </Text>
                 )}
@@ -71,7 +76,7 @@ export default function HelpDialog({
       <button
         type="button"
         className={cn(
-          'flex size-8 items-center justify-center rounded-full bg-transparent text-primary transition-colors duration-300 hover:text-amber-400',
+          'flex size-8 items-center justify-center rounded-full bg-transparent text-foreground-lighter transition-colors hover:text-secondary',
           classname
         )}
         onClick={() => openDialog(dialogKey)}

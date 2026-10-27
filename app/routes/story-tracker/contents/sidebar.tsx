@@ -66,7 +66,7 @@ function SidebarFilterSection({
       open={isOpen}
       onOpenChange={setIsOpen}
       className={cn(
-        'group flex w-full flex-col gap-1 rounded-md p-1 transition-all duration-300',
+        'group flex w-full flex-col gap-1 rounded-md p-1 transition-all',
         isCollapsible ? 'hover:cursor-pointer' : 'hover:cursor-default'
       )}
     >
@@ -80,14 +80,14 @@ function SidebarFilterSection({
               type="btn"
               weight="semibold"
               lineHeight={5}
-              className="text-nowrap text-primary transition-all duration-300 group-hover:text-amber-500"
+              className="text-nowrap text-foreground-lighter transition-all group-hover:text-secondary"
             >
               {title}
             </Text>
 
             <ChevronDown
               className={cn(
-                'size-5 stroke-2 text-primary transition-all duration-300 group-hover:text-amber-500',
+                'size-5 stroke-2 text-foreground-lighter transition-all group-hover:text-secondary',
                 isOpen ? 'rotate-0' : 'rotate-180',
                 isCollapsible ? undefined : 'hidden'
               )}
@@ -99,14 +99,19 @@ function SidebarFilterSection({
           {withEnableCheckbox && sectionCheckboxFieldName && (
             <CheckboxForm name={sectionCheckboxFieldName} />
           )}
-          <Text type="btn" weight="semibold" lineHeight={5} className="text-nowrap text-primary">
+          <Text
+            type="btn"
+            weight="semibold"
+            lineHeight={5}
+            className="text-nowrap text-foreground-lighter"
+          >
             {title}
           </Text>
         </div>
       )}
       <CollapsibleContent
         className={cn(
-          fullWidth ? 'px-0' : 'ml-1.5 border-l border-l-primary pl-4.5',
+          fullWidth ? 'px-0' : 'ml-1.5 border-l-2 border-l-primary pl-4',
           'data-[state=closed]:slide-out-to-top-10 data-[state=closed]:fade-out-0 data-[state=open]:slide-in-from-top-10 data-[state=open]:fade-in-0 pt-1 data-[state=closed]:animate-out data-[state=open]:animate-in'
         )}
       >
@@ -164,7 +169,7 @@ export function StoryTrackerSidebar({ settings, handleSettingsUpdate }: StoryTra
         variant="secondary"
         size="icon"
         className={cn(
-          'fixed top-36 right-3 z-20 rounded-full border-2 border-primary bg-white drop-shadow-black/20 drop-shadow-sm lg:top-16 [&_svg]:size-6 lg:[&_svg]:size-5'
+          'fixed top-36 right-3 z-20 rounded-full border-2 border-primary drop-shadow-black/20 drop-shadow-sm lg:top-16 [&_svg]:size-6 lg:[&_svg]:size-5'
         )}
         onClick={handleShowSidebar}
       >
@@ -173,7 +178,7 @@ export function StoryTrackerSidebar({ settings, handleSettingsUpdate }: StoryTra
 
       <aside
         className={cn(
-          'fixed top-0 flex h-full w-75 flex-col items-center justify-start border-l border-l-primary bg-white pt-3 pb-2 transition-all duration-300 lg:pt-16',
+          'fixed top-0 flex h-full w-75 flex-col items-center justify-start border-l-2 border-l-primary bg-white pt-3 pb-2 transition-all lg:pt-16 dark:bg-mauve-900',
           isExpand ? 'right-0 z-50 opacity-100 lg:z-25' : '-right-80 z-0 opacity-0'
         )}
       >
@@ -187,7 +192,7 @@ export function StoryTrackerSidebar({ settings, handleSettingsUpdate }: StoryTra
               type="button"
               variant="secondary"
               size="icon"
-              className="absolute -top-2 -left-6 rounded-full border-2 border-primary drop-shadow-black/20 transition-colors duration-300 hover:bg-slate-100 [&_svg]:size-6 lg:[&_svg]:size-5"
+              className="absolute -top-2 -left-5.25 rounded-full border-2 border-primary drop-shadow-black/20 transition-colors hover:bg-slate-100 [&_svg]:size-6 lg:[&_svg]:size-5"
               onClick={handleHideSidebar}
             >
               <X className="stroke-3 text-primary" />
@@ -196,7 +201,7 @@ export function StoryTrackerSidebar({ settings, handleSettingsUpdate }: StoryTra
               <Text
                 type="st1"
                 weight="bold"
-                className="w-full border-b border-b-primary px-1 pb-4 text-center text-primary"
+                className="w-full border-b-2 border-b-primary px-1 pb-4 text-center text-foreground-lighter"
               >
                 Story Tracker
               </Text>
@@ -286,7 +291,7 @@ export function StoryTrackerSidebar({ settings, handleSettingsUpdate }: StoryTra
                   <FilterSort />
                 </SidebarFilterSection>
               </div>
-              <div className="flex h-fit w-full shrink-0 flex-col items-center justify-center gap-2 border-t border-t-primary pt-3">
+              <div className="flex h-fit w-full shrink-0 flex-col items-center justify-center gap-2 border-t border-t-foreground-lighter pt-3">
                 <Button
                   type="submit"
                   variant="default"

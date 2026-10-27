@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 
+import { useAnimationSpeed } from '@/hooks/use-animation-speed';
+
 import { Text } from '@/components/helper/text';
 
 import {
@@ -26,10 +28,10 @@ function PreferenceFrame({
   return (
     <div className="flex w-full flex-col items-start justify-start gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex flex-col items-start justify-start gap-y-2">
-        <Text type="p" weight="semibold" className="text-primary">
+        <Text type="p" weight="semibold" className="text-foreground-lighter">
           {title}
         </Text>
-        <Text type="btn" weight="medium" className="text-slate-500">
+        <Text type="btn" weight="medium" className="text-slate-500 dark:text-slate-300">
           {description}
         </Text>
       </div>
@@ -60,6 +62,8 @@ export function UserPreferenceSection({
         value: string[];
       }) => void;
 }) {
+  const { setSpeed } = useAnimationSpeed();
+
   function handleThemeUpdate(value: string) {
     handleOnClick({
       type: 'theme',
@@ -68,6 +72,7 @@ export function UserPreferenceSection({
   }
 
   function handleTransitionSpeedUpdate(value: string) {
+    setSpeed(value as ITransitionSpeed);
     handleOnClick({
       type: 'transition-speed',
       value: value as ITransitionSpeed,

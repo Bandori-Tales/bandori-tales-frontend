@@ -69,7 +69,7 @@ export function UserProfileSection({
         <button
           type="button"
           onClick={() => openDialog(DIALOG_KEY.PROFILE.SET_PICTURE)}
-          className="relative flex size-24 shrink-0 items-center justify-center rounded-full bg-slate-400 ring-2 ring-transparent transition-all duration-300 hover:ring-amber-400"
+          className="relative flex size-24 shrink-0 items-center justify-center rounded-full bg-slate-400 ring-2 ring-transparent transition-all hover:ring-amber-400 dark:bg-slate-900"
         >
           <div className="absolute right-0 bottom-0 rounded-full bg-primary p-2">
             <Pencil className="size-3 stroke-3 text-white" />
@@ -77,17 +77,21 @@ export function UserProfileSection({
           {profilePicture ? (
             <Image alt="User Profile" src={profilePicture} className="rounded-full object-cover" />
           ) : (
-            <UserCircle className="size-20 stroke-1 text-primary" />
+            <UserCircle className="size-20 stroke-1 text-foreground-lighter" />
           )}
         </button>
 
         <div className="flex w-full flex-col items-start justify-start gap-4">
           <div className="flex w-full flex-col gap-2">
-            <Text type="p" weight="semibold" className="text-primary">
+            <Text type="p" weight="semibold" className="text-foreground-lighter">
               Username
             </Text>
-            <div className="flex w-full flex-row items-center justify-between rounded-md bg-slate-100 p-2 shadow-black/20 shadow-inner sm:w-90">
-              <Text type="btn" weight="semibold" className="text-black">
+            <div className="flex w-full flex-row items-center justify-between rounded-md bg-slate-100 p-2 shadow-black/20 shadow-inner sm:w-90 dark:bg-mauve-800">
+              <Text
+                type="btn"
+                weight="semibold"
+                className="text-writing-dark dark:text-writing-light"
+              >
                 {username}
               </Text>
               <Button
@@ -96,7 +100,7 @@ export function UserProfileSection({
                 className="size-8 p-1"
                 onClick={() => openDialog(DIALOG_KEY.PROFILE.SET_USERNAME)}
               >
-                <SquarePen className="stroke-3 text-white" />
+                <SquarePen className="stroke-3 text-writing-light" />
               </Button>
             </div>
           </div>
@@ -104,22 +108,31 @@ export function UserProfileSection({
             <Text
               type="p"
               weight="semibold"
-              className="flex flex-row items-center gap-2 text-primary"
+              className="flex flex-row items-center gap-2 text-foreground-lighter"
             >
               Google Drive Email <GoogleDriveHelpButton />
             </Text>
             <div className="flex w-full flex-col items-start justify-start gap-2 sm:w-fit sm:flex-row sm:items-center">
               {user_email && user_email !== '' ? (
                 <>
-                  <div className="flex w-full flex-row items-center justify-between rounded-md bg-slate-100 p-2 shadow-black/20 shadow-inner sm:w-90">
+                  <div className="flex w-full flex-row items-center justify-between rounded-md bg-slate-100 p-2 shadow-black/20 shadow-inner sm:w-90 dark:bg-mauve-800">
                     {hideEmail ? (
-                      <Text type="btn" weight="semibold" className="pt-2 text-black">
+                      <Text
+                        type="btn"
+                        weight="semibold"
+                        lineHeight={6}
+                        className="pt-2 text-writing-dark dark:text-writing-light"
+                      >
                         ****************
                       </Text>
                     ) : (
-                      <Text type="btn" weight="semibold" className="text-black">
-                        {user_email.slice(0, 32)}
-                        {user_email.length > 32 ? '...' : ''}
+                      <Text
+                        type="btn"
+                        weight="semibold"
+                        lineHeight={6}
+                        className="truncate text-writing-dark dark:text-writing-light"
+                      >
+                        {user_email}
                       </Text>
                     )}
                     <Button
@@ -142,7 +155,7 @@ export function UserProfileSection({
               ) : (
                 <Button
                   variant="outline"
-                  className="transition-colors duration-300 hover:bg-black/5"
+                  className="transition-colors hover:bg-black/5"
                   onClick={handleLogin}
                 >
                   <Image
@@ -150,7 +163,7 @@ export function UserProfileSection({
                     src="/images/translation/google_drive.webp"
                     className="size-5"
                   />
-                  <Text type="btn" weight="medium" className="text-primary">
+                  <Text type="btn" weight="medium" className="text-foreground-lighter">
                     Connect to Drive
                   </Text>
                 </Button>

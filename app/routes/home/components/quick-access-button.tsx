@@ -27,18 +27,18 @@ export function QuickAccessButton({
   return (
     <Button
       asChild
-      className="group rounded-xl border border-white bg-primary/60 backdrop-blur-sm transition-colors duration-300 hover:border-amber-400 [&_svg]:size-8"
+      className="group rounded-xl border border-writing-light bg-primary/60 backdrop-blur-sm transition-colors hover:border-amber-400 [&_svg]:size-8"
     >
       <Link
         to={path}
         className={cn(
-          'flex h-fit w-80 flex-row items-center justify-start gap-1 text-white sm:w-52 sm:flex-col sm:justify-center',
+          'flex h-fit w-80 flex-row items-center justify-start gap-1 text-wriborder-writing-light sm:w-52 sm:flex-col sm:justify-center',
           reverseFlex && 'flex-row-reverse'
         )}
       >
         {Icon && (
-          <div className="flex items-center justify-center rounded-full bg-foreground/50 p-2">
-            <Icon className="stroke-2" />
+          <div className="flex items-center justify-center rounded-full bg-primary/50 p-2">
+            <Icon className="stroke-2 text-writing-light" />
           </div>
         )}
         {image && <Image alt={title} src={image} className="size-12 overflow-clip rounded-full" />}
@@ -46,7 +46,7 @@ export function QuickAccessButton({
           type="p"
           weight="semibold"
           lineHeight={5}
-          className="text-center transition-colors duration-300 group-hover:text-amber-400"
+          className="text-center transition-colors group-hover:text-amber-400"
         >
           {title}
         </Text>

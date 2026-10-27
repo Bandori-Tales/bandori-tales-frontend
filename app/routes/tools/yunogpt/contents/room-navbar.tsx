@@ -1,4 +1,5 @@
 import { ArrowLeft, EllipsisVertical, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 import { Link } from 'react-router';
 
 import { cn } from '@/lib/utils';
@@ -32,8 +33,19 @@ function HomeButton() {
 }
 
 function OptionButton({ openDialog }: { openDialog: (value: string) => void }) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  function handleClearChat() {
+    setIsDropdownOpen(false);
+    openDialog(DIALOG_KEY.YUNOGPT.CLEAR_CHAT);
+  }
+
   return (
-    <DropdownMenu>
+    <DropdownMenu
+      open={isDropdownOpen}
+      defaultOpen={false}
+      onOpenChange={(open) => setIsDropdownOpen(open)}
+    >
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
@@ -51,7 +63,7 @@ function OptionButton({ openDialog }: { openDialog: (value: string) => void }) {
               colors="destructive"
               leftIcon={<Trash2 className="text-white" />}
               className="w-full"
-              onClick={() => openDialog(DIALOG_KEY.YUNOGPT.CLEAR_CHAT)}
+              onClick={handleClearChat}
             >
               <Text type="p" className="text-white">
                 {YUNOGPT_WRITE_ASSETS.BUTTON_CLEAR_CHAT}
@@ -82,7 +94,7 @@ export function ChatroomNavbar({
       className={cn(
         isProfileOpen ? 'w-full md:w-[calc(100vw-300px)]' : 'w-full',
         theme_primary,
-        'fixed top-0 z-30 flex h-fit flex-row items-center justify-between px-2 py-1 drop-shadow-black/25 drop-shadow-lg transition-all duration-300 sm:px-9'
+        'fixed top-0 z-30 flex h-fit flex-row items-center justify-between px-2 py-1 drop-shadow-black/25 drop-shadow-lg transition-all sm:px-9'
       )}
     >
       <div className="flex flex-row items-center justify-center gap-2">

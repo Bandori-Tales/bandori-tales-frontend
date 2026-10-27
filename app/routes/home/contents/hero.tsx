@@ -19,7 +19,7 @@ export function HeroContent({
 
   return (
     <section className="relative flex h-svh w-full items-center justify-center bg-[url(/images/bg_hero.webp)] bg-cover bg-position-[center_0px] bg-no-repeat lg:bg-position-[center_12px]">
-      <div className="flex h-full w-full flex-col items-center justify-between gap-4 bg-linear-to-b from-45% from-mauve-100/0 to-mauve-100 px-2 sm:px-8">
+      <div className="flex h-full w-full flex-col items-center justify-between gap-4 bg-linear-to-b from-45% from-mauve-100/0 to-mauve-100 px-2 sm:px-8 dark:from-0% dark:from-mauve-950/50 dark:to-mauve-950">
         <div className="flex h-full w-full flex-col items-center justify-center gap-4">
           <div className="drop-shadow-[0_10px_8px_rgba(0,0,0,1)]">
             <Text
@@ -34,14 +34,14 @@ export function HeroContent({
             type={isMobile ? 'p' : 't'}
             lineHeight={isMobile ? 5 : 8}
             weight="medium"
-            className="text-center text-shadow-lg/50 text-white"
+            className="text-center text-shadow-lg/50 text-writing-light"
           >
             Story tracker, list, timeline, etc. A Portal for multiple BanG Dream! tools (and fan
             games).
           </Text>
 
           <div className="flex flex-col items-center justify-start gap-3 text-center">
-            <Text type="t" weight="bold" className="text-shadow-lg/40 text-white">
+            <Text type="t" weight="bold" className="text-shadow-lg/40 text-writing-light">
               Quick Access
             </Text>
 

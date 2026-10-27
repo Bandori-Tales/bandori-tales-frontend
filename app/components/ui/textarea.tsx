@@ -91,7 +91,7 @@ export const Textarea = React.forwardRef<TextareaRef, TextareaProps>(
         value={value}
         ref={textAreaRef}
         className={cn(
-          'flex w-full rounded-md border border-input bg-mauve-50 px-3 py-2 text-sm transition-colors placeholder:text-muted-foreground focus-visible:border-amber-500 focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50',
+          'flex w-full rounded-md border border-input text-foreground-lighter bg-mauve-50 dark:bg-mauve-800 px-3 py-2 text-sm transition-colors placeholder:text-muted-foreground focus-visible:border-amber-500 focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50',
           className
         )}
         onChange={(e) => {

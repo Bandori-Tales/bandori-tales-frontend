@@ -83,18 +83,18 @@ export default function StampGeneratorPage({ loaderData }: Route.ComponentProps)
   }, [canvasSize, cropResult]);
 
   return (
-    <main className="flex h-screen flex-col items-center justify-center bg-mauve-300">
+    <main className="flex h-screen flex-col items-center justify-center bg-mauve-300 dark:bg-mauve-950">
       <Button
         asChild
         type="button"
         variant="secondary"
         size="icon"
         className={cn(
-          'absolute top-3 left-3 z-20 rounded-full border-2 border-primary bg-white drop-shadow-black/20 drop-shadow-sm [&_svg]:size-6 lg:[&_svg]:size-5'
+          'absolute top-3 left-3 z-20 rounded-full border-2 border-primary drop-shadow-black/20 drop-shadow-sm [&_svg]:size-6 lg:[&_svg]:size-5'
         )}
       >
         <Link to="/tools">
-          <ArrowLeft />
+          <ArrowLeft className="text-primary" />
         </Link>
       </Button>
 

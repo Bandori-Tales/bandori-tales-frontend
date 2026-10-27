@@ -63,15 +63,20 @@ export default function GeneralDialog({
         }
       }}
     >
-      <DialogContent className="max-w-sm bg-white sm:max-w-xl lg:max-w-2xl" showCloseButton={false}>
-        <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none">
-          <X size={18} />
+      <DialogContent
+        className="max-w-sm bg-white sm:max-w-xl lg:max-w-2xl dark:bg-mauve-900"
+        showCloseButton={false}
+      >
+        <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none hover:bg-black/5 dark:hover:bg-white/5">
+          <X size={18} className="text-foreground" />
         </DialogClose>
 
         <DialogHeader className="space-y-2">
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle className="text-foreground">{title}</DialogTitle>
           {description && (
-            <DialogDescription className="text-gray-500 text-sm">{description}</DialogDescription>
+            <DialogDescription className="text-gray-500 text-sm dark:text-gray-200">
+              {description}
+            </DialogDescription>
           )}
         </DialogHeader>
 
@@ -85,7 +90,7 @@ export default function GeneralDialog({
                 variant="outline"
                 disabled={isSubmitting}
                 className={cn(
-                  'text-sm hover:bg-black/5',
+                  'text-sm hover:bg-black/5 dark:hover:bg-white/5',
                   cancelClassname,
                   isSubmitting && 'cursor-not-allowed opacity-70'
                 )}

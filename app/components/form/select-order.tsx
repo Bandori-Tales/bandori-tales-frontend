@@ -38,11 +38,11 @@ function SelectOrderButton({ name, items, orderDirectionName, classname }: Selet
               if (orderDirectionValue === 'asc') field.onChange('desc');
               else field.onChange('asc');
             }}
-            className="flex h-full items-center justify-center rounded-sm px-2 py-2 hover:bg-white/20"
+            className="flex h-full items-center justify-center rounded-sm px-2 py-2 hover:bg-white/20 dark:hover:bg-white/5"
           >
             <ArrowDownWideNarrow
               className={cn(
-                'size-4 stroke-3 text-white transition-all duration-300',
+                'size-4 stroke-3 text-white transition-all',
                 orderDirectionValue === 'asc' ? 'scale-y-[-1]' : 'scale-y-100'
               )}
             />
@@ -60,14 +60,18 @@ function SelectOrderButton({ name, items, orderDirectionName, classname }: Selet
             <Select onValueChange={(value) => field.onChange(value)} value={field.value}>
               <SelectTrigger
                 size="sm"
-                className="flex h-full w-full cursor-pointer flex-row items-center justify-between rounded-sm border-none text-white hover:bg-white/20"
+                className="flex h-full w-full cursor-pointer flex-row items-center justify-between rounded-sm border-none text-white hover:bg-white/20 dark:hover:bg-white/5"
               >
                 <SelectValue className="text-white" />
               </SelectTrigger>
-              <SelectContent className="cursor-pointer bg-white drop-shadow-black/30 drop-shadow-md">
+              <SelectContent className="cursor-pointer bg-white drop-shadow-black/30 drop-shadow-md dark:bg-mauve-900">
                 {items.map((item) => {
                   return (
-                    <SelectItem key={item.value} value={item.value} className="text-primary">
+                    <SelectItem
+                      key={item.value}
+                      value={item.value}
+                      className="text-foreground-lighter"
+                    >
                       {item.label}
                     </SelectItem>
                   );

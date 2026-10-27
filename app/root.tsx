@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/security/noDangerouslySetInnerHtml: For theme changer */
 import {
   Links,
   Meta,
@@ -6,6 +7,7 @@ import {
   ScrollRestoration,
   useLocation,
   useNavigation,
+  useRouteLoaderData,
 } from 'react-router';
 
 import type { Route } from './+types/root';
@@ -18,7 +20,9 @@ import { useEffect, useState } from 'react';
 import ErrorBoundaryComponent from './components/error/error-boundary-component';
 import Loading from './components/helper/loading';
 import { Toaster } from './components/ui/sonner';
+import { animationSpeedScript } from './hooks/use-animation-speed';
 import { GOOGLE_CLIENT_ID } from './lib/google-drive';
+import { parseThemeCookie, registerTheme, ThemeProvider, themeScript } from './lib/theme';
 import { cn } from './lib/utils';
 
 function LoadingBar() {
@@ -54,7 +58,7 @@ function LoadingBar() {
   return (
     <div className={cn('fixed inset-x-0 top-0 z-50 h-1', hideLoadingBar)}>
       <div
-        className="h-full bg-accent drop-shadow-black/20 drop-shadow-sm transition-all duration-200 ease-out"
+        className="h-full bg-accent drop-shadow-black/20 drop-shadow-sm transition-all ease-out"
         style={{ width: `${progress}%` }}
       />
     </div>
@@ -130,18 +134,38 @@ export const links: Route.LinksFunction = () => [
   { rel: 'preload', href: '/app/styles/globals.css', as: 'style' },
 ];
 
+export function loader({ request }: Route.LoaderArgs) {
+  return parseThemeCookie(request.headers.get('cookie'));
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const themeState = useRouteLoaderData<typeof loader>('root');
+
   return (
-    <html lang="en">
+    <html lang="en" {...registerTheme(themeState)}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+          id="ssr-themes"
+          dangerouslySetInnerHTML={{
+            __html: themeScript(),
+          }}
+        />
+        <script
+          id="transition-speed"
+          dangerouslySetInnerHTML={{
+            __html: animationSpeedScript(),
+          }}
+        />
         <Meta />
         <Links />
       </head>
       <body>
         <LoadingBar />
-        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>{children}</GoogleOAuthProvider>
+        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+          <ThemeProvider initial={themeState}>{children}</ThemeProvider>
+        </GoogleOAuthProvider>
         <ScrollRestoration />
         <Scripts />
         <Toaster position="top-center" visibleToasts={1} />
@@ -149,6 +173,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     </html>
   );
 }
+
 export default function App() {
   return <Outlet />;
 }

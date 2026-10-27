@@ -36,8 +36,13 @@ interface UpdateStoryStatusButtonProps {
 
 function ListLabel({ title, children }: ListLabelProps) {
   return (
-    <div className="flex h-fit w-fit flex-row items-center justify-start gap-1 rounded-md bg-mauve-100 px-2 py-1">
-      <Text type="btn" lineHeight={5} weight="semibold" className="text-left text-accent/80">
+    <div className="flex h-fit w-fit flex-row items-center justify-start gap-1 rounded-md bg-mauve-100 px-2 py-1 dark:bg-mauve-800">
+      <Text
+        type="btn"
+        lineHeight={5}
+        weight="semibold"
+        className="text-left text-accent/80 dark:text-accent"
+      >
         {title}
       </Text>
       {children}
@@ -56,7 +61,7 @@ export function UpdateStoryStatusButton({
     <button
       type="button"
       className={cn(
-        'flex h-fit items-center justify-center rounded-md px-1.5 drop-shadow-black-50 drop-shadow-md transition-opacity duration-300 hover:opacity-80 active:opacity-80',
+        'flex h-fit items-center justify-center rounded-md px-1.5 drop-shadow-black-50 drop-shadow-md transition-opacity hover:opacity-80 active:opacity-80',
         isMobile ? 'w-full flex-row gap-1 py-1' : 'w-18 flex-col gap-0 py-2 lg:w-20',
         storyStatusMap[status].background
       )}
@@ -105,13 +110,13 @@ export function StoryCard({
   return isMobile ? (
     <div
       className={cn(
-        'relative flex h-fit w-full flex-col items-center justify-start overflow-hidden rounded-xl border-2 border-b-5 bg-white p-2 drop-shadow-black/50 drop-shadow-md transition-colors duration-300 hover:cursor-pointer active:border-amber-400',
+        'relative flex h-fit w-full flex-col items-center justify-start overflow-hidden rounded-xl border-2 border-b-5 bg-white p-2 drop-shadow-black/50 drop-shadow-md transition-colors hover:cursor-pointer active:border-secondary dark:bg-mauve-900 dark:active:border-secondary',
         storyStatusMap[readStatus].border
       )}
     >
       <div
         className={cn(
-          'absolute top-0 left-0 flex items-center justify-center rounded-br-xl px-2.5 py-1.5 drop-shadow-black/50 drop-shadow-sm transition-colors duration-300 group-active:bg-amber-400',
+          'absolute top-0 left-0 z-10 flex items-center justify-center rounded-br-xl px-2.5 py-1.5 drop-shadow-black/50 drop-shadow-sm transition-colors group-active:bg-secondary dark:group-active:bg-secondary',
           storyStatusMap[readStatus].background,
           readStatus === 'unread' ? 'hidden' : undefined
         )}
@@ -126,7 +131,7 @@ export function StoryCard({
       >
         <div
           className={cn(
-            'flex overflow-hidden rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-sm',
+            'flex items-center justify-center overflow-hidden rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-sm',
             isAnimeOnly ? 'h-fit w-40' : 'h-20 w-60'
           )}
         >
@@ -151,7 +156,7 @@ export function StoryCard({
               type="p"
               weight="semibold"
               lineHeight={5}
-              className="text-center text-primary transition-colors duration-300 group-active:text-amber-500"
+              className="text-center text-foreground-lighter transition-colors group-active:text-amber-500"
             >
               {story.name}
             </Text>
@@ -162,7 +167,7 @@ export function StoryCard({
               weight="semibold"
               lineHeight={4}
               className={cn(
-                'text-primary/80 transition-colors duration-300 group-active:text-amber-500/80',
+                'text-foreground-lighter/80 transition-colors group-active:text-amber-500/80',
                 isAnimeOnly ? 'text-left' : 'text-center'
               )}
             >
@@ -172,7 +177,7 @@ export function StoryCard({
         </div>
       </div>
 
-      <div className="flex h-fit w-full flex-row flex-wrap items-center justify-center gap-2 border-b border-b-primary py-2 group-active:border-b-amber-400">
+      <div className="flex h-fit w-full flex-row flex-wrap items-center justify-center gap-2 border-b border-b-primary py-2 group-active:border-b-secondary">
         <ListLabel title="Band">
           <Image src={mainBand.icon} alt={`${mainBand.name} Icon`} className="h-fit w-5" />
         </ListLabel>
@@ -202,7 +207,7 @@ export function StoryCard({
         <button
           type="button"
           className={cn(
-            'flex h-fit items-center justify-center rounded-md bg-mauve-500 px-1.5 py-2 drop-shadow-black-50 drop-shadow-md transition-opacity duration-300 active:opacity-80',
+            'flex h-fit items-center justify-center rounded-md bg-mauve-500 px-1.5 py-2 drop-shadow-black-50 drop-shadow-md transition-opacity active:opacity-80',
             isMobile ? 'w-full flex-row gap-1 py-1' : 'w-20 flex-col gap-0 py-2'
           )}
           onClick={handleOpenDialog}
@@ -227,14 +232,14 @@ export function StoryCard({
   ) : (
     <div
       className={cn(
-        'group relative flex h-fit min-h-24 w-full flex-row items-center justify-start gap-2 overflow-hidden rounded-xl border-2 border-l-5 bg-white px-3 py-2 drop-shadow-black/50 drop-shadow-md transition-colors duration-300 active:border-amber-400 lg:h-24 lg:hover:cursor-pointer lg:hover:border-amber-400',
+        'group relative flex h-fit min-h-24 w-full flex-row items-center justify-start gap-2 overflow-hidden rounded-xl border-2 border-l-5 bg-white px-3 py-2 drop-shadow-black/50 drop-shadow-md transition-colors active:border-secondary lg:h-24 lg:hover:cursor-pointer lg:hover:border-secondary dark:bg-mauve-900 dark:active:border-secondary dark:lg:hover:border-secondary',
         storyStatusMap[readStatus].border
       )}
       onClick={handleOpenDialog}
     >
       <div
         className={cn(
-          'absolute top-0 left-0 z-21 flex items-center justify-center rounded-br-xl px-2.5 py-1.5 drop-shadow-black/50 drop-shadow-sm transition-colors duration-300 group-hover:bg-amber-400',
+          'absolute top-0 left-0 z-21 flex items-center justify-center rounded-br-xl px-2.5 py-1.5 drop-shadow-black/50 drop-shadow-sm transition-colors group-hover:bg-secondary dark:group-hover:bg-secondary',
           storyStatusMap[readStatus].background,
           readStatus === 'unread' ? 'hidden' : undefined
         )}
@@ -264,7 +269,7 @@ export function StoryCard({
           <Text
             type="p"
             weight="semibold"
-            className="text-primary transition-colors duration-300 group-active:text-amber-500 lg:group-hover:text-amber-500"
+            className="text-foreground-lighter transition-colors group-active:text-amber-500 lg:group-hover:text-amber-500"
           >
             {story.name}
           </Text>
@@ -272,7 +277,7 @@ export function StoryCard({
             <Text
               type="btn"
               weight="semibold"
-              className="text-primary/80 transition-colors duration-300 group-active:text-amber-500/80 lg:group-hover:text-amber-500/80"
+              className="text-foreground-lighter/80 transition-colors group-active:text-amber-500/80 lg:group-hover:text-amber-500/80"
             >
               {story.anime_name}
             </Text>
@@ -299,7 +304,7 @@ export function StoryCard({
         </div>
       </div>
 
-      <div className="flex h-full w-fit shrink-0 flex-row items-center justify-center gap-3 overflow-hidden transition-all duration-300 lg:w-fit lg:max-w-0 lg:group-hover:max-w-xl">
+      <div className="flex h-full w-fit shrink-0 flex-row items-center justify-center gap-3 overflow-hidden transition-all lg:w-fit lg:max-w-0 lg:group-hover:max-w-xl">
         <UpdateStoryStatusButton
           storyId={story.id}
           status={story.status === 'skip' ? 'unread' : 'skip'}

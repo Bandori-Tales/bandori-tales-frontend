@@ -19,7 +19,7 @@ function ColorPickerContent({
   return (
     <div data-vaul-no-drag>
       <Tabs defaultValue="picker">
-        <TabsList className="bg-slate-300">
+        <TabsList className="bg-slate-200 w-full dark:bg-mauve-800">
           <TabsTrigger value="picker"><Text>Picker</Text></TabsTrigger>
           <TabsTrigger value="character"><Text>Character</Text></TabsTrigger>
           <TabsTrigger value="band"><Text>Band</Text></TabsTrigger>
@@ -42,7 +42,7 @@ function ColorPickerContent({
                 return (
                 <button
                   key={`character_${character.id}`}
-                  className={cn("rounded-md px-2 py-1 col-span-1 flex flex-col gap-2 items-center hover:bg-black/20", isSelected ? 'bg-black/10' : 'bg-transparent')}
+                  className={cn("rounded-md px-2 py-1 col-span-1 flex flex-col gap-2 items-center hover:bg-black/20 dark:hover:bg-white/20", isSelected ? 'bg-black/10 dark:bg-white/10' : 'bg-transparent')}
                   onClick={() => onChange(Array.isArray(character.image_color) ? character.image_color[0] : character.image_color)}
                 >
                   <div className="rounded-full size-4" style={{backgroundColor:(Array.isArray(character.image_color) ? character.image_color[0] : character.image_color)}} />
@@ -65,13 +65,13 @@ function ColorPickerContent({
                   <div key={`band_${band.id}`} className="flex flex-col col-span-1 gap-1 justify-center">
                     <div className="flex flex-row w-full items-center justify-center gap-1">
                       <button
-                        className={cn("bg-transparent rounded-md p-2 hover:bg-black/5", isColorSelected ? 'bg-black/5' : 'bg-transparent')}
+                        className={cn("bg-transparent rounded-md p-2 hover:bg-black/20 dark:hover:bg-white/20", isColorSelected ? 'bg-black/10 dark:bg-white/10' : 'bg-transparent')}
                         onClick={() => onChange(band.color)}
                       >
                         <div className="rounded-full size-4" style={{backgroundColor:band.color}} />
                       </button>
                       <button
-                        className={cn("bg-transparent rounded-md p-2 hover:bg-black/5", isDarkColorSelected ? 'bg-black/5' : 'bg-transparent')}
+                        className={cn("bg-transparent rounded-md p-2 hover:bg-black/20 dark:hover:bg-white/20", isDarkColorSelected ? 'bg-black/10 dark:bg-white/10' : 'bg-transparent')}
                         onClick={() => onChange(band.colorDark)}
                       >
                         <div className="rounded-full size-4" style={{backgroundColor:band.colorDark}} />
@@ -100,8 +100,8 @@ export function ColorPicker({
     type === 'popover' ? (
       <Popover>
         <PopoverTrigger asChild>
-          <button className={cn("flex flex-row w-30 items-center justify-between h-fit border px-2 py-1 rounded-md bg-white hover:bg-black/5", triggerClassname)}>
-            <Text lineHeight={5}>{currentColor}</Text>
+          <button className={cn("flex flex-row w-30 items-center justify-between h-fit border px-2 py-1 rounded-md bg-white dark:bg-mauve-800 hover:bg-black/5", triggerClassname)}>
+            <Text type='btn' lineHeight={4} className="text-foreground-lighter">{currentColor}</Text>
             <div className="w-5 h-5 shrink-0 border rounded-full" style={{backgroundColor:currentColor}} />
           </button>
         </PopoverTrigger>

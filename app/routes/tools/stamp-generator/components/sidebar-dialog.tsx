@@ -102,8 +102,8 @@ export function SidebarImageDialog({
                 type="button"
                 variant="ghost"
                 className={cn(
-                  'group col-span-1 flex h-fit w-full flex-col items-center justify-center gap-3 rounded-md py-2 transition-colors duration-300 hover:bg-black/10',
-                  isSelected ? 'bg-black/10' : 'bg-transparent'
+                  'group col-span-1 flex h-fit w-full flex-col items-center justify-center gap-3 rounded-md py-2 transition-colors hover:bg-black/10 dark:hover:bg-white/10',
+                  isSelected ? 'bg-black/10 dark:bg-white/10' : 'bg-transparent'
                 )}
                 onClick={() => setSelectedImageId(item.id)}
               >
@@ -116,8 +116,8 @@ export function SidebarImageDialog({
                   type="c"
                   weight="medium"
                   className={cn(
-                    'text-wrap transition-colors duration-300 group-hover:text-amber-400',
-                    isSelected ? 'text-amber-400' : 'text-primary'
+                    'text-wrap transition-colors group-hover:text-secondary',
+                    isSelected ? 'text-secondary' : 'text-foreground-lighter'
                   )}
                 >
                   {item.label}
@@ -186,8 +186,8 @@ export function SidebarTextDialog({
       onConfirm={handleConfirm}
       onCancel={handleCancel}
     >
-      <div className="flex h-100 w-full flex-col gap-3">
-        <div className="flex h-20 w-full items-center justify-center overflow-hidden rounded-md bg-slate-600">
+      <div className="flex h-100 w-full flex-col gap-y-5">
+        <div className="flex h-24 w-full items-center justify-center overflow-hidden rounded-md bg-slate-600">
           <TextElement
             id="add-text-preview"
             name="text preview"
@@ -199,33 +199,33 @@ export function SidebarTextDialog({
           />
         </div>
 
-        <div className="flex h-full w-full flex-col gap-3 overflow-y-scroll">
-          <div className="flex w-full flex-row items-center gap-3">
+        <div className="flex h-full w-full flex-col gap-y-5 overflow-y-scroll">
+          <div className="flex w-full flex-row items-center gap-x-3">
             <Text weight="semibold">Font: </Text>
             <DropdownMenu>
               <DropdownMenuTrigger className="flex w-45 flex-row items-center justify-between gap-3 rounded-md border px-3 py-2">
                 <Text
                   type="p"
                   weight="semibold"
-                  className="text-nowrap text-primary"
+                  className="text-nowrap text-foreground-lighter"
                   style={{ fontFamily: selectedFont.fontFamily }}
                 >
                   {selectedFont.label}
                 </Text>
-                <ChevronDown className="text-primary" />
+                <ChevronDown className="text-foreground-lighter" />
               </DropdownMenuTrigger>
 
               <DropdownMenuContent>
                 {StampFonts.map((item) => (
                   <DropdownMenuItem
                     key={item.id}
-                    className="hover:bg-black/5"
+                    className="hover:bg-secondary"
                     onClick={() => setSelectedFont(item)}
                   >
                     <Text
                       type="p"
                       weight="semibold"
-                      className="text-primary"
+                      className="text-foreground-lighter"
                       lineHeight={6}
                       style={{ fontFamily: item.fontFamily }}
                     >
@@ -237,7 +237,7 @@ export function SidebarTextDialog({
             </DropdownMenu>
           </div>
 
-          <div className="flex w-full flex-col gap-2">
+          <div className="flex w-full flex-col gap-y-3">
             <Text weight="semibold">Text Content (Multiline)</Text>
             <Textarea value={previewText} onChange={(v) => setPreviewText(v.target.value)} />
           </div>

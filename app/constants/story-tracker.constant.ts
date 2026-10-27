@@ -108,20 +108,20 @@ export const storyStatusMap: Record<
   }
 > = {
   finish: {
-    background: 'bg-green-600',
-    border: 'border-green-600',
+    background: 'bg-green-600 dark:bg-green-800',
+    border: 'border-green-600 dark:border-green-800',
     text: 'Finish',
     icon: CheckCheck,
   },
   skip: {
-    background: 'bg-purple-600',
-    border: 'border-purple-600',
+    background: 'bg-purple-600 dark:bg-purple-800',
+    border: 'border-purple-600 dark:border-purple-800',
     text: 'Skip',
     icon: FastForward,
   },
   unread: {
-    background: 'bg-red-600',
-    border: 'border-red-600',
+    background: 'bg-red-600 dark:bg-red-800',
+    border: 'border-red-600 dark:border-red-800',
     text: 'Unread',
     icon: Delete,
   },

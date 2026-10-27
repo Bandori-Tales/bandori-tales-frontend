@@ -29,15 +29,15 @@ function ProfilePictureFrame({
         variant="ghost"
         size="icon"
         className={cn(
-          'group items-center justify-center rounded-full ring-2 transition-all duration-300',
-          isSelected ? 'ring-amber-400' : 'ring-transparent hover:ring-amber-400'
+          'group items-center justify-center rounded-full ring-2 transition-all',
+          isSelected ? 'ring-secondary' : 'ring-transparent hover:ring-secondary'
         )}
         onClick={() => handleClick(character_id)}
       >
         {profile_picture_src ? (
           <Image alt={character_name} src={profile_picture_src} className="size-10 rounded-full" />
         ) : (
-          <UserRound className="size-12 stroke-3 text-black" />
+          <UserRound className="size-12 stroke-3 text-black dark:text-white" />
         )}
       </Button>
     </div>

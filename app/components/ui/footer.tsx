@@ -71,7 +71,7 @@ function CreditsSection({ title, icon, items }: { title: string; icon: LucideIco
                 to={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-fit flex flex-row items-center gap-1 text-primary pb-0.5 bg-transparent border-b border-b-transparent transition-colors duration-300 hover:bg-transparent hover:border-b-primary"
+                className="w-fit flex flex-row items-center gap-1 text-foreground-lighter pb-0.5 bg-transparent border-b border-b-transparent transition-colors hover:bg-transparent hover:border-b-foreground-lighter"
               >
                 <Text type='p' weight='semibold' lineHeight={5} className="underline lg:no-underline">
                   {item.name}
@@ -79,7 +79,7 @@ function CreditsSection({ title, icon, items }: { title: string; icon: LucideIco
                 <ExternalLink className="size-3 stroke-3 hidden lg:block" />
               </Link>
               {
-                item.note && <Text type='btn' weight='medium' lineHeight={4} className="text-slate-500">
+                item.note && <Text type='btn' weight='medium' lineHeight={4} className="text-slate-500 dark:text-foreground/90">
                 {item.note}
               </Text>
               }
@@ -104,11 +104,11 @@ function CreditsDialog() {
       onOpenChange={(open) => handleCloseDialog(open)}
     >
       <DialogContent
-        className='h-160 max-w-sm bg-white sm:h-200 sm:max-w-xl lg:h-150 lg:max-w-4xl'
+        className='h-160 max-w-sm bg-white sm:h-200 sm:max-w-xl lg:h-150 lg:max-w-4xl dark:bg-mauve-900'
         showCloseButton={false}
       >
-        <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none">
-          <X size={18} />
+        <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none hover:bg-black/5 dark:hover:bg-white/5">
+          <X size={18} className='text-foreground' />
         </DialogClose>
 
         <DialogHeader className="flex h-fit w-full items-center justify-start">
@@ -138,11 +138,11 @@ function PrivacyPoliciesDialog() {
       onOpenChange={(open) => handleCloseDialog(open)}
     >
       <DialogContent
-        className='h-100 max-w-sm bg-white sm:max-w-xl'
+        className='h-100 max-w-sm bg-white sm:max-w-xl dark:bg-mauve-900'
         showCloseButton={false}
       >
-        <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none">
-          <X size={18} />
+        <DialogClose className="absolute top-4 right-4 rounded-full border-none p-1 shadow-none hover:bg-black/5 dark:hover:bg-white/5">
+          <X size={18} className='text-foreground' />
         </DialogClose>
 
         <DialogHeader className="flex h-fit w-full items-center justify-start">
@@ -153,7 +153,7 @@ function PrivacyPoliciesDialog() {
           <ul className="list-inside list-disc py-3">
             {
               FooterPrivacyPolicies.map((item, index) => (
-                <Text key={`privacy_policies_${index}`} type='p' weight='medium' className="text-slate-700 pb-3 text-justify" lineHeight={5}>
+                <Text key={`privacy_policies_${index}`} type='p' weight='medium' className="text-writing-dark dark:text-writing-light pb-3 text-justify" lineHeight={6}>
                   <li>
                     {item}
                   </li>

@@ -10,11 +10,16 @@ export function GoogleDriveHelpButton() {
       content:
         'Login to google drive allows you to save your site data inside your google drive account and sync it with another device.',
     },
+    // {
+    //   id: 'bottom-part',
+    //   type: 'text',
+    //   content:
+    //     'Currently, the login session is only for 1 hour. After that, you will have to re-login to your drive account. It is very suggested to login to your drive only when you want to check your backup item or about to do an export or import.',
+    // },
     {
       id: 'bottom-part',
       type: 'text',
-      content:
-        'Currently, the login session is only for 1 hour. After that, you will have to re-login to your drive account. It is very suggested to login to your drive only when you want to check your backup item or about to do an export or import.',
+      content: 'Currently disabled, awaiting aproval from google.',
     },
   ];
 

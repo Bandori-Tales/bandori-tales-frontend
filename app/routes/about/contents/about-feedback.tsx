@@ -1,6 +1,8 @@
 import { ExternalLink } from 'lucide-react';
 import { Link } from 'react-router';
 
+import { generateMeta } from '@/lib/generate-meta';
+
 import { Text } from '@/components/helper/text';
 import { Button } from '@/components/ui/button';
 
@@ -26,6 +28,12 @@ function FeedbackOptionSection({ title, buttonText, feedbackUrl, leftIcon }: Fee
       </Button>
     </>
   );
+}
+
+export function meta() {
+  return generateMeta({
+    title: 'Feedback',
+  });
 }
 
 export default function AboutFeedbackOutlet() {

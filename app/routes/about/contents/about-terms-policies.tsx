@@ -4,8 +4,8 @@ import { Text } from '@/components/helper/text';
 
 import { AboutPrivacyPolicies } from '@/constants';
 
-export function Meta() {
-  generateMeta({
+export function meta() {
+  return generateMeta({
     title: 'Terms and Policies',
   });
 }

@@ -8,7 +8,7 @@ import Image from '@/components/helper/image';
 import { Text } from '@/components/helper/text';
 import { Button } from '@/components/ui/button';
 
-export function Meta() {
+export function meta() {
   return generateMeta({
     title: 'About',
   });

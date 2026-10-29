@@ -58,8 +58,8 @@ function CreditsSection({
   );
 }
 
-export function Meta() {
-  generateMeta({
+export function meta() {
+  return generateMeta({
     title: 'Credits',
   });
 }

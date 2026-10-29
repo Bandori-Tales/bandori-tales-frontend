@@ -229,7 +229,7 @@ export default function Navbar({
     <>
       {/* Desktop */}
       <nav className={cn(
-        'fixed top-0 z-30 w-full h-fit flex flex-row items-center justify-between transition-all px-6 py-1 bg-primary border-b border-b-primary-foreground max-lg:hidden'
+        'fixed top-0 z-30 w-full h-fit flex flex-row items-center justify-between transition-all px-6 py-1 bg-primary border-b-2 border-b-primary-foreground max-lg:hidden'
       )}>
         <WebNameLogo size='regular' wrapText />
         <div className="flex flex-row gap-0">

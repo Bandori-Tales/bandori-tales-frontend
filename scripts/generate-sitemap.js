@@ -9,8 +9,11 @@ const SITE_URL = process.env.VITE_SITE_URL || 'http://localhost:3000';
 const routes = [
   { path: '/', changefreq: 'daily', priority: 1.0 },
   { path: '/story-tracker', changefreq: 'weekly', priority: 0.9 },
-  { path: '/tools', changefreq: 'weekly', priority: 0.8 },
-  { path: '/games', changefreq: 'weekly', priority: 0.7 },
+  { path: '/tools/stamp-generator', changefreq: 'weekly', priority: 0.9 },
+  { path: '/tools/yunogpt', changefreq: 'weekly', priority: 0.9 },
+  { path: '/tools', changefreq: 'monthly', priority: 0.8 },
+  { path: '/games', changefreq: 'monthly', priority: 0.8 },
+  { path: '/about', changefreq: 'monthly', priority: 0.5 },
 ];
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

@@ -157,7 +157,6 @@ export function UserProfileSection({
                   variant="outline"
                   className="transition-colors hover:bg-black/5"
                   onClick={handleLogin}
-                  disabled
                 >
                   <Image
                     alt="Google Drive Logo"

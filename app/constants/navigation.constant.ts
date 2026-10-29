@@ -1,6 +1,7 @@
 import {
   Book,
   DiscAlbum,
+  Info,
   Joystick,
   type LucideIcon,
   MessageCircle,
@@ -186,7 +187,7 @@ export const NavbarItems = [
     icon: Music4,
     title: 'Bandori',
     href: '#',
-    isDisabled: true,
+    isDisabled: false,
     subNav: {
       subTitle: 'BanG Dream!',
       items: MainFeatures.map((feature) => ({
@@ -201,19 +202,18 @@ export const NavbarItems = [
     icon: Wrench,
     title: 'Tools',
     href: '/tools',
-    isDisabled: true,
+    isDisabled: false,
   },
   {
     icon: Joystick,
     title: 'Games',
     href: '/games',
-    isDisabled: true,
+    isDisabled: false,
   },
-  // Unused for now. Idk what to put for this page
-  // {
-  //   icon: Info,
-  //   title: 'About',
-  //   href: '/about',
-  //   isDisabled: true,
-  // },
+  {
+    icon: Info,
+    title: 'About',
+    href: '/about',
+    isDisabled: false,
+  },
 ] satisfies NavbarItem[];

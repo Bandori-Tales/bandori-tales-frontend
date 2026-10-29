@@ -29,8 +29,8 @@ export default function WebNameLogo({
         className={cn(
           'w-auto transition-all',
           size === 'regular'
-            ? 'h-8 group-hover:drop-shadow-[0px_0px_8px_rgba(253,154,0)]'
-            : 'h-7 group-hover:drop-shadow-[0px_0px_6px_rgba(253,154,0)]'
+            ? 'h-8 group-hover:drop-shadow-[0px_0px_5px_rgba(253,154,0)]'
+            : 'h-7 group-hover:drop-shadow-[0px_0px_4px_rgba(253,154,0)]'
         )}
       />
       <div className={cn('flex h-fit w-fit gap-0', wrapText ? 'flex-col' : 'flex-row gap-1')}>

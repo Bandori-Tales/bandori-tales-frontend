@@ -3,11 +3,17 @@ import { index, layout, prefix, type RouteConfig, route } from '@react-router/de
 export default [
   layout('routes/layouts/public.tsx', [
     index('routes/home/index.tsx'),
-    // route('about', 'routes/about/index.tsx'),
     route('tools', 'routes/tools/home/index.tsx'),
     route('games', 'routes/games/home/index.tsx'),
     route('profile', 'routes/profile/index.tsx'),
     route('story-tracker', 'routes/story-tracker/index.tsx'),
+
+    route('about', 'routes/about/layout/about-page-layout.tsx', [
+      index('routes/about/index.tsx'),
+      route('credits', 'routes/about/contents/about-credits.tsx'),
+      route('terms-and-policies', 'routes/about/contents/about-terms-policies.tsx'),
+      route('feedback', 'routes/about/contents/about-feedback.tsx'),
+    ]),
   ]),
 
   // route('sandbox', 'routes/sandbox/index.tsx'), // Comment this line before push

@@ -1,3 +1,4 @@
+/* biome-ignore-all lint/style/noUnusedTemplateLiteral: required to create new file */
 import axios from 'axios';
 
 import { toast } from '@/components/ui/toast';
@@ -142,7 +143,7 @@ export const GoogleDriveUtils = {
       const folderId = await GoogleDriveUtils.getFolderId(access_token);
       if (!folderId) return null;
 
-      let fileId = await GoogleDriveUtils.getFileId(access_token, folderId);
+      const fileId = await GoogleDriveUtils.getFileId(access_token, folderId);
 
       const userProfileSettingData = validateDataBySchema(
         itemStorage.local.get<ProfileSetting>(LOCAL_STORAGE_KEY.PROFILE.GENERAL_SETTING),
@@ -178,13 +179,40 @@ export const GoogleDriveUtils = {
       const fileContent = JSON.stringify(exportData, null, 2);
 
       if (fileId === null) {
-        const createResponse = await axios.post<GoogleDriveCreate>(
+        const boundary = `bdtales_${Date.now()}`;
+
+        const metadata = {
+          name: BDTALES_DATA_FILE,
+          parents: [folderId],
+          mimeType: 'application/json',
+        };
+
+        const body =
+          `--${boundary}\r\n` +
+          `Content-Type: application/json; charset=UTF-8\r\n\r\n` +
+          `${JSON.stringify(metadata)}\r\n` +
+          `--${boundary}\r\n` +
+          `Content-Type: application/json; charset=UTF-8\r\n\r\n` +
+          `${fileContent}\r\n` +
+          `--${boundary}--`;
+
+        await axios.post<GoogleDriveCreate>(
           'https://www.googleapis.com/upload/drive/v3/files',
+          body,
           {
-            name: BDTALES_DATA_FILE,
-            parents: [folderId],
-            mimeType: 'application/json',
-          },
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+              'Content-Type': `multipart/related; boundary=${boundary}`,
+            },
+            params: {
+              uploadType: 'multipart',
+            },
+          }
+        );
+      } else {
+        await axios.patch(
+          `https://www.googleapis.com/upload/drive/v3/files/${fileId}`,
+          fileContent,
           {
             headers: {
               Authorization: `Bearer ${access_token}`,
@@ -195,19 +223,7 @@ export const GoogleDriveUtils = {
             },
           }
         );
-
-        fileId = createResponse.data.id;
       }
-
-      await axios.patch(`https://www.googleapis.com/upload/drive/v3/files/${fileId}`, fileContent, {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-          'Content-Type': 'application/json',
-        },
-        params: {
-          uploadType: 'media',
-        },
-      });
 
       toast.success('Data exported!');
     } catch (error) {

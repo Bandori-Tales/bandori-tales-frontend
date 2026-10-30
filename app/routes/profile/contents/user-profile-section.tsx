@@ -16,7 +16,7 @@ import { GoogleDriveHelpButton } from '../components/help-buttons';
 import { SelectProfilePictureDialog } from '../components/profile-picture-dialog';
 
 export function UserProfileSection({
-  initial_profile_id,
+  initial_profile,
   initial_username = 'Dreamers',
   user_email,
   handleSelectProfile,
@@ -24,10 +24,10 @@ export function UserProfileSection({
   handleLogin,
   handleLogout,
 }: {
-  initial_profile_id?: number;
+  initial_profile?: [number, number];
   initial_username?: string;
   user_email?: string;
-  handleSelectProfile: (id: number) => void;
+  handleSelectProfile: (id: number, array_index: number) => void;
   handleEditUsername: (new_name: string, isDefault: boolean) => void;
   handleLogin: () => void;
   handleLogout: () => void;
@@ -36,14 +36,14 @@ export function UserProfileSection({
   const [username, setUsername] = useState(initial_username);
   const [hideEmail, setHideEmail] = useState(true);
 
-  const profilePicture = initial_profile_id
-    ? handleCharacterPick('profile_picture_url', initial_profile_id)
+  const profilePicture = initial_profile
+    ? handleCharacterPick('profile_picture_url', initial_profile[0], initial_profile[1])
     : null;
 
   return (
     <>
       <SelectProfilePictureDialog
-        initial_profile_id={initial_profile_id}
+        initial_profile={initial_profile}
         handleSelectProfile={handleSelectProfile}
       />
       <GeneralDialog

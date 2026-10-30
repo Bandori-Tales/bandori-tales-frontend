@@ -2,7 +2,7 @@ import { itemStorage } from '@/lib/storage';
 
 import { toast } from '@/components/ui/toast';
 
-import { DIALOG_KEY, LOCAL_STORAGE_KEY } from '@/constants';
+import { Characters, DIALOG_KEY, LOCAL_STORAGE_KEY } from '@/constants';
 import type { IProfileTheme, ITransitionSpeed, ProfileSetting } from '@/schemas/models';
 
 export const updateUserUsername =
@@ -36,10 +36,12 @@ export const updateUserUsername =
   };
 
 export const updateUserProfilePicture =
-  (currentSetting: ProfileSetting, revalidate: () => Promise<void>) => (character_id: number) => {
+  (currentSetting: ProfileSetting, revalidate: () => Promise<void>) =>
+  (character_id: number, array_index: number) => {
     const newSetting: ProfileSetting = {
       ...currentSetting,
       profile_picture_character_id: character_id,
+      profile_picture_array_index: array_index,
     };
 
     itemStorage.local.set(LOCAL_STORAGE_KEY.PROFILE.GENERAL_SETTING, newSetting);
@@ -95,3 +97,36 @@ export const updateUserPreference =
     itemStorage.local.set(LOCAL_STORAGE_KEY.PROFILE.GENERAL_SETTING, newSetting);
     revalidate();
   };
+
+export function getAllCharacterProfilePictures() {
+  interface CharacterProfile {
+    character_id: number;
+    character_array_index: number;
+    character_name: string;
+    profile_picture_src: string;
+  }
+
+  const ProfilePictureList: CharacterProfile[] = [];
+
+  for (const character of Characters) {
+    if (Array.isArray(character.profile_picture)) {
+      for (let i = 0; i < character.profile_picture.length; i++) {
+        ProfilePictureList.push({
+          character_id: character.id,
+          character_array_index: i,
+          character_name: `${character.nickname}_${i}`,
+          profile_picture_src: character.profile_picture[i],
+        });
+      }
+    } else {
+      ProfilePictureList.push({
+        character_id: character.id,
+        character_array_index: 0,
+        character_name: `${character.nickname}_${0}`,
+        profile_picture_src: character.profile_picture,
+      });
+    }
+  }
+
+  return ProfilePictureList;
+}

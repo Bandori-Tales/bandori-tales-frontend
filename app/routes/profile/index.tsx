@@ -123,7 +123,10 @@ export default function ProfilePage({ loaderData }: Route.ComponentProps) {
     >
       <SectionFrame title="User Profile">
         <UserProfileSection
-          initial_profile_id={userLocalData.user_profile.profile_picture_character_id}
+          initial_profile={[
+            userLocalData.user_profile.profile_picture_character_id || 0,
+            userLocalData.user_profile.profile_picture_array_index || 0,
+          ]}
           initial_username={userLocalData.user_profile.username}
           user_email={userEmail || undefined}
           handleSelectProfile={handleUpdateProfilePicture}

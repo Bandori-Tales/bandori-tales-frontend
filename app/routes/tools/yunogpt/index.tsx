@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 
 import {
   LOCAL_STORAGE_KEY,
+  ToolFeatures,
   YUNOGPT_WRITE_ASSETS,
   type YunoChatThemes,
   YunoThemeMap,
@@ -34,7 +35,13 @@ import { getUserChats, getUserShowPhoto, getUserTheme } from './hooks/get-yunogp
 import { sendUserChat } from './hooks/yunogpt-utils';
 
 export function meta() {
-  return generateMeta({ title: 'Yuno GPT' });
+  const pageDetail = ToolFeatures.internal.find((tool) => tool.title === 'Yuno GPT');
+
+  return generateMeta({
+    title: pageDetail?.title,
+    description: pageDetail?.description,
+    ogImage: pageDetail?.openGraphImage,
+  });
 }
 
 export async function clientLoader() {

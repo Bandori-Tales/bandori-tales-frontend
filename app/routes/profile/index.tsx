@@ -32,8 +32,9 @@ interface SectionFrameProps {
 }
 
 export function meta() {
-  generateMeta({
+  return generateMeta({
     title: 'Profile',
+    description: 'Customize your profile & backup your data with Google Drive sync',
   });
 }
 

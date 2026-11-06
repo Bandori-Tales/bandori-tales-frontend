@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { Text } from '@/components/helper/text';
 import { Button } from '@/components/ui/button';
 
-import { LOCAL_STORAGE_KEY } from '@/constants';
+import { LOCAL_STORAGE_KEY, ToolFeatures } from '@/constants';
 import type { CanvasElement } from '@/schemas/models';
 
 import type { Route } from './+types';
@@ -26,7 +26,13 @@ import {
 } from './hooks/stamp-generator-utils';
 
 export function meta() {
-  return generateMeta({ title: 'Stamp Generator' });
+  const pageDetail = ToolFeatures.internal.find((tool) => tool.title === 'Stamp Generator');
+
+  return generateMeta({
+    title: pageDetail?.title,
+    description: pageDetail?.description,
+    ogImage: pageDetail?.openGraphImage,
+  });
 }
 
 export function clientLoader() {

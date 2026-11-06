@@ -244,7 +244,7 @@ export function DetailStoryDialog({
             <div className="flex w-full flex-col items-center gap-2">
               <Text
                 type="st2"
-                weight="semibold"
+                weight="bold"
                 className={cn(
                   'text-center text-foreground-lighter',
                   isAnime || isAnimeOnly ? 'hidden' : ''
@@ -258,20 +258,20 @@ export function DetailStoryDialog({
                     to={selectedStory.anime_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex w-fit flex-row items-center justify-center gap-1 border-b border-b-transparent transition-colors hover:border-b-foreground-lighter/80"
+                    className="flex w-fit flex-row items-center justify-center gap-1 border-b border-b-transparent transition-colors hover:border-b-accent/80"
                   >
                     <Text
                       type="btn"
                       weight="medium"
                       lineHeight={4}
-                      className="text-center text-foreground-lighter/80 underline lg:no-underline"
+                      className="text-center text-accent/80 underline lg:no-underline"
                     >
                       {selectedStory.anime_name}
                     </Text>
-                    <ExternalLinkIcon className="hidden size-4 text-foreground-lighter/80 md:block" />
+                    <ExternalLinkIcon className="hidden size-4 text-accent/80 md:block" />
                   </Link>
                 ) : (
-                  <Text type="p" weight="medium" className="text-center text-foreground-lighter/80">
+                  <Text type="p" weight="medium" className="text-center text-accent/80">
                     {selectedStory.anime_name}
                   </Text>
                 ))}
@@ -288,9 +288,14 @@ export function DetailStoryDialog({
                     type="btn"
                     lineHeight={6}
                     weight="semibold"
-                    style={{
-                      color: `${storyBand?.id === 99 ? storyBand.color : storyBand?.colorDark || 'black'}`,
-                    }}
+                    className={cn(storyBand?.id === 99 && 'text-[#020618] dark:text-white')}
+                    style={
+                      storyBand?.id !== 99
+                        ? {
+                            color: `${storyBand?.colorDark || 'black'}`,
+                          }
+                        : undefined
+                    }
                   >
                     {detailText}
                   </Text>

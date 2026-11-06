@@ -43,7 +43,7 @@ export default function AboutOutlet() {
 
       <div className="flex w-full flex-col gap-3 pt-8">
         <Text type="st1" weight="semibold" lineHeight={6} className="text-left">
-          Developer Contact
+          Developer Socials
         </Text>
 
         <Button

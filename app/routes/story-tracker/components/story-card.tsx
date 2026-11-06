@@ -36,12 +36,12 @@ interface UpdateStoryStatusButtonProps {
 
 function ListLabel({ title, children }: ListLabelProps) {
   return (
-    <div className="flex h-fit w-fit flex-row items-center justify-start gap-1 rounded-md bg-mauve-100 px-2 py-1 dark:bg-mauve-800">
+    <div className="flex h-fit w-fit flex-row items-center justify-start gap-2 rounded-xl bg-mauve-200/70 px-2 py-1 dark:bg-mauve-800">
       <Text
         type="btn"
         lineHeight={5}
-        weight="semibold"
-        className="text-left text-accent/80 dark:text-accent"
+        weight="bold"
+        className="text-left text-writing-dark/90 dark:text-writing-light/70"
       >
         {title}
       </Text>
@@ -110,7 +110,7 @@ export function StoryCard({
   return isMobile ? (
     <div
       className={cn(
-        'relative flex h-fit w-full flex-col items-center justify-start overflow-hidden rounded-xl border-2 border-b-5 bg-white p-2 drop-shadow-black/50 drop-shadow-md transition-colors hover:cursor-pointer active:border-secondary dark:bg-mauve-900 dark:active:border-secondary',
+        'group relative flex h-fit w-full flex-col items-center justify-start overflow-hidden rounded-xl border-2 border-b-5 bg-white p-2 drop-shadow-black/50 drop-shadow-md transition-colors hover:cursor-pointer active:border-secondary dark:bg-mauve-900 dark:active:border-secondary',
         storyStatusMap[readStatus].border
       )}
     >
@@ -131,8 +131,8 @@ export function StoryCard({
       >
         <div
           className={cn(
-            'flex items-center justify-center overflow-hidden rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-sm',
-            isAnimeOnly ? 'h-fit w-40' : 'h-20 w-60'
+            'flex h-fit items-center justify-center overflow-hidden rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-sm',
+            isAnimeOnly ? 'w-40' : 'w-60'
           )}
         >
           {story.story_banner_img && (
@@ -156,7 +156,7 @@ export function StoryCard({
               type="p"
               weight="semibold"
               lineHeight={5}
-              className="text-center text-foreground-lighter transition-colors group-active:text-amber-500"
+              className="text-center text-foreground-lighter transition-colors group-active:text-secondary"
             >
               {story.name}
             </Text>
@@ -167,8 +167,10 @@ export function StoryCard({
               weight="semibold"
               lineHeight={4}
               className={cn(
-                'text-foreground-lighter/80 transition-colors group-active:text-amber-500/80',
-                isAnimeOnly ? 'text-left' : 'text-center'
+                'text-accent',
+                isAnimeOnly
+                  ? 'text-left transition-colors group-active:text-secondary'
+                  : 'text-center'
               )}
             >
               {story.anime_name}
@@ -177,7 +179,7 @@ export function StoryCard({
         </div>
       </div>
 
-      <div className="flex h-fit w-full flex-row flex-wrap items-center justify-center gap-2 border-b border-b-primary py-2 group-active:border-b-secondary">
+      <div className="flex h-fit w-full flex-row flex-wrap items-center justify-center gap-2 border-b border-b-primary py-2 transition-colors group-active:border-b-secondary">
         <ListLabel title="Band">
           <Image src={mainBand.icon} alt={`${mainBand.name} Icon`} className="h-fit w-5" />
         </ListLabel>
@@ -232,58 +234,80 @@ export function StoryCard({
   ) : (
     <div
       className={cn(
-        'group relative flex h-fit min-h-24 w-full flex-row items-center justify-start gap-2 overflow-hidden rounded-xl border-2 border-l-5 bg-white px-3 py-2 drop-shadow-black/50 drop-shadow-md transition-colors active:border-secondary lg:h-24 lg:hover:cursor-pointer lg:hover:border-secondary dark:bg-mauve-900 dark:active:border-secondary dark:lg:hover:border-secondary',
+        'group relative flex w-full flex-row items-stretch justify-start gap-2 overflow-hidden rounded-xl border-2 border-l-5 bg-white drop-shadow-black/50 drop-shadow-md transition-colors active:border-secondary lg:min-h-24 lg:hover:cursor-pointer lg:hover:border-secondary dark:bg-mauve-900 dark:active:border-secondary dark:lg:hover:border-secondary',
         storyStatusMap[readStatus].border
       )}
       onClick={handleOpenDialog}
     >
       <div
         className={cn(
-          'absolute top-0 left-0 z-21 flex items-center justify-center rounded-br-xl px-2.5 py-1.5 drop-shadow-black/50 drop-shadow-sm transition-colors group-hover:bg-secondary dark:group-hover:bg-secondary',
+          'absolute top-0 left-0 z-21 flex items-center justify-center rounded-br-xl py-1.5 pr-3 pl-2.25 drop-shadow-black/50 drop-shadow-sm transition-colors group-hover:bg-secondary dark:group-hover:bg-secondary',
           storyStatusMap[readStatus].background,
           readStatus === 'unread' ? 'hidden' : undefined
         )}
       >
         <Icon className="size-4 stroke-3 text-white" />
       </div>
-      <div className="z-20 flex h-full w-fit shrink-0 items-center justify-center overflow-hidden rounded-sm border border-foreground drop-shadow-black/20 drop-shadow-sm">
+      <div className="relative z-20 flex min-h-25 w-60 items-center justify-center overflow-hidden rounded-l-sm px-3 py-2">
         {(story.story_banner_img || story.anime_banner_img) && (
           <Image
             src={handleImageUrl(isAnimeOnly ? story.anime_banner_img : story.story_banner_img)}
             alt={`${story.name} Event Banner`}
-            className={cn(
-              'w-fit shrink-0 rounded-sm py-0 lg:h-full',
-              isAnimeOnly ? 'h-16 w-48 overflow-hidden object-cover lg:h-30 lg:w-59' : 'h-16'
-            )}
+            className="absolute inset-0 h-full w-full object-cover blur-xs"
           />
         )}
+
+        <div className="absolute inset-0 bg-black/30" />
+
+        <div
+          className={cn(
+            'flex h-fit w-fit items-center justify-center overflow-hidden rounded-sm border drop-shadow-black/20 drop-shadow-sm transition-colors group-hover:border-secondary dark:group-hover:border-secondary',
+            storyStatusMap[readStatus].border
+          )}
+        >
+          {(story.story_banner_img || story.anime_banner_img) && (
+            <Image
+              src={handleImageUrl(isAnimeOnly ? story.anime_banner_img : story.story_banner_img)}
+              alt={`${story.name} Event Banner`}
+              className={cn(
+                'rounded-sm',
+                isAnimeOnly ? 'h-16 w-48 overflow-hidden object-cover lg:h-24 lg:w-60' : 'w-full'
+              )}
+            />
+          )}
+        </div>
       </div>
 
       <div
         className={cn(
-          'flex h-full w-full flex-col items-baseline gap-2',
+          'flex min-h-20 w-full flex-1 flex-col items-baseline gap-2 py-2',
           isAnimeOnly ? 'justify-between' : 'justify-center lg:justify-between'
         )}
       >
         <div className="flex h-fit w-full flex-col gap-1.5">
           <Text
             type="p"
-            weight="semibold"
-            className="text-foreground-lighter transition-colors group-active:text-amber-500 lg:group-hover:text-amber-500"
+            weight="bold"
+            lineHeight={5}
+            className="text-foreground-lighter transition-colors group-active:text-secondary lg:group-hover:text-secondary"
           >
             {story.name}
           </Text>
           {story.anime_name && (
             <Text
-              type="btn"
+              type="c"
               weight="semibold"
-              className="text-foreground-lighter/80 transition-colors group-active:text-amber-500/80 lg:group-hover:text-amber-500/80"
+              className={cn(
+                'text-accent',
+                isAnimeOnly &&
+                  'transition-colors group-active:text-secondary lg:group-hover:text-secondary'
+              )}
             >
               {story.anime_name}
             </Text>
           )}
         </div>
-        <div className="flex h-fit w-full flex-row flex-wrap items-center justify-start gap-2">
+        <div className="flex h-fit w-full flex-row flex-wrap items-center justify-start gap-1">
           <ListLabel title="Band">
             <Image src={mainBand.icon} alt={`${mainBand.name} Icon`} className="h-fit w-6" />
           </ListLabel>
@@ -304,7 +328,7 @@ export function StoryCard({
         </div>
       </div>
 
-      <div className="flex h-full w-fit shrink-0 flex-row items-center justify-center gap-3 overflow-hidden transition-all lg:w-fit lg:max-w-0 lg:group-hover:max-w-xl">
+      <div className="my-auto mr-3 flex h-full w-fit shrink-0 flex-row items-center justify-center gap-3 overflow-hidden transition-all lg:w-fit lg:max-w-0 lg:group-hover:max-w-xl">
         <UpdateStoryStatusButton
           storyId={story.id}
           status={story.status === 'skip' ? 'unread' : 'skip'}

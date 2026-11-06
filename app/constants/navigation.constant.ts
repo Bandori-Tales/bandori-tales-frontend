@@ -18,6 +18,7 @@ export interface SiteFeature {
   isDisabled?: boolean;
   icon?: LucideIcon;
   profilePicture?: string;
+  openGraphImage?: string;
 }
 
 export interface NavbarItem {
@@ -34,27 +35,27 @@ export interface NavbarItem {
 export const MainFeatures = [
   {
     title: 'Story Tracker',
-    description: 'Keep track your progress on reading / watching bandori contents',
+    description: 'Keep track your progress on reading / watching BanG Dream! stories',
     href: '/story-tracker',
     icon: Milestone,
   },
   {
     title: 'Story Arc',
-    description: 'A fanmade defined arc for bandori stories',
+    description: 'A fanmade defined arc for BanG Dream! stories',
     href: '/story-arc',
     icon: Book,
     isDisabled: true,
   },
   {
     title: 'Songs',
-    description: 'Bandori songs database',
+    description: 'BanG Dream! songs database',
     href: '/songs',
     icon: DiscAlbum,
     isDisabled: true,
   },
   {
     title: 'Interaction',
-    description: 'Bandori character interaction matrix',
+    description: 'BanG Dream! character interaction matrix',
     href: '/interaction',
     icon: MessageCircle,
     isDisabled: true,
@@ -65,15 +66,18 @@ export const ToolFeatures = {
   internal: [
     {
       title: 'Yuno GPT',
-      description: 'Will AI take over the world?',
+      description:
+        "Will AI take over the world? Well, Yuno GPT can't answer that question, but she's great at composing music!",
       href: '/tools/yunogpt',
       profilePicture: '/images/tools/yunogpt/yunogpt_icon.webp',
+      openGraphImage: '/images/opengraph/yunogpt_og.png',
     },
     {
       title: 'Stamp Generator',
       description: 'A tool to create your own custom bandori stamp',
       href: '/tools/stamp-generator',
       profilePicture: '/images/tools/stamp-generator/stamp_generator_icon.webp',
+      openGraphImage: '/images/opengraph/stamp_generator_og.png',
       isDisabled: false,
     },
   ] satisfies SiteFeature[],

@@ -31,7 +31,12 @@ export function generateMeta(options: MetaOptions = {}): MetaDescriptor[] {
       property: 'og:description',
       content: options.ogDescription || options.description || config.description,
     },
-    { property: 'og:image', content: options.ogImage || config.openGraph.images[0].url },
+    {
+      property: 'og:image',
+      content:
+        (options.ogImage?.includes('images') ? `${siteUrl}${options.ogImage}` : undefined) ||
+        config.openGraph.images[0].url,
+    },
     { property: 'og:url', content: options.ogUrl || siteUrl },
     { property: 'og:type', content: config.openGraph.type },
     { property: 'og:site_name', content: config.openGraph.siteName },

@@ -11,7 +11,7 @@ import { cn, handleApiResponseError } from '@/lib/utils';
 import { Text } from '@/components/helper/text';
 import { toast } from '@/components/ui/toast';
 
-import { LOCAL_STORAGE_KEY } from '@/constants';
+import { LOCAL_STORAGE_KEY, MainFeatures } from '@/constants';
 import type { BandoriStory, BandoriStoryForm, IReadingStatus } from '@/schemas/models';
 
 import type { Route } from './+types';
@@ -30,7 +30,12 @@ import {
 } from './hooks/tracker-utils';
 
 export function meta() {
-  return generateMeta({ title: 'Story Tracker' });
+  const pageDetail = MainFeatures.find((feature) => feature.title === 'Story Tracker');
+
+  return generateMeta({
+    title: pageDetail?.title,
+    description: pageDetail?.description,
+  });
 }
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
